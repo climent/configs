@@ -86,4 +86,4 @@ _homedir_chars=$(echo $HOME | wc -c)
 my_hostname=$(hostname)
 SHORTHOSTNAME=${my_hostname%%.corp.google.com}
 ## Set 32m:green 31m:red 33m:yellow 34m:blue 35m
-PROMPT_COMMAND='PS1="> \[\e[32m\]\u@$SHORTHOSTNAME\[\e[0m\]:[ \`if echo $PWD | grep -q "^$HOME"; then echo "\\~/${PWD:${_homedir_chars}}" ; else echo $PWD; fi\` ]\n#[$?]\$ "'
+PROMPT_COMMAND='_RET=$?;PS1="> \[\e[32m\]\u@$SHORTHOSTNAME\[\e[0m\]:[ \`if echo $PWD | grep -q "^$HOME"; then echo "\\~/${PWD:${_homedir_chars}}" ; else echo $PWD; fi\` ]\n#[`if [ ! "$_RET" == "0" ]; then echo "\[\e[33m\]" ; fi`$_RET\[\e[0m\]]\$ "'
