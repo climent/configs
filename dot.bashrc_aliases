@@ -1,0 +1,2 @@
+alias t='tmux detach ; tmux attach || tmux'
+alias vnc='tigervncserver -fg -geometry 2048x1024'
