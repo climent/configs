@@ -1,3 +1,13 @@
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
+
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
@@ -19,6 +29,16 @@ shopt -s checkwinsize
 
 # make less more friendly for non-text input files, see lesspipe(1)
 #[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# set variable identifying the chroot you work in (used in the prompt below)
+if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
+
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color|*-256color) color_prompt=yes;;
+esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
 # off by default to not distract the user: the focus in a terminal window
@@ -43,21 +63,41 @@ else
 fi
 unset color_prompt force_color_prompt
 
+# If this is an xterm set the title to user@host:dir
+case "$TERM" in
+xterm*|rxvt*)
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    ;;
+*)
+    ;;
+esac
+
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 fi
 
+# colored GCC warnings and errors
+#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
 # some more ls aliases
-alias l='ls -l'
+alias l='ls -CFl'
 alias la='ls -A'
 alias ll='ls -CF'
 alias v='ls -v'
 alias lr='ls -lrt'
+
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
@@ -74,16 +114,8 @@ if ! shopt -oq posix; then
   fi
 fi
 
-#GOPATH=$HOME/go
-#function _update_ps1() {
-#  PS1="$($GOPATH/bin/powerline-go -error $?)"
-#}
-#if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then
-#  PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
-#fi
-
 _homedir_chars=$(echo $HOME | wc -c)
 my_hostname=$(hostname)
 SHORTHOSTNAME=${my_hostname%%.corp.google.com}
 ## Set 32m:green 31m:red 33m:yellow 34m:blue 35m
-PROMPT_COMMAND='_RET=$?;PS1="> \[\e[32m\]\u@$SHORTHOSTNAME\[\e[0m\]:[ \`if echo $PWD | grep -q "^$HOME"; then echo "\\~/${PWD:${_homedir_chars}}" ; else echo $PWD; fi\` ]\n#[`if [ ! "$_RET" == "0" ]; then echo "\[\e[33m\]" ; fi`$_RET\[\e[0m\]]\$ "'
+PROMPT_COMMAND='_RET=$?;PS1="> \[\e[32m\]\u@$SHORTHOSTNAME\[\e[0m\]:[ \`if echo \"$PWD\" | grep -q "^$HOME"; then echo \"~/${PWD:${_homedir_chars}}\" ; else echo \"$PWD\"; fi\` ]\n#[`if [ ! "$_RET" == "0" ]; then echo "\[\e[33m\]" ; fi`$_RET\[\e[0m\]]\$ "'
