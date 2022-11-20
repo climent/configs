@@ -118,4 +118,20 @@ _homedir_chars=$(echo $HOME | wc -c)
 my_hostname=$(hostname)
 SHORTHOSTNAME=${my_hostname%%.corp.google.com}
 ## Set 32m:green 31m:red 33m:yellow 34m:blue 35m
-PROMPT_COMMAND='_RET=$?;PS1="> \[\e[32m\]\u@$SHORTHOSTNAME\[\e[0m\]:[ \`if echo \"$PWD\" | grep -q "^$HOME"; then echo \"~/${PWD:${_homedir_chars}}\" ; else echo \"$PWD\"; fi\` ]\n#[`if [ ! "$_RET" == "0" ]; then echo "\[\e[33m\]" ; fi`$_RET\[\e[0m\]]\$ "'
+PROMPT_COMMAND='_RET=$?;PS1="> \[\e[32m\]\u@$SHORTHOSTNAME\[\e[0m\]:[ \`if echo \"$PWD\" | grep -q "^$HOME"; then echo \"~/${PWD:${_homedir_chars}}\" ; else echo \"$PWD\"; fi\` ]\n#[`if [ ! "$_RET" == "0" ]; then echo "\[\e[31m\]" ; fi`$_RET\[\e[0m\]]\[\e[33m\]`__git_ps1 `\[\e[0m\] \$> "'
+
+# Eternal bash history.
+# ---------------------
+# Undocumented feature which sets the size to "unlimited".
+# http://stackoverflow.com/questions/9457233/unlimited-bash-history
+export HISTFILESIZE=
+export HISTSIZE=
+export HISTTIMEFORMAT="[%F %T] "
+# Change the file location because certain bash sessions truncate .bash_history file upon close.
+# http://superuser.com/questions/575479/bash-history-truncated-to-500-lines-on-each-login
+export HISTFILE=~/.bash_eternal_history
+# Force prompt to write history after every command.
+# http://superuser.com/questions/20900/bash-history-loss
+PROMPT_COMMAND="$PROMPT_COMMAND; history -a"
+
+export PATH=$PATH:~/.local/bin
