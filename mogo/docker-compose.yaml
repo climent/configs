@@ -1,6 +1,7 @@
 services:
   mongo:
-    image: mongo:latest
+    #image: mongo:latest
+    image: public.ecr.aws/docker/library/mongo:latest
     ports:
       - "27017:27017"
     volumes:
