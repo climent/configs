@@ -61,3 +61,26 @@ backward-kill-bash-word() {
 
 bindkey   '^W' backward-kill-space-word
 bindkey '^[^H' backward-kill-bash-word
+autoload -Uz compinit && compinit
+autoload -U colors && colors
+
+zstyle ':completion:*' special-dirs true
+
+alias code='/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code'
+
+alias starship='eval "$(starship init zsh)"'
+alias agu='brew update && brew upgrade'
+
+export GIT_PS1_SHOWUPSTREAM=yes
+source ~/.git-prompt.sh
+setopt PROMPT_SUBST ; PS1='> %{$fg[green]%}%n@%m%{$reset_color%}:[ %c ]'$'\n[%?]%{$fg[yellow]%}$(__git_ps1 " (%s)") %{$reset_color%}\$> '
+setopt PROMPT_SUBST ; PS1='> %{$fg[green]%}%n@%m%{$reset_color%}:[ %(5~|%-1~/.../%3~|%4~) ]'$'\n[%?]%{$fg[yellow]%}$(__git_ps1 " (%s)") %{$reset_color%}\$> '
+export PATH="/opt/homebrew/opt/arm-none-eabi-binutils/bin:$PATH"
+export PATH="/opt/homebrew/opt/arm-none-eabi-gcc@8/bin:$PATH"
+
+# Added by Antigravity
+export PATH="/Users/climent/.antigravity/antigravity/bin:$PATH"
+
+alias ytmp3="yt-dlp -x --audio-format mp3 --audio-quality 256K --embed-metadata --embed-thumbnail"
+
+eval "$(atuin init zsh)" 
