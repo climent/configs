@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mogo Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 min-h-screen p-6 font-sans">
+    <div class="max-w-4xl mx-auto">
+        <div class="bg-white p-8 rounded-2xl shadow-sm mb-8 border border-slate-200">
+            <h1 class="text-2xl font-black text-slate-800 mb-6">MOGO <span class="text-blue-600">ADMIN</span></h1>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <input id="longUrl" type="text" placeholder="Destination URL (e.g. google.com)" class="p-3 bg-slate-50 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 border-none">
+                <input id="customCode" type="text" placeholder="Alias (e.g. social/twitter)" class="p-3 bg-slate-50 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 border-none">
+            </div>
+            <button onclick="shortenUrl()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition">Create Link</button>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-sm overflow-hidden border border-slate-200">
+            <table class="w-full text-left">
+                <thead class="bg-slate-50 text-slate-400 uppercase text-[10px] tracking-widest">
+                    <tr>
+                        <th class="p-4">Short Path</th>
+                        <th class="p-4">Destination</th>
+                        <th class="p-4 text-center">Clicks</th>
+                        <th class="p-4 text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="linksTable" class="divide-y divide-slate-100"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        //const API_BASE = window.location.origin;
+        const API_BASE = "http://admin.mogo";
+        const REDIRECT_DOMAIN = "http://mogo";
+
+        async function loadLinks() {
+            const tbody = document.getElementById('linksTable');
+            try {
+                const res = await fetch(`${API_BASE}/api/links`);
+                const links = await res.json();
+                tbody.innerHTML = links.map(link => `
+                    <tr class="text-sm">
+                        <td class="p-4 font-bold text-blue-600"><a href="${REDIRECT_DOMAIN}/${link.shortCode}" target="_blank">/${link.shortCode}</a></td>
+                        <td class="p-4 text-slate-500 truncate max-w-xs">${link.longUrl}</td>
+                        <td class="p-4 text-center"><span class="bg-blue-50 text-blue-700 px-2 py-1 rounded-md font-bold">${link.clicks}</span></td>
+                        <td class="p-4 text-right">
+                            <button onclick="copyToClipboard('${REDIRECT_DOMAIN}/${link.shortCode}')" class="text-blue-500 mr-2">Copy</button>
+                            <button onclick="deleteLink('${link.shortCode}')" class="text-red-400">Delete</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (e) { tbody.innerHTML = "<tr><td class='p-4'>Error loading links.</td></tr>"; }
+        }
+
+        async function shortenUrl() {
+            const longUrl = document.getElementById('longUrl').value;
+            const customCode = document.getElementById('customCode').value;
+            const res = await fetch(`${API_BASE}/api/shorten`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ longUrl, customCode })
+            });
+            const data = await res.json();
+            if (res.ok) { loadLinks(); document.getElementById('longUrl').value = ''; document.getElementById('customCode').value = ''; }
+            else { alert("Error: " + data.error); }
+        }
+
+        async function deleteLink(code) {
+            if(!confirm(`Delete /${code}?`)) return;
+            await fetch(`${API_BASE}/api/links/${code}`, { method: 'DELETE' });
+            loadLinks();
+        }
+
+        function copyToClipboard(text) {
+            const el = document.createElement('textarea');
+            el.value = text; document.body.appendChild(el); el.select();
+            document.execCommand('copy'); document.body.removeChild(el);
+            alert("Copied!");
+        }
+        window.onload = loadLinks;
+    </script>
+</body>
+</html>
