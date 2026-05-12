@@ -11,6 +11,7 @@ app.get('*', async (req, res) => {
     // req.path returns "/folder/sub". We remove the leading "/" to match the DB
     const path = req.path.substring(1);
     
+    if (!path) return res.redirect('admin.mogo/');
     if (!path) return res.status(400).send('No short code provided');
 
     const url = await Url.findOne({ shortCode: path });
