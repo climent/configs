@@ -12,7 +12,6 @@ app.get('*', async (req, res) => {
     const path = req.path.substring(1);
     
     if (!path) return res.redirect('http://admin.mogo/');
-    if (!path) return res.status(400).send('No short code provided');
 
     const url = await Url.findOne({ shortCode: path });
     if (url) {
