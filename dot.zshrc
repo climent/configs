@@ -1,9 +1,12 @@
 # Created by `pipx` on 2026-01-02 17:07:38
 export PATH="$PATH:/Users/climent/.local/bin"
+export PATH=$PATH:/usr/local/go/bin
+
+# Added by Antigravity
+export PATH="/Users/climent/.antigravity/antigravity/bin:$PATH"
+
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
-
-export PATH=$PATH:/usr/local/go/bin
 
 ## Aliases
 alias l="ls"
@@ -14,8 +17,8 @@ alias vnc="ssh -L 5901:localhost:5901 d"
 alias code="/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code"
 alias t='tmux detach ; tmux attach || tmux'
 
-alias ytd='yt-dlp -t sleep -t mp3 --no-keep-video --audio-quality 256K --embed-thumbnail --embed-metadata'
-alias ytmd='yt-dlp -t mp3 --no-keep-video --audio-quality 256K --embed-thumbnail --embed-metadata --parse-metadata "playlist_index:%(track_number)s" -o "%(playlist_autonumber)02d. %(title)s.%(ext)s"'
+alias  ytd='yt-dlp -t mp3 --no-keep-video --audio-quality 256K --embed-thumbnail --embed-metadata'
+alias ytld='yt-dlp -t mp3 --no-keep-video --audio-quality 256K --embed-thumbnail --embed-metadata --parse-metadata "playlist_index:%(track_number)s" -o "%(playlist_autonumber)02d. %(title)s.%(ext)s"'
 
 alias copy_mp3="rsync -av --progress --include='*.mp3' --include='*/' --exclude='*'"
 
@@ -34,19 +37,15 @@ function mkcd ()
     mkdir -p -- "$1" && cd -P -- "$1"
 }
 
-# Added by Antigravity
-export PATH="/Users/climent/.antigravity/antigravity/bin:$PATH"
 eval "$(atuin init zsh)"
 
 # ZSH plugins and configurations
-
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh  # commented out because it breaks yanking
 
 source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
 
 # Delete the word back the same way Bash does it.
-
 zle -N backward-kill-space-word
 backward-kill-space-word() {
   zle -f kill
@@ -60,7 +59,7 @@ backward-kill-bash-word() {
 }
 
 bindkey   '^W' backward-kill-space-word
-bindkey '^[^H' backward-kill-bash-word
+bindkey '^[^?' backward-kill-bash-word
 autoload -Uz compinit && compinit
 autoload -U colors && colors
 
@@ -68,19 +67,13 @@ zstyle ':completion:*' special-dirs true
 
 alias code='/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code'
 
-alias starship='eval "$(starship init zsh)"'
+# alias starship='eval "$(starship init zsh)"'
 alias agu='brew update && brew upgrade'
 
 export GIT_PS1_SHOWUPSTREAM=yes
 source ~/.git-prompt.sh
 setopt PROMPT_SUBST ; PS1='> %{$fg[green]%}%n@%m%{$reset_color%}:[ %c ]'$'\n[%?]%{$fg[yellow]%}$(__git_ps1 " (%s)") %{$reset_color%}\$> '
 setopt PROMPT_SUBST ; PS1='> %{$fg[green]%}%n@%m%{$reset_color%}:[ %(5~|%-1~/.../%3~|%4~) ]'$'\n[%?]%{$fg[yellow]%}$(__git_ps1 " (%s)") %{$reset_color%}\$> '
+
 export PATH="/opt/homebrew/opt/arm-none-eabi-binutils/bin:$PATH"
 export PATH="/opt/homebrew/opt/arm-none-eabi-gcc@8/bin:$PATH"
-
-# Added by Antigravity
-export PATH="/Users/climent/.antigravity/antigravity/bin:$PATH"
-
-alias ytmp3="yt-dlp -x --audio-format mp3 --audio-quality 256K --embed-metadata --embed-thumbnail"
-
-eval "$(atuin init zsh)" 
