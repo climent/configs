@@ -13,8 +13,9 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 #-----------------------------------------------------------------------------#
 ## Aliases
 alias l="ls"
-alias ll='ls -l'
-alias la="ls -la"
+alias ll='ls -lF'
+alias la="ls -lAF"
+alias lr='ls -lrt'
 
 alias vnc="ssh -L 5901:localhost:5901 d"
 alias code="/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code"
