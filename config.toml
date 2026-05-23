@@ -376,3 +376,6 @@ enable = false
 ##
 ## Make directory expand instead of command:
 # columns = ["duration", "time", { type = "directory", expand = true }, { type = "command", expand = false }]
+
+[keymap.emacs]
+"ctrl-e" = "return-selection"

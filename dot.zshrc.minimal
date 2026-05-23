@@ -1,0 +1,77 @@
+export PATH="/usr/local/opt/avr-gcc@8/bin:$PATH"
+export PATH="/usr/local/opt/arm-none-eabi-binutils/bin:$PATH"
+export PATH="/usr/local/opt/arm-none-eabi-gcc@8/bin:$PATH"
+
+#-----------------------------------------------------------------------------#
+## Aliases
+alias l="ls"
+alias ll='ls -lF'
+alias la="ls -lAF"
+alias lr='ls -lrt'
+
+alias t='tmux detach ; tmux attach || tmux'
+
+alias  ytd='yt-dlp -t mp3 --no-keep-video --audio-quality 256K --embed-thumbnail --embed-metadata'
+alias ytld='yt-dlp -t mp3 --no-keep-video --audio-quality 256K --embed-thumbnail --embed-metadata --parse-metadata "playlist_index:%(track_number)s" -o "%(playlist_autonumber)02d. %(title)s.%(ext)s"'
+#-----------------------------------------------------------------------------#
+
+#-----------------------------------------------------------------------------#
+# ZSH plugins and configurations
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# Ignore widget interactions that break yanking
+source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+ZSH_AUTOSUGGEST_IGNORE_WIDGETS+=(yank yank-pop backward-kill-word backward-kill-space-word backward-kill-bash-word)
+
+############## ^R historical ##############
+eval "$(atuin init zsh)"
+
+############## Prompt ##############
+# brew gitstatus
+source /usr/local/opt/gitstatus/gitstatus.prompt.zsh
+# brew powerlevel10k
+#source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+#[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# Load version control information
+#autoload -Uz vcs_info
+#precmd() { vcs_info }
+
+# Format the vcs_info_msg_0_ variable
+#zstyle ':vcs_info:git:*' formats '%b'
+
+# Set up the prompt (with git branch name)
+#setopt PROMPT_SUBST
+
+#PROMPT='[%n@%m] [%1~]
+#%F{green}(${vcs_info_msg_0_})%F{white}$ '
+#-----------------------------------------------------------------------------#
+
+#-----------------------------------------------------------------------------#
+# Delete the word back the same way Bash does it.
+zle -N backward-kill-space-word
+backward-kill-space-word() {
+  zle -f kill
+  WORDCHARS="*?_-.[]~=/&:;\!'#$%^(){}<>" zle .backward-kill-word
+}
+
+zle -N backward-kill-bash-word
+backward-kill-bash-word() {
+  zle -f kill
+  WORDCHARS='' zle .backward-kill-word
+}
+
+bindkey   '^W' backward-kill-space-word
+bindkey '^[^?' backward-kill-bash-word
+
+autoload -Uz compinit && compinit
+autoload -U colors && colors
+
+zstyle ':completion:*' special-dirs true
+#-----------------------------------------------------------------------------#
+
+function mkcd ()
+{
+    mkdir -p -- "$1" && cd -P -- "$1"
+}
