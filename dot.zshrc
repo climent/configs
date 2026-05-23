@@ -40,15 +40,15 @@ alias agu='brew update && brew upgrade'
 ## Set 32m:green 31m:red 33m:yellow 34m:blue 35m
 #PROMPT_COMMAND='_RET=$?;PS1="> \[\e[32m\]\u\[\e[0m\]@\[\e[32m\]$SHORTHOSTNAME\[\e[0m\]:[ \`if echo \"$PWD\" | grep -q "^$HOME"; then echo \"~/${PWD:${_homedir_chars}}\" ; else echo \"$PWD\"; fi\` ]\n[`if [ ! "$_RET" == "0" ]; then echo "\[\e[31m\]" ; fi`$_RET\[\e[0m\]]\[\e[33m\]`__git_ps1 `\[\e[0m\] \$> "'
 
-function mkcd ()
-{
-    mkdir -p -- "$1" && cd -P -- "$1"
-}
+#setopt PROMPT_SUBST ; PS1='> %{$fg[green]%}%n@%m%{$reset_color%}:[ %c ]'$'\n[%?]%{$fg[yellow]%}$(__git_ps1 " (%s)") %{$reset_color%}\$> '
+#setopt PROMPT_SUBST ; PS1='> %{$fg[green]%}%n@%m%{$reset_color%}:[ %(5~|%-1~/.../%3~|%4~) ]'$'\n[%?]%{$fg[yellow]%}$(__git_ps1 " (%s)") %{$reset_color%}\$> '
 
 #-----------------------------------------------------------------------------#
 # ZSH plugins and configurations
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-# source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh  # commented out because it breaks yanking
+# Ignore widget interactions that break yanking
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+ZSH_AUTOSUGGEST_IGNORE_WIDGETS+=(yank yank-pop backward-kill-word backward-kill-space-word backward-kill-bash-word)
 
 ############## ^R historical ##############
 eval "$(atuin init zsh)"
@@ -99,7 +99,9 @@ autoload -U colors && colors
 zstyle ':completion:*' special-dirs true
 #-----------------------------------------------------------------------------#
 
-export GIT_PS1_SHOWUPSTREAM=yes
-source ~/.git-prompt.sh
-setopt PROMPT_SUBST ; PS1='> %{$fg[green]%}%n@%m%{$reset_color%}:[ %c ]'$'\n[%?]%{$fg[yellow]%}$(__git_ps1 " (%s)") %{$reset_color%}\$> '
-setopt PROMPT_SUBST ; PS1='> %{$fg[green]%}%n@%m%{$reset_color%}:[ %(5~|%-1~/.../%3~|%4~) ]'$'\n[%?]%{$fg[yellow]%}$(__git_ps1 " (%s)") %{$reset_color%}\$> '
+function mkcd ()
+{
+    mkdir -p -- "$1" && cd -P -- "$1"
+}
+#source /usr/local/share/powerlevel10k/powerlevel10k.zsh-theme
+
