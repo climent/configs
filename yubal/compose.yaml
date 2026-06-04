@@ -1,0 +1,18 @@
+services:
+  yubal:
+    image: ghcr.io/guillevc/yubal:latest
+    container_name: yubal
+    ports:
+      - 8000:8000
+    environment:
+      PUID: 1000
+      PGID: 1000
+      YUBAL_SCHEDULER_CRON: "0 0 * * *"
+      YUBAL_DOWNLOAD_UGC: false
+      YUBAL_TZ: UTC
+      YUBAL_AUDIO_FORMAT: mp3
+    volumes:
+      - ./data:/app/data
+      - ./config:/app/config
+    restart: unless-stopped
+
