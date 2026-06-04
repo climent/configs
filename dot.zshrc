@@ -55,12 +55,16 @@ eval "$(atuin init zsh)"
 
 ############## Prompt ##############
 # brew gitstatus
-source /usr/local/opt/gitstatus/gitstatus.prompt.zsh
-# brew powerlevel10k
-#source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
+#source /usr/local/opt/gitstatus/gitstatus.prompt.zsh
 
+# brew powerlevel10k
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-#[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# Don't load p10k in the subshell that midnight commander runs under.
+if [[ -z "$MC_SID" ]]; then
+  # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+  [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+  source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
+fi
 
 # Load version control information
 #autoload -Uz vcs_info
