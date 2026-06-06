@@ -6,22 +6,22 @@
     <title>Mogo Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-50 min-h-screen p-6 font-sans">
+<body class="bg-slate-950 min-h-screen p-6 font-sans text-slate-200">
     <div class="max-w-4xl mx-auto">
-        <div class="bg-white p-8 rounded-xl shadow-lg mb-10 border-t-4 border-blue-600">
-            <h1 class="text-3xl font-extrabold text-gray-800 mb-2">URL Shortener</h1>
-            <p class="text-gray-500 mb-6 text-sm">Paste a link and choose an optional alias.</p>
+        <div class="bg-slate-900 p-8 rounded-xl shadow-2xl mb-10 border-t-4 border-blue-500 shadow-blue-900/20">
+            <h1 class="text-3xl font-extrabold text-white mb-2">URL Shortener</h1>
+            <p class="text-slate-400 mb-6 text-sm">Paste a link and choose an optional alias.</p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <input id="longUrl" type="text" placeholder="Destination URL (e.g. google.com)" class="p-3 bg-slate-50 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 border-none">
-                <input id="customCode" type="text" placeholder="Alias (e.g. social/twitter)" class="p-3 bg-slate-50 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 border-none">
+                <input id="longUrl" type="text" placeholder="Destination URL (e.g. google.com)" class="p-3 bg-slate-800 text-white rounded-lg outline-none focus:ring-2 focus:ring-blue-500 border-none placeholder:text-slate-500">
+                <input id="customCode" type="text" placeholder="Alias (e.g. social/twitter)" class="p-3 bg-slate-800 text-white rounded-lg outline-none focus:ring-2 focus:ring-blue-500 border-none placeholder:text-slate-500">
             </div>
-            <button onclick="shortenUrl()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition">Create Link</button>
+            <button onclick="shortenUrl()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-500 transition shadow-lg shadow-blue-900/20">Create Link</button>
         </div>
 
-        <div class="bg-white rounded-2xl shadow-sm overflow-hidden border border-slate-200">
+        <div class="bg-slate-900 rounded-2xl shadow-sm overflow-hidden border border-slate-800">
             <table class="w-full text-left">
-                <thead class="bg-slate-50 text-slate-400 uppercase text-[10px] tracking-widest">
+                <thead class="bg-slate-950 text-slate-500 uppercase text-[10px] tracking-widest">
                     <tr>
                         <th class="p-4">Short Path</th>
                         <th class="p-4">Destination</th>
@@ -29,7 +29,7 @@
                         <th class="p-4 text-right">Actions</th>
                     </tr>
                 </thead>
-                <tbody id="linksTable" class="divide-y divide-slate-100"></tbody>
+                <tbody id="linksTable" class="divide-y divide-slate-800"></tbody>
             </table>
         </div>
     </div>
@@ -45,13 +45,13 @@
                 const res = await fetch(`${API_BASE}/api/links`);
                 const links = await res.json();
                 tbody.innerHTML = links.map(link => `
-                    <tr class="text-sm">
-                        <td class="p-4 font-bold text-blue-600"><a href="${REDIRECT_DOMAIN}/${link.shortCode}" target="_blank">/${link.shortCode}</a></td>
-                        <td class="p-4 text-slate-500 truncate max-w-xs">${link.longUrl}</td>
-                        <td class="p-4 text-center"><span class="bg-blue-50 text-blue-700 px-2 py-1 rounded-md font-bold">${link.clicks}</span></td>
+                    <tr class="text-sm hover:bg-slate-800/50 transition">
+                        <td class="p-4 font-bold text-blue-400"><a href="${REDIRECT_DOMAIN}/${link.shortCode}" target="_blank">/${link.shortCode}</a></td>
+                        <td class="p-4 text-slate-400 truncate max-w-xs">${link.longUrl}</td>
+                        <td class="p-4 text-center"><span class="bg-blue-900/30 text-blue-300 px-2 py-1 rounded-md font-bold border border-blue-800/30">${link.clicks}</span></td>
                         <td class="p-4 text-right">
-                            <button onclick="copyToClipboard('${REDIRECT_DOMAIN}/${link.shortCode}')" class="text-blue-500 mr-2">Copy</button>
-                            <button onclick="deleteLink('${link.shortCode}')" class="text-red-400">Delete</button>
+                            <button onclick="copyToClipboard('${REDIRECT_DOMAIN}/${link.shortCode}')" class="text-blue-400 hover:text-blue-300 transition mr-3 font-medium">Copy</button>
+                            <button onclick="deleteLink('${link.shortCode}')" class="text-red-500 hover:text-red-400 transition font-medium">Delete</button>
                         </td>
                     </tr>
                 `).join('');
