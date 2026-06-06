@@ -1,0 +1,12 @@
+kako.org {
+    file /etc/coredns/kako.org.db
+    log
+    errors
+}
+
+. {
+    forward . 8.8.8.8 1.1.1.1
+    log
+    errors
+    cache 30
+}

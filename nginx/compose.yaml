@@ -7,3 +7,15 @@ services:
     restart: always
     extra_hosts:
       - "host.docker.internal:host-gateway"
+
+  coredns:
+    image: coredns/coredns
+    container_name: coredns
+    restart: always
+    volumes:
+      - ./Corefile:/etc/coredns/Corefile:ro
+      - ./kako.org.db:/etc/coredns/kako.org.db:ro
+    ports:
+      - "53:53/udp"
+      - "53:53/tcp"
+    command: -conf /etc/coredns/Corefile
