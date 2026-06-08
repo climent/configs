@@ -1,6 +1,3 @@
-import crypto from 'crypto';
-if (typeof globalThis.crypto === 'undefined') { globalThis.crypto = crypto; }
-
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
@@ -55,7 +52,7 @@ app.get('/api/links', async (req, res) => {
 });
 
 // Delete a link (handles slashes in the param)
-app.delete('/api/links/*', async (req, res) => {
+app.delete(/^\/api\/links\/(.*)/, async (req, res) => {
   try {
     const shortCode = req.params[0]; 
     await Url.findOneAndDelete({ shortCode });

@@ -5,11 +5,12 @@ import Url from './models/Url.js';
 const app = express();
 mongoose.connect(process.env.MONGO_URI || 'mongodb://mongo:27017/urlshortener');
 
-// The "*" catches everything, including paths with multiple slashes
-app.get('*', async (req, res) => {
+// The regex catches everything, including paths with multiple slashes
+app.get(/^(.*)$/, async (req, res) => {
   try {
-    // req.path returns "/folder/sub". We remove the leading "/" to match the DB
-    const path = req.path.substring(1);
+    // req.params[0] will contain the path (e.g., "/folder/sub")
+    let path = req.params[0];
+    if (path.startsWith('/')) path = path.substring(1);
     
     if (!path) return res.redirect('http://admin.mogo/');
 
