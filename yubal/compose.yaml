@@ -5,10 +5,10 @@ services:
     ports:
       - 8000:8000
     environment:
-      PUID: 1000
-      PGID: 1000
+      PUID: 501
+      PGID: 20
       YUBAL_SCHEDULER_CRON: "0 0 * * *"
-      YUBAL_DOWNLOAD_UGC: false
+      YUBAL_DOWNLOAD_UGC: true
       YUBAL_TZ: UTC
       YUBAL_AUDIO_FORMAT: mp3
     volumes:
