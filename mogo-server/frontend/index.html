@@ -52,6 +52,7 @@
                         <td class="p-4 text-center"><span class="bg-blue-900/30 text-blue-300 px-2 py-1 rounded-md font-bold border border-blue-800/30">${link.clicks}</span></td>
                         <td class="p-4 text-right">
                             <button onclick="copyToClipboard('${REDIRECT_DOMAIN}/${link.shortCode}')" class="text-blue-400 hover:text-blue-300 transition mr-3 font-medium">Copy</button>
+                            <button onclick="editLink('${link.shortCode}', '${link.longUrl}')" class="text-amber-400 hover:text-amber-300 transition mr-3 font-medium">Edit</button>
                             <button onclick="deleteLink('${link.shortCode}')" class="text-red-500 hover:text-red-400 transition font-medium">Delete</button>
                         </td>
                     </tr>
@@ -70,6 +71,19 @@
             const data = await res.json();
             if (res.ok) { loadLinks(); document.getElementById('longUrl').value = ''; document.getElementById('customCode').value = ''; }
             else { alert("Error: " + data.error); }
+        }
+
+        async function editLink(code, current) {
+            const longUrl = prompt(`New destination for /${code}:`, current);
+            if (!longUrl) return;
+            const res = await fetch(`${API_BASE}/api/links/${code}`, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ longUrl })
+            });
+            const data = await res.json();
+            if (res.ok) loadLinks();
+            else alert("Error: " + data.error);
         }
 
         async function deleteLink(code) {

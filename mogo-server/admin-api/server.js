@@ -51,6 +51,26 @@ app.get('/api/links', async (req, res) => {
   res.json(links);
 });
 
+// Update a link's target (handles slashes in the param)
+app.put(/^\/api\/links\/(.*)/, async (req, res) => {
+  let { longUrl } = req.body;
+  if (!longUrl) return res.status(400).json({ error: 'URL is required' });
+
+  if (!longUrl.startsWith('http://') && !longUrl.startsWith('https://')) {
+    longUrl = 'http://' + longUrl;
+  }
+  if (!validUrl.isUri(longUrl)) return res.status(400).json({ error: 'Invalid URL format' });
+
+  try {
+    const shortCode = req.params[0];
+    const updated = await Url.findOneAndUpdate({ shortCode }, { longUrl }, { new: true });
+    if (!updated) return res.status(404).json({ error: 'Link not found' });
+    res.json(updated);
+  } catch (err) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 // Delete a link (handles slashes in the param)
 app.delete(/^\/api\/links\/(.*)/, async (req, res) => {
   try {

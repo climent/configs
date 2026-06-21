@@ -51,7 +51,7 @@ source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 ZSH_AUTOSUGGEST_IGNORE_WIDGETS+=(yank yank-pop backward-kill-word backward-kill-space-word backward-kill-bash-word)
 
 ############## ^R historical ##############
-eval "$(atuin init zsh)"
+eval "$(atuin init zsh --disable-up-arrow)"
 
 ############## Prompt ##############
 # brew gitstatus
