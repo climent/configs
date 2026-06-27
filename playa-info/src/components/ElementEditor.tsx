@@ -4,21 +4,38 @@
  */
 
 import React from 'react';
-import { 
-  Trash2, 
-  AlignLeft, 
-  AlignCenter, 
-  AlignRight, 
-  ArrowUp, 
-  ArrowDown, 
-  Info, 
-  Plus, 
+import {
+  Trash2,
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
+  ArrowUp,
+  ArrowDown,
+  Info,
+  Plus,
   X,
   Palette,
   Upload,
   Image as ImageIcon
 } from 'lucide-react';
-import { SlideElement, MIN_FONT_SIZE, GridItem } from '../types';
+import { SlideElement, MIN_FONT_SIZE, GridItem, ElementType } from '../types';
+
+const getDefaultFontSize = (type: ElementType): number => {
+  switch (type) {
+    case 'title':
+      return 32;
+    case 'subtitle':
+    case 'quote':
+      return 22;
+    case 'paragraph':
+    case 'bulletList':
+    case 'stat':
+    case 'grid':
+    default:
+      return 20;
+  }
+};
+
 
 interface ElementEditorProps {
   element: SlideElement | null;
@@ -188,7 +205,7 @@ export default function ElementEditor({
               <div>
                 <label id="label-image-upload" className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Upload Local Image</label>
                 <div className="flex items-center gap-2">
-                  <label 
+                  <label
                     className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 bg-slate-50 hover:bg-indigo-50 border border-dashed border-slate-300 hover:border-indigo-300 rounded-xl text-[10px] font-bold text-slate-600 hover:text-indigo-700 transition-all cursor-pointer ${
                       isArchived ? 'opacity-40 cursor-not-allowed pointer-events-none' : ''
                     }`}
@@ -366,31 +383,42 @@ export default function ElementEditor({
               <div>
                 <div className="flex justify-between text-[11px] font-medium text-slate-600 mb-1">
                   <label id="label-font-size">Font Size (pt)</label>
-                  <span id="font-size-value-badge" className="font-bold text-indigo-600">{element.fontSize}pt</span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <input
-                    id={`slider-font-size-${element.id}`}
-                    disabled={isArchived}
-                    type="range"
-                    min="20"
-                    max="72"
-                    value={element.fontSize}
-                    onChange={(e) => handleFontSizeChange(parseInt(e.target.value))}
-                    className="flex-1 accent-indigo-600 h-1.5 bg-slate-200 rounded-xl cursor-pointer"
-                  />
-                  <input
-                    id={`number-font-size-${element.id}`}
-                    disabled={isArchived}
-                    type="number"
-                    min="20"
-                    max="120"
-                    value={element.fontSize}
-                    onChange={(e) => handleFontSizeChange(parseInt(e.target.value) || MIN_FONT_SIZE)}
-                    className="w-14 text-center text-xs p-1.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-bold"
-                  />
-                </div>
-                <p className="text-[9px] text-slate-400 mt-1.5 leading-normal">
+                {(() => {
+                  const defaultVal = getDefaultFontSize(element.type);
+
+                  return (
+                    <div className="flex items-center gap-3">
+                      <input
+                        id={`slider-font-size-${element.id}`}
+                        disabled={isArchived}
+                        type="range"
+                        min="20"
+                        max="72"
+                        value={element.fontSize}
+                        onChange={(e) => handleFontSizeChange(parseInt(e.target.value))}
+                        onDoubleClick={() => handleFontSizeChange(defaultVal)}
+                        title="Double click to reset to default size"
+                        className="flex-1 accent-indigo-600 h-1.5 bg-slate-200 rounded-xl cursor-pointer"
+                      />
+                      <input
+                        id={`number-font-size-${element.id}`}
+                        disabled={isArchived}
+                        type="number"
+                        min="20"
+                        max="120"
+                        value={element.fontSize}
+                        onChange={(e) => handleFontSizeChange(parseInt(e.target.value) || MIN_FONT_SIZE)}
+                        className={`w-14 text-center text-xs p-1.5 border rounded-xl font-bold transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${
+                          element.fontSize === defaultVal
+                            ? 'bg-indigo-50 border-indigo-300 text-indigo-600 ring-1 ring-indigo-300'
+                            : 'bg-slate-50 border-slate-200 text-slate-800'
+                        }`}
+                      />
+                    </div>
+                  );
+                })()}
+                <p className="text-[9px] text-slate-400 mt-1 leading-normal">
                   <b>Accessibility Mandate:</b> Display slides must enforce size 20pt+ to be readable on presentation screens.
                 </p>
               </div>
@@ -455,8 +483,8 @@ export default function ElementEditor({
                     onClick={() => onUpdateElement({ color: color.value })}
                     style={{ backgroundColor: color.value }}
                     className={`w-full h-6 rounded-md border transition-all cursor-pointer shrink-0 ${
-                      element.color === color.value 
-                        ? 'ring-2 ring-indigo-500 ring-offset-1 scale-105 border-transparent shadow-sm' 
+                      element.color === color.value
+                        ? 'ring-2 ring-indigo-500 ring-offset-1 scale-105 border-transparent shadow-sm'
                         : 'border-slate-300 hover:scale-105'
                     }`}
                     title={color.name}

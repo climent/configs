@@ -4,11 +4,11 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { 
-  Presentation, 
-  Slide, 
-  SlideElement, 
-  DEFAULT_THEMES, 
+import {
+  Presentation,
+  Slide,
+  SlideElement,
+  DEFAULT_THEMES,
   PresentationMetadata,
   ElementType,
   MIN_FONT_SIZE,
@@ -175,7 +175,7 @@ export default function App() {
           if (deck.metadata.expiresAt) {
             const expiryTime = new Date(deck.metadata.expiresAt).getTime();
             const pastExpiry = now.getTime() >= expiryTime;
-            
+
             if (pastExpiry && !deck.metadata.isArchived) {
               modified = true;
               return {
@@ -209,7 +209,7 @@ export default function App() {
   const activePresentation = presentations.find(p => p.id === activePresentationId) || presentations[0];
 
   // Expiration check helper
-  const isArchived = activePresentation?.metadata?.expiresAt 
+  const isArchived = activePresentation?.metadata?.expiresAt
     ? new Date(activePresentation.metadata.expiresAt).getTime() <= currentTime.getTime()
     : false;
 
@@ -714,10 +714,10 @@ export default function App() {
   const handleExportPDF = async () => {
     setIsExporting(true);
     setSelectedElementId(null); // Clear borders before snapshotting
-    
+
     // Remember initial slide index to restore it afterwards
     const initialSlideIdx = activeSlideIndex;
-    
+
     // Check if published date (stored in creator) is empty, and generate if so
     let finalCreator = activePresentation.metadata.creator;
     if (!finalCreator || !finalCreator.trim()) {
@@ -730,7 +730,7 @@ export default function App() {
 
     try {
       const slideIds = activePresentation.slides.map(s => s.id);
-      
+
       // Also download companion metadata file containing document expiration
       const metadataToSave = {
         title: activePresentation.metadata.title,
@@ -751,7 +751,7 @@ export default function App() {
       downloadAnchor.remove();
 
       await exportPresentationToPDF(
-        activePresentation.metadata.title, 
+        activePresentation.metadata.title,
         slideIds,
         (current, total) => setExportProgress({ current, total }),
         async (index) => {
@@ -776,7 +776,7 @@ export default function App() {
     setPresentations(prev => {
       const existingIds = new Set(prev.map(p => p.id));
       const filtered = importedDecks.filter(p => p && p.id && !existingIds.has(p.id));
-      
+
       // If all imported decks are already existing, just notify or overwrite.
       // Let's merge them! If there are duplicates, we can generate a new id for the imported ones.
       const sanitized = importedDecks.map(p => {
@@ -819,7 +819,7 @@ export default function App() {
 
   return (
     <div id="app-root-layout" className="flex h-screen w-screen bg-white font-sans text-slate-800 overflow-hidden">
-      
+
       {/* Sidebar (Left) */}
       <Sidebar
         presentations={presentations}
@@ -837,7 +837,7 @@ export default function App() {
 
       {/* Main Canvas Workspace Area */}
       <div id="canvas-wrapper-pane" className="flex-1 flex flex-col h-full relative" onClick={() => setSelectedElementId(null)}>
-        
+
         {/* Top Notification banner for archived items */}
         {isArchived && (
           <div id="archive-locked-notice-strip" className="w-full bg-amber-500 text-white font-bold py-2.5 px-4 flex items-center justify-center gap-2 text-xs shadow-md shrink-0 select-none z-20">
@@ -891,14 +891,14 @@ export default function App() {
                 Rendering vector shapes, layouts, custom styles, and high-DPI text blocks...
               </p>
             </div>
-            
+
             <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden relative">
-              <div 
+              <div
                 className="bg-gradient-to-r from-indigo-500 to-indigo-600 h-full rounded-full transition-all duration-300"
                 style={{ width: `${(exportProgress.current / exportProgress.total) * 100}%` }}
               />
             </div>
-            
+
             <span className="text-xs font-extrabold text-indigo-600">
               Rendering page {exportProgress.current} of {exportProgress.total}
             </span>

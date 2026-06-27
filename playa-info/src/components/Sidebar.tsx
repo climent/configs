@@ -4,18 +4,18 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { 
-  Type, 
-  Heading2, 
-  AlignLeft, 
-  ListPlus, 
-  Quote, 
-  BarChart2, 
-  LayoutGrid, 
-  Clock, 
-  FolderOpen, 
-  FilePlus, 
-  Trash2, 
+import {
+  Type,
+  Heading2,
+  AlignLeft,
+  ListPlus,
+  Quote,
+  BarChart2,
+  LayoutGrid,
+  Clock,
+  FolderOpen,
+  FilePlus,
+  Trash2,
   Calendar,
   Sparkles,
   CheckCircle2,
@@ -24,11 +24,11 @@ import {
   Plus,
   Image
 } from 'lucide-react';
-import { 
-  Presentation, 
-  ElementType, 
-  DEFAULT_THEMES, 
-  PresentationMetadata 
+import {
+  Presentation,
+  ElementType,
+  DEFAULT_THEMES,
+  PresentationMetadata
 } from '../types';
 import { formatPublishedDate } from '../utils/dateFormatter';
 
@@ -662,8 +662,8 @@ export default function Sidebar({
                     id={`deck-item-container-${pres.id}`}
                     key={pres.id}
                     className={`p-3 rounded-xl border transition-all flex flex-col justify-between group hover:shadow-sm ${
-                      isActive 
-                        ? 'border-indigo-600 bg-indigo-50/20' 
+                      isActive
+                        ? 'border-indigo-600 bg-indigo-50/20'
                         : 'border-slate-200 bg-white hover:bg-slate-50'
                     }`}
                   >
@@ -680,7 +680,7 @@ export default function Sidebar({
                           Creator: {pres.metadata.creator || 'None'} • {pres.slides.length} slide{pres.slides.length !== 1 ? 's' : ''}
                         </span>
                       </button>
-                      
+
                       {presentations.length > 1 && (
                         <button
                           id={`deck-delete-btn-${pres.id}`}
