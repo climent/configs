@@ -17,17 +17,14 @@ alias ll='ls -lF'
 alias la="ls -lAF"
 alias lr='ls -lrt'
 
-alias vnc="ssh -L 5901:localhost:5901 d"
-alias code="/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code"
 alias t='tmux detach ; tmux attach || tmux'
 
 alias  ytd='yt-dlp -t mp3 --no-keep-video --audio-quality 256K --embed-thumbnail --embed-metadata'
 alias ytld='yt-dlp -t mp3 --no-keep-video --audio-quality 256K --embed-thumbnail --embed-metadata --parse-metadata "playlist_index:%(track_number)s" -o "%(playlist_autonumber)02d. %(title)s.%(ext)s"'
-
-alias copy_mp3="rsync -av --progress --include='*.mp3' --include='*/' --exclude='*'"
+alias   bu='brew upgrade'
+alias   zz='vi ~/.zshrc && source ~/.zshrc'
 
 # alias starship='eval "$(starship init zsh)"'
-alias agu='brew update && brew upgrade'
 #-----------------------------------------------------------------------------#
 
 # Download git-prompt from github/configs
@@ -81,7 +78,7 @@ fi
 #-----------------------------------------------------------------------------#
 
 #-----------------------------------------------------------------------------#
-# Delete the word back the same way Bash does it.
+# Behave more like bash does
 zle -N backward-kill-space-word
 backward-kill-space-word() {
   zle -f kill
@@ -96,6 +93,12 @@ backward-kill-bash-word() {
 
 bindkey   '^W' backward-kill-space-word
 bindkey '^[^?' backward-kill-bash-word
+
+bindkey "^[[1;3C" forward-word
+bindkey "^[[1;3D" backward-word
+
+autoload -U select-word-style
+select-word-style bash
 
 autoload -Uz compinit && compinit
 autoload -U colors && colors
