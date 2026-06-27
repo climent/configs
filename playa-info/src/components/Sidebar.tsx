@@ -379,7 +379,7 @@ export default function Sidebar({
                   }`}
                 >
                   <AlignLeft className="w-4 h-4 text-emerald-500" />
-                  <span>Descriptive Paragraph</span>
+                  <span>Paragraph</span>
                 </div>
 
                 <div
@@ -392,7 +392,7 @@ export default function Sidebar({
                   }`}
                 >
                   <ListPlus className="w-4 h-4 text-rose-500" />
-                  <span>Accessible Bullet Points</span>
+                  <span>Bullet Points</span>
                 </div>
 
                 <div
@@ -444,7 +444,7 @@ export default function Sidebar({
                   }`}
                 >
                   <Image className="w-4 h-4 text-sky-500" />
-                  <span>Accessible Image Block</span>
+                  <span>Image</span>
                 </div>
               </div>
             </div>
