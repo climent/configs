@@ -6,12 +6,11 @@
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas-pro";
 
-export async function exportPresentationToPDF(
-  presentationTitle: string,
+export async function exportPresentationToPDFBlob(
   slideIds: string[],
   onProgress?: (current: number, total: number) => void,
   onBeforeCapture?: (index: number) => Promise<void>,
-): Promise<void> {
+): Promise<Blob> {
   const totalSlides = slideIds.length;
   if (totalSlides === 0) {
     throw new Error("No slides to export");
@@ -61,6 +60,25 @@ export async function exportPresentationToPDF(
     pdf.addImage(imgData, "JPEG", 0, 0, 1280, 720);
   }
 
+  return pdf.output("blob");
+}
+
+export async function exportPresentationToPDF(
+  presentationTitle: string,
+  slideIds: string[],
+  onProgress?: (current: number, total: number) => void,
+  onBeforeCapture?: (index: number) => Promise<void>,
+): Promise<void> {
+  const blob = await exportPresentationToPDFBlob(
+    slideIds,
+    onProgress,
+    onBeforeCapture,
+  );
   const fileName = `${presentationTitle.trim().replace(/[^a-z0-9_-]/gi, "_") || "presentation"}.pdf`;
-  pdf.save(fileName);
+  const downloadAnchor = document.createElement("a");
+  downloadAnchor.href = URL.createObjectURL(blob);
+  downloadAnchor.download = fileName;
+  document.body.appendChild(downloadAnchor);
+  downloadAnchor.click();
+  downloadAnchor.remove();
 }

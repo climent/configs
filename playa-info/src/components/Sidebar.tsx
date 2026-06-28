@@ -46,6 +46,7 @@ interface SidebarProps {
   onUpdateSlideAlignment?: (alignment: "top" | "middle" | "bottom") => void;
   activeSlideAlignment?: "top" | "middle" | "bottom";
   onExportPDF: () => void;
+  onExportZip: () => void;
   isExporting: boolean;
   onAddElement?: (type: ElementType) => void;
   onImportPresentations?: (decks: Presentation[]) => void;
@@ -62,6 +63,7 @@ export default function Sidebar({
   onUpdateSlideAlignment,
   activeSlideAlignment,
   onExportPDF,
+  onExportZip,
   isExporting,
   onAddElement,
   onImportPresentations,
@@ -71,12 +73,12 @@ export default function Sidebar({
     "build",
   );
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
-  const [isThemeSectionOpen, setIsThemeSectionOpen] = useState(true);
+  const [isThemeSectionOpen, setIsThemeSectionOpen] = useState(false);
   const [isTemplatesSectionOpen, setIsTemplatesSectionOpen] = useState(true);
-  const [isElementsSectionOpen, setIsElementsSectionOpen] = useState(true);
-  const [isAlignmentSectionOpen, setIsAlignmentSectionOpen] = useState(true);
+  const [isElementsSectionOpen, setIsElementsSectionOpen] = useState(false);
+  const [isAlignmentSectionOpen, setIsAlignmentSectionOpen] = useState(false);
   const [isMetadataSectionOpen, setIsMetadataSectionOpen] = useState(true);
-  const [isExpirationSectionOpen, setIsExpirationSectionOpen] = useState(true);
+  const [isExpirationSectionOpen, setIsExpirationSectionOpen] = useState(false);
 
   // Keep track of current time to show countdown / dynamic archives
   useEffect(() => {
@@ -722,19 +724,6 @@ export default function Sidebar({
                 </>
               )}
             </div>
-
-            {/* PDF Export trigger */}
-            <div className="border-t border-slate-100 pt-3">
-              <button
-                id="sidebar-export-pdf-btn"
-                onClick={onExportPDF}
-                disabled={isExporting}
-                className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-sans text-xs font-bold rounded-xl shadow-md hover:shadow-lg transition-all duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <Download className="w-4 h-4 animate-pulse" />
-                {isExporting ? "Generating PDF..." : "Export Slides to PDF"}
-              </button>
-            </div>
           </>
         )}
 
@@ -1014,17 +1003,17 @@ export default function Sidebar({
                   <div
                     id={`deck-item-container-${pres.id}`}
                     key={pres.id}
-                    className={`p-3 rounded-xl border transition-all flex flex-col justify-between group hover:shadow-sm ${
+                    onClick={() => onSelectPresentation(pres.id)}
+                    className={`p-3 rounded-xl border transition-all flex flex-col justify-between group hover:shadow-sm cursor-pointer ${
                       isActive
                         ? "border-indigo-600 bg-indigo-50/20"
                         : "border-slate-200 bg-white hover:bg-slate-50"
                     }`}
                   >
                     <div className="flex items-start justify-between">
-                      <button
+                      <div
                         id={`deck-select-btn-${pres.id}`}
-                        onClick={() => onSelectPresentation(pres.id)}
-                        className="flex-1 text-left cursor-pointer focus:outline-none"
+                        className="flex-1 text-left focus:outline-none"
                       >
                         <span className="text-xs font-bold text-slate-800 block truncate group-hover:text-indigo-700 transition-all">
                           {pres.metadata.title || "Untitled Presentation"}
@@ -1034,12 +1023,15 @@ export default function Sidebar({
                           {pres.slides.length} slide
                           {pres.slides.length !== 1 ? "s" : ""}
                         </span>
-                      </button>
+                      </div>
 
                       {presentations.length > 1 && (
                         <button
                           id={`deck-delete-btn-${pres.id}`}
-                          onClick={() => onDeletePresentation(pres.id)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onDeletePresentation(pres.id);
+                          }}
                           className="text-slate-400 hover:text-rose-600 p-1.5 rounded-lg hover:bg-slate-100 transition-all cursor-pointer"
                           title="Delete Presentation"
                         >
@@ -1112,6 +1104,39 @@ export default function Sidebar({
           </div>
         )}
       </div>
+
+      {/* Persistent Export Footer for Build and Metadata tabs */}
+      {(activeTab === "build" || activeTab === "metadata") && (
+        <div
+          id="sidebar-export-footer"
+          className="border-t border-slate-150 p-4 bg-slate-50/50 flex gap-2 shrink-0"
+        >
+          <button
+            id="sidebar-export-pdf-btn"
+            onClick={onExportPDF}
+            disabled={isExporting}
+            className="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-sans text-[11px] font-bold rounded-xl shadow-md hover:shadow-lg transition-all duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed truncate"
+            title="Export Slides to PDF"
+          >
+            <Download className="w-3.5 h-3.5 shrink-0" />
+            <span className="truncate">
+              {isExporting ? "PDF..." : "Export to PDF"}
+            </span>
+          </button>
+          <button
+            id="sidebar-export-zip-btn"
+            onClick={onExportZip}
+            disabled={isExporting}
+            className="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-sans text-[11px] font-bold rounded-xl shadow-md hover:shadow-lg transition-all duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed truncate"
+            title="Export Slides as ZIP (PDF & JSON)"
+          >
+            <Download className="w-3.5 h-3.5 shrink-0" />
+            <span className="truncate">
+              {isExporting ? "ZIP..." : "Export to ZIP"}
+            </span>
+          </button>
+        </div>
+      )}
     </div>
   );
 }

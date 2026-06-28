@@ -41,6 +41,7 @@ interface SlideCanvasProps {
   metaCreator: string;
   metaDept: string;
   metaRef: string;
+  isExporting?: boolean;
   isArchived: boolean;
 }
 
@@ -60,6 +61,7 @@ export default function SlideCanvas({
   metaCreator,
   metaDept,
   metaRef,
+  isExporting,
   isArchived,
 }: SlideCanvasProps) {
   const activeSlide = slides[activeSlideIndex] || slides[0];
@@ -254,10 +256,10 @@ export default function SlideCanvas({
             style={{ borderColor: `${theme.accent}30` }}
           >
             <span className="truncate max-w-[200px]">
-              {metaDept || "DEPARTMENT"}
+              {metaDept || (isExporting ? "" : "DEPARTMENT")}
             </span>
             <span className="truncate max-w-[200px]">
-              {metaRef || "CREATOR NAME"}
+              {metaRef || (isExporting ? "" : "CREATOR NAME")}
             </span>
           </div>
 
@@ -561,7 +563,8 @@ export default function SlideCanvas({
             style={{ borderColor: `${theme.accent}30` }}
           >
             <span className="truncate max-w-[250px]">
-              {metaCreator || formatPublishedDate(new Date())}
+              {metaCreator ||
+                (isExporting ? "" : formatPublishedDate(new Date()))}
             </span>
             <span>
               SLIDE {activeSlideIndex + 1} OF {slides.length}

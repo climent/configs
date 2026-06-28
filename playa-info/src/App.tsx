@@ -17,9 +17,13 @@ import {
 import Sidebar from "./components/Sidebar";
 import SlideCanvas from "./components/SlideCanvas";
 import ElementEditor from "./components/ElementEditor";
-import { exportPresentationToPDF } from "./utils/pdfGenerator";
+import {
+  exportPresentationToPDF,
+  exportPresentationToPDFBlob,
+} from "./utils/pdfGenerator";
 import { formatPublishedDate } from "./utils/dateFormatter";
 import { Clock, Info, ShieldCheck, HelpCircle } from "lucide-react";
+import JSZip from "jszip";
 
 const LOCAL_STORAGE_KEY = "accessible-slide-pdf-builder-decks";
 
@@ -856,13 +860,6 @@ export default function App() {
     // Remember initial slide index to restore it afterwards
     const initialSlideIdx = activeSlideIndex;
 
-    // Check if published date (stored in creator) is empty, and generate if so
-    let finalCreator = activePresentation.metadata.creator;
-    if (!finalCreator || !finalCreator.trim()) {
-      finalCreator = formatPublishedDate(new Date());
-      handleUpdateMetadata({ creator: finalCreator });
-    }
-
     // Tiny delay to ensure borders fade and state propagates before starting render
     await new Promise((r) => setTimeout(r, 200));
 
@@ -874,7 +871,7 @@ export default function App() {
         title: activePresentation.metadata.title,
         department: activePresentation.metadata.department,
         referenceNumber: activePresentation.metadata.referenceNumber,
-        creator: finalCreator,
+        creator: activePresentation.metadata.creator,
         expiresAt: activePresentation.metadata.expiresAt,
         isArchived: activePresentation.metadata.expiresAt
           ? new Date(activePresentation.metadata.expiresAt).getTime() <=
@@ -907,6 +904,75 @@ export default function App() {
       console.error("PDF compiling failed", e);
       alert(
         "Failed to compile your slides into a PDF file. Please verify elements are configured properly.",
+      );
+    } finally {
+      // Restore initial slide selection
+      setActiveSlideIndex(initialSlideIdx);
+      setIsExporting(false);
+      setExportProgress(null);
+    }
+  };
+
+  // Export entire deck to ZIP
+  const handleExportZip = async () => {
+    setIsExporting(true);
+    setSelectedElementId(null); // Clear borders before snapshotting
+
+    // Remember initial slide index to restore it afterwards
+    const initialSlideIdx = activeSlideIndex;
+
+    // Tiny delay to ensure borders fade and state propagates before starting render
+    await new Promise((r) => setTimeout(r, 200));
+
+    try {
+      const slideIds = activePresentation.slides.map((s) => s.id);
+
+      // Also download companion metadata file containing document expiration
+      const metadataToSave = {
+        title: activePresentation.metadata.title,
+        department: activePresentation.metadata.department,
+        referenceNumber: activePresentation.metadata.referenceNumber,
+        creator: activePresentation.metadata.creator,
+        expiresAt: activePresentation.metadata.expiresAt,
+        isArchived: activePresentation.metadata.expiresAt
+          ? new Date(activePresentation.metadata.expiresAt).getTime() <=
+            Date.now()
+          : false,
+        exportedAt: new Date().toISOString(),
+      };
+
+      const pdfBlob = await exportPresentationToPDFBlob(
+        slideIds,
+        (current, total) => setExportProgress({ current, total }),
+        async (index) => {
+          setActiveSlideIndex(index);
+          // Wait for React state update and layout rendering
+          await new Promise((r) => setTimeout(r, 200));
+        },
+      );
+
+      const zip = new JSZip();
+      const baseName =
+        activePresentation.metadata.title
+          .trim()
+          .replace(/[^a-z0-9_-]/gi, "_") || "presentation";
+      zip.file(`${baseName}.pdf`, pdfBlob);
+      zip.file(
+        `${baseName}-metadata.json`,
+        JSON.stringify(metadataToSave, null, 2),
+      );
+
+      const zipBlob = await zip.generateAsync({ type: "blob" });
+      const downloadAnchor = document.createElement("a");
+      downloadAnchor.href = URL.createObjectURL(zipBlob);
+      downloadAnchor.download = `${baseName}.zip`;
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    } catch (e) {
+      console.error("ZIP compiling failed", e);
+      alert(
+        "Failed to compile your slides into a ZIP file. Please verify elements are configured properly.",
       );
     } finally {
       // Restore initial slide selection
@@ -1012,6 +1078,7 @@ export default function App() {
         onUpdateSlideAlignment={handleUpdateSlideAlignment}
         activeSlideAlignment={activeSlideAlignment}
         onExportPDF={handleExportPDF}
+        onExportZip={handleExportZip}
         isExporting={isExporting}
         onAddElement={handleAddElementToActiveSlide}
         onImportPresentations={handleImportPresentations}
@@ -1054,6 +1121,7 @@ export default function App() {
           metaCreator={activePresentation.metadata.creator}
           metaDept={activePresentation.metadata.department}
           metaRef={activePresentation.metadata.referenceNumber}
+          isExporting={isExporting}
           isArchived={isArchived}
         />
       </div>

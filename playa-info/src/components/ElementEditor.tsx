@@ -658,7 +658,9 @@ export default function ElementEditor({
                       onClick={() => onUpdateElement({ color: undefined })}
                       disabled={isArchived}
                       className={`p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-600 transition-colors ${
-                        element.color ? "opacity-100" : "opacity-0 pointer-events-none"
+                        element.color
+                          ? "opacity-100"
+                          : "opacity-0 pointer-events-none"
                       }`}
                       title="Reset to default color"
                     >
@@ -720,7 +722,9 @@ export default function ElementEditor({
                         }
                         disabled={isArchived}
                         className={`p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-600 transition-colors ${
-                          element.headingColor ? "opacity-100" : "opacity-0 pointer-events-none"
+                          element.headingColor
+                            ? "opacity-100"
+                            : "opacity-0 pointer-events-none"
                         }`}
                         title="Reset to default heading color"
                       >
