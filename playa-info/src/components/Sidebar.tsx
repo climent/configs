@@ -23,6 +23,9 @@ import {
   Download,
   Plus,
   Image,
+  ChevronDown,
+  ChevronUp,
+  FileText,
 } from "lucide-react";
 import {
   Presentation,
@@ -68,6 +71,12 @@ export default function Sidebar({
     "build",
   );
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
+  const [isThemeSectionOpen, setIsThemeSectionOpen] = useState(true);
+  const [isTemplatesSectionOpen, setIsTemplatesSectionOpen] = useState(true);
+  const [isElementsSectionOpen, setIsElementsSectionOpen] = useState(true);
+  const [isAlignmentSectionOpen, setIsAlignmentSectionOpen] = useState(true);
+  const [isMetadataSectionOpen, setIsMetadataSectionOpen] = useState(true);
+  const [isExpirationSectionOpen, setIsExpirationSectionOpen] = useState(true);
 
   // Keep track of current time to show countdown / dynamic archives
   useEffect(() => {
@@ -271,7 +280,7 @@ export default function Sidebar({
       {/* Tab Contents */}
       <div
         id="sidebar-tab-content"
-        className="flex-1 overflow-y-auto p-4 space-y-5"
+        className="flex-1 overflow-y-auto p-4 space-y-3"
       >
         {activeTab === "build" && (
           <>
@@ -291,361 +300,431 @@ export default function Sidebar({
 
             {/* Draggable Templates */}
             <div>
-              <h3
-                id="heading-templates"
-                className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2.5 flex items-center gap-1.5"
+              <div
+                className="flex items-center justify-between cursor-pointer mb-1.5"
+                onClick={() =>
+                  setIsTemplatesSectionOpen(!isTemplatesSectionOpen)
+                }
               >
-                <FolderOpen className="w-3.5 h-3.5 text-indigo-500" /> Layout
-                Templates
-              </h3>
-              <p className="text-[11px] text-slate-500 mb-3.5 leading-relaxed">
-                Drag a layout template onto the active slide workspace to
-                instantly apply the layout.
-              </p>
-              <div id="templates-list" className="grid grid-cols-2 gap-2">
-                <div
-                  id="template-item-welcome"
-                  draggable={!isArchived}
-                  onDragStart={(e) => handleDragStartTemplate(e, "welcome")}
-                  className={`border border-slate-150 bg-slate-50 hover:bg-slate-100 p-2.5 rounded-xl flex flex-col justify-between h-20 transition-all select-none hover:shadow-sm ${
-                    isArchived
-                      ? "opacity-50 cursor-not-allowed"
-                      : "cursor-grab active:cursor-grabbing hover:border-slate-300"
-                  }`}
+                <h3
+                  id="heading-templates"
+                  className="text-[10px] font-bold text-black uppercase tracking-wider flex items-center gap-1.5"
                 >
-                  <span className="text-[11px] font-bold text-slate-700">
-                    Welcome Slide
-                  </span>
-                  <div className="w-full h-4 bg-white border border-slate-200 rounded flex flex-col gap-0.5 justify-center px-1.5">
-                    <div className="w-8 h-1 bg-indigo-500 rounded-full" />
-                    <div className="w-6 h-0.5 bg-slate-300 rounded-full" />
-                  </div>
-                </div>
-
-                <div
-                  id="template-item-bullets"
-                  draggable={!isArchived}
-                  onDragStart={(e) => handleDragStartTemplate(e, "bullets")}
-                  className={`border border-slate-150 bg-slate-50 hover:bg-slate-100 p-2.5 rounded-xl flex flex-col justify-between h-20 transition-all select-none hover:shadow-sm ${
-                    isArchived
-                      ? "opacity-50 cursor-not-allowed"
-                      : "cursor-grab active:cursor-grabbing hover:border-slate-300"
-                  }`}
-                >
-                  <span className="text-[11px] font-bold text-slate-700">
-                    Bullet Points
-                  </span>
-                  <div className="w-full h-4 bg-white border border-slate-200 rounded flex flex-col gap-0.5 justify-center px-1.5">
-                    <div className="w-5 h-1 bg-indigo-500 rounded-full" />
-                    <div className="flex items-center gap-1">
-                      <div className="w-1 h-1 bg-slate-400 rounded-full shrink-0" />
-                      <div className="w-6 h-0.5 bg-slate-300 rounded-full" />
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <div className="w-1 h-1 bg-slate-400 rounded-full shrink-0" />
-                      <div className="w-4 h-0.5 bg-slate-300 rounded-full" />
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  id="template-item-stats"
-                  draggable={!isArchived}
-                  onDragStart={(e) => handleDragStartTemplate(e, "stats")}
-                  className={`border border-slate-150 bg-slate-50 hover:bg-slate-100 p-2.5 rounded-xl flex flex-col justify-between h-20 transition-all select-none hover:shadow-sm ${
-                    isArchived
-                      ? "opacity-50 cursor-not-allowed"
-                      : "cursor-grab active:cursor-grabbing hover:border-slate-300"
-                  }`}
-                >
-                  <span className="text-[11px] font-bold text-slate-700">
-                    Stats
-                  </span>
-                  <div className="w-full h-4 bg-white border border-slate-200 rounded flex items-center gap-1 px-1.5">
-                    <div className="w-4 h-2 bg-indigo-500 rounded" />
-                    <div className="flex-1 flex flex-col gap-0.5">
-                      <div className="w-6 h-1 bg-slate-400 rounded-full" />
-                      <div className="w-4 h-0.5 bg-slate-300 rounded-full" />
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  id="template-item-quote"
-                  draggable={!isArchived}
-                  onDragStart={(e) => handleDragStartTemplate(e, "quote")}
-                  className={`border border-slate-150 bg-slate-50 hover:bg-slate-100 p-2.5 rounded-xl flex flex-col justify-between h-20 transition-all select-none hover:shadow-sm ${
-                    isArchived
-                      ? "opacity-50 cursor-not-allowed"
-                      : "cursor-grab active:cursor-grabbing hover:border-slate-300"
-                  }`}
-                >
-                  <span className="text-[11px] font-bold text-slate-700">
-                    Quote
-                  </span>
-                  <div className="w-full h-4 bg-white border border-slate-200 rounded flex items-center gap-1 px-1.5">
-                    <div className="w-0.5 h-3.5 bg-indigo-500 rounded" />
-                    <div className="w-8 h-1 bg-slate-300 rounded-full" />
-                  </div>
-                </div>
-
-                <div
-                  id="template-item-comparison"
-                  draggable={!isArchived}
-                  onDragStart={(e) => handleDragStartTemplate(e, "comparison")}
-                  className={`border border-slate-150 bg-slate-50 hover:bg-slate-100 p-2.5 rounded-xl flex flex-col justify-between h-20 transition-all col-span-2 select-none hover:shadow-sm ${
-                    isArchived
-                      ? "opacity-50 cursor-not-allowed"
-                      : "cursor-grab active:cursor-grabbing hover:border-slate-300"
-                  }`}
-                >
-                  <span className="text-[11px] font-bold text-slate-700">
-                    2-Column Info Grid
-                  </span>
-                  <div className="w-full h-4 bg-white border border-slate-200 rounded flex justify-between gap-1.5 px-1.5 py-0.5">
-                    <div className="flex-1 bg-slate-50 border border-slate-100 rounded flex flex-col gap-0.5 p-0.5">
-                      <div className="w-4 h-0.5 bg-indigo-500 rounded-full" />
-                      <div className="w-6 h-0.5 bg-slate-300 rounded-full" />
-                    </div>
-                    <div className="flex-1 bg-slate-50 border border-slate-100 rounded flex flex-col gap-0.5 p-0.5">
-                      <div className="w-4 h-0.5 bg-indigo-500 rounded-full" />
-                      <div className="w-6 h-0.5 bg-slate-300 rounded-full" />
-                    </div>
-                  </div>
-                </div>
+                  <FolderOpen className="w-3.5 h-3.5 text-indigo-500" /> Layout
+                  Templates
+                </h3>
+                {isTemplatesSectionOpen ? (
+                  <ChevronUp className="w-4 h-4 text-slate-400" />
+                ) : (
+                  <ChevronDown className="w-4 h-4 text-slate-400" />
+                )}
               </div>
+
+              {isTemplatesSectionOpen && (
+                <>
+                  <p className="text-[11px] text-slate-500 mb-3.5 leading-relaxed">
+                    Drag a layout template onto the active slide workspace to
+                    instantly apply the layout.
+                  </p>
+                  <div id="templates-list" className="grid grid-cols-2 gap-2">
+                    <div
+                      id="template-item-welcome"
+                      draggable={!isArchived}
+                      onDragStart={(e) => handleDragStartTemplate(e, "welcome")}
+                      className={`border border-slate-150 bg-slate-50 hover:bg-slate-100 p-2.5 rounded-xl flex flex-col justify-between h-20 transition-all select-none hover:shadow-sm ${
+                        isArchived
+                          ? "opacity-50 cursor-not-allowed"
+                          : "cursor-grab active:cursor-grabbing hover:border-slate-300"
+                      }`}
+                    >
+                      <span className="text-[11px] font-bold text-slate-700">
+                        Welcome Slide
+                      </span>
+                      <div className="w-full h-4 bg-white border border-slate-200 rounded flex flex-col gap-0.5 justify-center px-1.5">
+                        <div className="w-8 h-1 bg-indigo-500 rounded-full" />
+                        <div className="w-6 h-0.5 bg-slate-300 rounded-full" />
+                      </div>
+                    </div>
+
+                    <div
+                      id="template-item-bullets"
+                      draggable={!isArchived}
+                      onDragStart={(e) => handleDragStartTemplate(e, "bullets")}
+                      className={`border border-slate-150 bg-slate-50 hover:bg-slate-100 p-2.5 rounded-xl flex flex-col justify-between h-20 transition-all select-none hover:shadow-sm ${
+                        isArchived
+                          ? "opacity-50 cursor-not-allowed"
+                          : "cursor-grab active:cursor-grabbing hover:border-slate-300"
+                      }`}
+                    >
+                      <span className="text-[11px] font-bold text-slate-700">
+                        Bullet Points
+                      </span>
+                      <div className="w-full h-4 bg-white border border-slate-200 rounded flex flex-col gap-0.5 justify-center px-1.5">
+                        <div className="w-5 h-1 bg-indigo-500 rounded-full" />
+                        <div className="flex items-center gap-1">
+                          <div className="w-1 h-1 bg-slate-400 rounded-full shrink-0" />
+                          <div className="w-6 h-0.5 bg-slate-300 rounded-full" />
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div className="w-1 h-1 bg-slate-400 rounded-full shrink-0" />
+                          <div className="w-4 h-0.5 bg-slate-300 rounded-full" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      id="template-item-stats"
+                      draggable={!isArchived}
+                      onDragStart={(e) => handleDragStartTemplate(e, "stats")}
+                      className={`border border-slate-150 bg-slate-50 hover:bg-slate-100 p-2.5 rounded-xl flex flex-col justify-between h-20 transition-all select-none hover:shadow-sm ${
+                        isArchived
+                          ? "opacity-50 cursor-not-allowed"
+                          : "cursor-grab active:cursor-grabbing hover:border-slate-300"
+                      }`}
+                    >
+                      <span className="text-[11px] font-bold text-slate-700">
+                        Stats
+                      </span>
+                      <div className="w-full h-4 bg-white border border-slate-200 rounded flex items-center gap-1 px-1.5">
+                        <div className="w-4 h-2 bg-indigo-500 rounded" />
+                        <div className="flex-1 flex flex-col gap-0.5">
+                          <div className="w-6 h-1 bg-slate-400 rounded-full" />
+                          <div className="w-4 h-0.5 bg-slate-300 rounded-full" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      id="template-item-quote"
+                      draggable={!isArchived}
+                      onDragStart={(e) => handleDragStartTemplate(e, "quote")}
+                      className={`border border-slate-150 bg-slate-50 hover:bg-slate-100 p-2.5 rounded-xl flex flex-col justify-between h-20 transition-all select-none hover:shadow-sm ${
+                        isArchived
+                          ? "opacity-50 cursor-not-allowed"
+                          : "cursor-grab active:cursor-grabbing hover:border-slate-300"
+                      }`}
+                    >
+                      <span className="text-[11px] font-bold text-slate-700">
+                        Quote
+                      </span>
+                      <div className="w-full h-4 bg-white border border-slate-200 rounded flex items-center gap-1 px-1.5">
+                        <div className="w-0.5 h-3.5 bg-indigo-500 rounded" />
+                        <div className="w-8 h-1 bg-slate-300 rounded-full" />
+                      </div>
+                    </div>
+
+                    <div
+                      id="template-item-comparison"
+                      draggable={!isArchived}
+                      onDragStart={(e) =>
+                        handleDragStartTemplate(e, "comparison")
+                      }
+                      className={`border border-slate-150 bg-slate-50 hover:bg-slate-100 p-2.5 rounded-xl flex flex-col justify-between h-20 transition-all col-span-2 select-none hover:shadow-sm ${
+                        isArchived
+                          ? "opacity-50 cursor-not-allowed"
+                          : "cursor-grab active:cursor-grabbing hover:border-slate-300"
+                      }`}
+                    >
+                      <span className="text-[11px] font-bold text-slate-700">
+                        2-Column Info Grid
+                      </span>
+                      <div className="w-full h-4 bg-white border border-slate-200 rounded flex justify-between gap-1.5 px-1.5 py-0.5">
+                        <div className="flex-1 bg-slate-50 border border-slate-100 rounded flex flex-col gap-0.5 p-0.5">
+                          <div className="w-4 h-0.5 bg-indigo-500 rounded-full" />
+                          <div className="w-6 h-0.5 bg-slate-300 rounded-full" />
+                        </div>
+                        <div className="flex-1 bg-slate-50 border border-slate-100 rounded flex flex-col gap-0.5 p-0.5">
+                          <div className="w-4 h-0.5 bg-indigo-500 rounded-full" />
+                          <div className="w-6 h-0.5 bg-slate-300 rounded-full" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Draggable Individual Elements */}
-            <div>
-              <h3
-                id="heading-elements"
-                className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2.5 flex items-center gap-1.5"
+            <div className="border-t border-slate-100 pt-3">
+              <div
+                className="flex items-center justify-between cursor-pointer mb-1.5"
+                onClick={() => setIsElementsSectionOpen(!isElementsSectionOpen)}
               >
-                <Plus className="w-3.5 h-3.5 text-indigo-500" /> Add Slide
-                Elements
-              </h3>
-              <p className="text-[11px] text-slate-500 mb-3">
-                Drag a dynamic block into the slide container or click to
-                append.
-              </p>
-              <div id="elements-list" className="space-y-1.5">
-                <div
-                  id="draggable-element-title"
-                  draggable={!isArchived}
-                  onDragStart={(e) => handleDragStartElement(e, "title")}
-                  onClick={() => !isArchived && onAddElement?.("title")}
-                  className={`flex items-center gap-3 p-2 bg-white hover:bg-indigo-50/40 border border-slate-150 rounded-xl text-xs font-semibold text-slate-700 hover:border-indigo-200 hover:text-indigo-700 transition-all select-none hover:shadow-sm ${
-                    isArchived
-                      ? "opacity-50 cursor-not-allowed"
-                      : "cursor-pointer active:scale-98"
-                  }`}
+                <h3
+                  id="heading-elements"
+                  className="text-[10px] font-bold text-black uppercase tracking-wider flex items-center gap-1.5"
                 >
-                  <Type className="w-4 h-4 text-indigo-500" />
-                  <span>Main Slide Title</span>
-                </div>
-
-                <div
-                  id="draggable-element-subtitle"
-                  draggable={!isArchived}
-                  onDragStart={(e) => handleDragStartElement(e, "subtitle")}
-                  onClick={() => !isArchived && onAddElement?.("subtitle")}
-                  className={`flex items-center gap-3 p-2 bg-white hover:bg-indigo-50/40 border border-slate-150 rounded-xl text-xs font-semibold text-slate-700 hover:border-indigo-200 hover:text-indigo-700 transition-all select-none hover:shadow-sm ${
-                    isArchived
-                      ? "opacity-50 cursor-not-allowed"
-                      : "cursor-pointer active:scale-98"
-                  }`}
-                >
-                  <Heading2 className="w-4 h-4 text-violet-500" />
-                  <span>Subtitle Callout</span>
-                </div>
-
-                <div
-                  id="draggable-element-paragraph"
-                  draggable={!isArchived}
-                  onDragStart={(e) => handleDragStartElement(e, "paragraph")}
-                  onClick={() => !isArchived && onAddElement?.("paragraph")}
-                  className={`flex items-center gap-3 p-2 bg-white hover:bg-indigo-50/40 border border-slate-150 rounded-xl text-xs font-semibold text-slate-700 hover:border-indigo-200 hover:text-indigo-700 transition-all select-none hover:shadow-sm ${
-                    isArchived
-                      ? "opacity-50 cursor-not-allowed"
-                      : "cursor-pointer active:scale-98"
-                  }`}
-                >
-                  <AlignLeft className="w-4 h-4 text-emerald-500" />
-                  <span>Paragraph</span>
-                </div>
-
-                <div
-                  id="draggable-element-bullets"
-                  draggable={!isArchived}
-                  onDragStart={(e) => handleDragStartElement(e, "bulletList")}
-                  onClick={() => !isArchived && onAddElement?.("bulletList")}
-                  className={`flex items-center gap-3 p-2 bg-white hover:bg-indigo-50/40 border border-slate-150 rounded-xl text-xs font-semibold text-slate-700 hover:border-indigo-200 hover:text-indigo-700 transition-all select-none hover:shadow-sm ${
-                    isArchived
-                      ? "opacity-50 cursor-not-allowed"
-                      : "cursor-pointer active:scale-98"
-                  }`}
-                >
-                  <ListPlus className="w-4 h-4 text-rose-500" />
-                  <span>Bullet Points</span>
-                </div>
-
-                <div
-                  id="draggable-element-stat"
-                  draggable={!isArchived}
-                  onDragStart={(e) => handleDragStartElement(e, "stat")}
-                  onClick={() => !isArchived && onAddElement?.("stat")}
-                  className={`flex items-center gap-3 p-2 bg-white hover:bg-indigo-50/40 border border-slate-150 rounded-xl text-xs font-semibold text-slate-700 hover:border-indigo-200 hover:text-indigo-700 transition-all select-none hover:shadow-sm ${
-                    isArchived
-                      ? "opacity-50 cursor-not-allowed"
-                      : "cursor-pointer active:scale-98"
-                  }`}
-                >
-                  <BarChart2 className="w-4 h-4 text-amber-500" />
-                  <span>Big Numeric Stat Callout</span>
-                </div>
-
-                <div
-                  id="draggable-element-quote"
-                  draggable={!isArchived}
-                  onDragStart={(e) => handleDragStartElement(e, "quote")}
-                  onClick={() => !isArchived && onAddElement?.("quote")}
-                  className={`flex items-center gap-3 p-2 bg-white hover:bg-indigo-50/40 border border-slate-150 rounded-xl text-xs font-semibold text-slate-700 hover:border-indigo-200 hover:text-indigo-700 transition-all select-none hover:shadow-sm ${
-                    isArchived
-                      ? "opacity-50 cursor-not-allowed"
-                      : "cursor-pointer active:scale-98"
-                  }`}
-                >
-                  <Quote className="w-4 h-4 text-orange-500" />
-                  <span>Italicized Accent Quote</span>
-                </div>
-
-                <div
-                  id="draggable-element-grid"
-                  draggable={!isArchived}
-                  onDragStart={(e) => handleDragStartElement(e, "grid")}
-                  onClick={() => !isArchived && onAddElement?.("grid")}
-                  className={`flex items-center gap-3 p-2 bg-white hover:bg-indigo-50/40 border border-slate-150 rounded-xl text-xs font-semibold text-slate-700 hover:border-indigo-200 hover:text-indigo-700 transition-all select-none hover:shadow-sm ${
-                    isArchived
-                      ? "opacity-50 cursor-not-allowed"
-                      : "cursor-pointer active:scale-98"
-                  }`}
-                >
-                  <LayoutGrid className="w-4 h-4 text-fuchsia-500" />
-                  <span>2-Column Comparative Grid</span>
-                </div>
-
-                <div
-                  id="draggable-element-image"
-                  draggable={!isArchived}
-                  onDragStart={(e) => handleDragStartElement(e, "image")}
-                  onClick={() => !isArchived && onAddElement?.("image")}
-                  className={`flex items-center gap-3 p-2 bg-white hover:bg-indigo-50/40 border border-slate-150 rounded-xl text-xs font-semibold text-slate-700 hover:border-indigo-200 hover:text-indigo-700 transition-all select-none hover:shadow-sm ${
-                    isArchived
-                      ? "opacity-50 cursor-not-allowed"
-                      : "cursor-pointer active:scale-98"
-                  }`}
-                >
-                  <Image className="w-4 h-4 text-sky-500" />
-                  <span>Image</span>
-                </div>
+                  <Plus className="w-3.5 h-3.5 text-indigo-500" /> Add Slide
+                  Elements
+                </h3>
+                {isElementsSectionOpen ? (
+                  <ChevronUp className="w-4 h-4 text-slate-400" />
+                ) : (
+                  <ChevronDown className="w-4 h-4 text-slate-400" />
+                )}
               </div>
-            </div>
 
-            {/* Quick Themes */}
-            <div>
-              <h3
-                id="heading-themes"
-                className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2.5 flex items-center gap-1.5"
-              >
-                <Sparkles className="w-3.5 h-3.5 text-indigo-500" /> Apply Slide
-                Theme
-              </h3>
-              <p className="text-[11px] text-slate-500 mb-3">
-                Instantly style the active slide's background, colors, and font
-                layout.
-              </p>
-              <div id="themes-grid" className="grid grid-cols-2 gap-2">
-                {DEFAULT_THEMES.map((theme, idx) => (
-                  <button
-                    id={`theme-btn-${idx}`}
-                    key={idx}
-                    disabled={isArchived}
-                    onClick={() => onApplyTheme(idx)}
-                    className={`flex items-center justify-between p-2 rounded-xl border border-slate-200 transition-all hover:border-slate-400 bg-white text-left ${
-                      isArchived
-                        ? "opacity-40 cursor-not-allowed"
-                        : "cursor-pointer hover:shadow-sm"
-                    }`}
-                  >
-                    <div className="flex items-center gap-1.5 truncate">
-                      <span className="text-[11px] font-semibold text-slate-800 truncate">
-                        {theme.fontFamily}
-                      </span>
+              {isElementsSectionOpen && (
+                <>
+                  <p className="text-[11px] text-slate-500 mb-3">
+                    Drag a dynamic block into the slide container or click to
+                    append.
+                  </p>
+                  <div id="elements-list" className="space-y-1.5">
+                    <div
+                      id="draggable-element-title"
+                      draggable={!isArchived}
+                      onDragStart={(e) => handleDragStartElement(e, "title")}
+                      onClick={() => !isArchived && onAddElement?.("title")}
+                      className={`flex items-center gap-3 p-2 bg-white hover:bg-indigo-50/40 border border-slate-150 rounded-xl text-xs font-semibold text-slate-700 hover:border-indigo-200 hover:text-indigo-700 transition-all select-none hover:shadow-sm ${
+                        isArchived
+                          ? "opacity-50 cursor-not-allowed"
+                          : "cursor-pointer active:scale-98"
+                      }`}
+                    >
+                      <Type className="w-4 h-4 text-indigo-500" />
+                      <span>Main Slide Title</span>
                     </div>
-                    <div className="flex gap-1 shrink-0">
-                      <span
-                        className="w-3 h-3 rounded-full border border-slate-200 shrink-0 shadow-inner"
-                        style={{ backgroundColor: theme.background }}
-                      />
-                      <span
-                        className="w-3 h-3 rounded-full border border-slate-200 shrink-0 shadow-inner"
-                        style={{ backgroundColor: theme.accent }}
-                      />
+
+                    <div
+                      id="draggable-element-subtitle"
+                      draggable={!isArchived}
+                      onDragStart={(e) => handleDragStartElement(e, "subtitle")}
+                      onClick={() => !isArchived && onAddElement?.("subtitle")}
+                      className={`flex items-center gap-3 p-2 bg-white hover:bg-indigo-50/40 border border-slate-150 rounded-xl text-xs font-semibold text-slate-700 hover:border-indigo-200 hover:text-indigo-700 transition-all select-none hover:shadow-sm ${
+                        isArchived
+                          ? "opacity-50 cursor-not-allowed"
+                          : "cursor-pointer active:scale-98"
+                      }`}
+                    >
+                      <Heading2 className="w-4 h-4 text-violet-500" />
+                      <span>Subtitle Callout</span>
                     </div>
-                  </button>
-                ))}
-              </div>
+
+                    <div
+                      id="draggable-element-paragraph"
+                      draggable={!isArchived}
+                      onDragStart={(e) =>
+                        handleDragStartElement(e, "paragraph")
+                      }
+                      onClick={() => !isArchived && onAddElement?.("paragraph")}
+                      className={`flex items-center gap-3 p-2 bg-white hover:bg-indigo-50/40 border border-slate-150 rounded-xl text-xs font-semibold text-slate-700 hover:border-indigo-200 hover:text-indigo-700 transition-all select-none hover:shadow-sm ${
+                        isArchived
+                          ? "opacity-50 cursor-not-allowed"
+                          : "cursor-pointer active:scale-98"
+                      }`}
+                    >
+                      <AlignLeft className="w-4 h-4 text-emerald-500" />
+                      <span>Paragraph</span>
+                    </div>
+
+                    <div
+                      id="draggable-element-bullets"
+                      draggable={!isArchived}
+                      onDragStart={(e) =>
+                        handleDragStartElement(e, "bulletList")
+                      }
+                      onClick={() =>
+                        !isArchived && onAddElement?.("bulletList")
+                      }
+                      className={`flex items-center gap-3 p-2 bg-white hover:bg-indigo-50/40 border border-slate-150 rounded-xl text-xs font-semibold text-slate-700 hover:border-indigo-200 hover:text-indigo-700 transition-all select-none hover:shadow-sm ${
+                        isArchived
+                          ? "opacity-50 cursor-not-allowed"
+                          : "cursor-pointer active:scale-98"
+                      }`}
+                    >
+                      <ListPlus className="w-4 h-4 text-rose-500" />
+                      <span>Bullet Points</span>
+                    </div>
+
+                    <div
+                      id="draggable-element-stat"
+                      draggable={!isArchived}
+                      onDragStart={(e) => handleDragStartElement(e, "stat")}
+                      onClick={() => !isArchived && onAddElement?.("stat")}
+                      className={`flex items-center gap-3 p-2 bg-white hover:bg-indigo-50/40 border border-slate-150 rounded-xl text-xs font-semibold text-slate-700 hover:border-indigo-200 hover:text-indigo-700 transition-all select-none hover:shadow-sm ${
+                        isArchived
+                          ? "opacity-50 cursor-not-allowed"
+                          : "cursor-pointer active:scale-98"
+                      }`}
+                    >
+                      <BarChart2 className="w-4 h-4 text-amber-500" />
+                      <span>Big Numeric Stat Callout</span>
+                    </div>
+
+                    <div
+                      id="draggable-element-quote"
+                      draggable={!isArchived}
+                      onDragStart={(e) => handleDragStartElement(e, "quote")}
+                      onClick={() => !isArchived && onAddElement?.("quote")}
+                      className={`flex items-center gap-3 p-2 bg-white hover:bg-indigo-50/40 border border-slate-150 rounded-xl text-xs font-semibold text-slate-700 hover:border-indigo-200 hover:text-indigo-700 transition-all select-none hover:shadow-sm ${
+                        isArchived
+                          ? "opacity-50 cursor-not-allowed"
+                          : "cursor-pointer active:scale-98"
+                      }`}
+                    >
+                      <Quote className="w-4 h-4 text-orange-500" />
+                      <span>Italicized Accent Quote</span>
+                    </div>
+
+                    <div
+                      id="draggable-element-grid"
+                      draggable={!isArchived}
+                      onDragStart={(e) => handleDragStartElement(e, "grid")}
+                      onClick={() => !isArchived && onAddElement?.("grid")}
+                      className={`flex items-center gap-3 p-2 bg-white hover:bg-indigo-50/40 border border-slate-150 rounded-xl text-xs font-semibold text-slate-700 hover:border-indigo-200 hover:text-indigo-700 transition-all select-none hover:shadow-sm ${
+                        isArchived
+                          ? "opacity-50 cursor-not-allowed"
+                          : "cursor-pointer active:scale-98"
+                      }`}
+                    >
+                      <LayoutGrid className="w-4 h-4 text-fuchsia-500" />
+                      <span>2-Column Comparative Grid</span>
+                    </div>
+
+                    <div
+                      id="draggable-element-image"
+                      draggable={!isArchived}
+                      onDragStart={(e) => handleDragStartElement(e, "image")}
+                      onClick={() => !isArchived && onAddElement?.("image")}
+                      className={`flex items-center gap-3 p-2 bg-white hover:bg-indigo-50/40 border border-slate-150 rounded-xl text-xs font-semibold text-slate-700 hover:border-indigo-200 hover:text-indigo-700 transition-all select-none hover:shadow-sm ${
+                        isArchived
+                          ? "opacity-50 cursor-not-allowed"
+                          : "cursor-pointer active:scale-98"
+                      }`}
+                    >
+                      <Image className="w-4 h-4 text-sky-500" />
+                      <span>Image</span>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Slide Layout Alignment */}
-            <div>
-              <h3
-                id="heading-alignment"
-                className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2.5 flex items-center gap-1.5"
+            <div className="border-t border-slate-100 pt-3">
+              <div
+                className="flex items-center justify-between cursor-pointer mb-1.5"
+                onClick={() =>
+                  setIsAlignmentSectionOpen(!isAlignmentSectionOpen)
+                }
               >
-                <LayoutGrid className="w-3.5 h-3.5 text-indigo-500" /> Slide
-                Alignment
-              </h3>
-              <div className="flex bg-slate-100 p-1 rounded-xl">
-                <button
-                  disabled={isArchived}
-                  onClick={() => onUpdateSlideAlignment?.("top")}
-                  className={`flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all ${
-                    activeSlideAlignment === "top"
-                      ? "bg-white shadow-sm text-indigo-700"
-                      : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
-                  }`}
+                <h3
+                  id="heading-alignment"
+                  className="text-[10px] font-bold text-black uppercase tracking-wider flex items-center gap-1.5"
                 >
-                  Top
-                </button>
-                <button
-                  disabled={isArchived}
-                  onClick={() => onUpdateSlideAlignment?.("middle")}
-                  className={`flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all ${
-                    !activeSlideAlignment || activeSlideAlignment === "middle"
-                      ? "bg-white shadow-sm text-indigo-700"
-                      : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
-                  }`}
-                >
-                  Middle
-                </button>
-                <button
-                  disabled={isArchived}
-                  onClick={() => onUpdateSlideAlignment?.("bottom")}
-                  className={`flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all ${
-                    activeSlideAlignment === "bottom"
-                      ? "bg-white shadow-sm text-indigo-700"
-                      : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
-                  }`}
-                >
-                  Bottom
-                </button>
+                  <LayoutGrid className="w-3.5 h-3.5 text-indigo-500" /> Slide
+                  elements alignment
+                </h3>
+                {isAlignmentSectionOpen ? (
+                  <ChevronUp className="w-4 h-4 text-slate-400" />
+                ) : (
+                  <ChevronDown className="w-4 h-4 text-slate-400" />
+                )}
               </div>
+
+              {isAlignmentSectionOpen && (
+                <div className="flex bg-slate-100 p-1 rounded-xl">
+                  <button
+                    disabled={isArchived}
+                    onClick={() => onUpdateSlideAlignment?.("top")}
+                    className={`flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all ${
+                      activeSlideAlignment === "top"
+                        ? "bg-white shadow-sm text-indigo-700"
+                        : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
+                    }`}
+                  >
+                    Top
+                  </button>
+                  <button
+                    disabled={isArchived}
+                    onClick={() => onUpdateSlideAlignment?.("middle")}
+                    className={`flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all ${
+                      !activeSlideAlignment || activeSlideAlignment === "middle"
+                        ? "bg-white shadow-sm text-indigo-700"
+                        : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
+                    }`}
+                  >
+                    Middle
+                  </button>
+                  <button
+                    disabled={isArchived}
+                    onClick={() => onUpdateSlideAlignment?.("bottom")}
+                    className={`flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all ${
+                      activeSlideAlignment === "bottom"
+                        ? "bg-white shadow-sm text-indigo-700"
+                        : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
+                    }`}
+                  >
+                    Bottom
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Quick Themes */}
+            <div className="border-t border-slate-100 pt-3">
+              <div
+                className="flex items-center justify-between cursor-pointer mb-1.5"
+                onClick={() => setIsThemeSectionOpen(!isThemeSectionOpen)}
+              >
+                <h3
+                  id="heading-themes"
+                  className="text-[10px] font-bold text-black uppercase tracking-wider flex items-center gap-1.5"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-indigo-500" /> Apply
+                  Slide Theme
+                </h3>
+                {isThemeSectionOpen ? (
+                  <ChevronUp className="w-4 h-4 text-slate-400" />
+                ) : (
+                  <ChevronDown className="w-4 h-4 text-slate-400" />
+                )}
+              </div>
+
+              {isThemeSectionOpen && (
+                <>
+                  <p className="text-[11px] text-slate-500 mb-3">
+                    Instantly style the active slide's background, colors, and
+                    font layout.
+                  </p>
+                  <div id="themes-grid" className="grid grid-cols-2 gap-2">
+                    {DEFAULT_THEMES.map((theme, idx) => (
+                      <button
+                        id={`theme-btn-${idx}`}
+                        key={idx}
+                        disabled={isArchived}
+                        onClick={() => onApplyTheme(idx)}
+                        className={`flex items-center justify-between p-2 rounded-xl border border-slate-200 transition-all hover:border-slate-400 bg-white text-left ${
+                          isArchived
+                            ? "opacity-40 cursor-not-allowed"
+                            : "cursor-pointer hover:shadow-sm"
+                        }`}
+                      >
+                        <div className="flex items-center gap-1.5 truncate">
+                          <span className="text-[11px] font-semibold text-slate-800 truncate">
+                            {theme.fontFamily}
+                          </span>
+                        </div>
+                        <div className="flex gap-1 shrink-0">
+                          <span
+                            className="w-3 h-3 rounded-full border border-slate-200 shrink-0 shadow-inner"
+                            style={{ backgroundColor: theme.background }}
+                          />
+                          <span
+                            className="w-3 h-3 rounded-full border border-slate-200 shrink-0 shadow-inner"
+                            style={{ backgroundColor: theme.accent }}
+                          />
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
 
             {/* PDF Export trigger */}
-            <div className="pt-2">
+            <div className="border-t border-slate-100 pt-3">
               <button
                 id="sidebar-export-pdf-btn"
                 onClick={onExportPDF}
@@ -660,210 +739,250 @@ export default function Sidebar({
         )}
 
         {activeTab === "metadata" && activeMeta && (
-          <div id="metadata-settings" className="space-y-4">
+          <div id="metadata-settings" className="space-y-3">
             <div>
-              <h3
-                id="metadata-header"
-                className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1"
+              <div
+                className="flex items-center justify-between cursor-pointer mb-1.5"
+                onClick={() => setIsMetadataSectionOpen(!isMetadataSectionOpen)}
               >
-                Document Metadata
-              </h3>
-              <p className="text-[11px] text-slate-500 mb-3.5 leading-relaxed">
-                This metadata will be bundled inside the document and manages
-                slide archiving constraints.
-              </p>
+                <h3
+                  id="metadata-header"
+                  className="text-[10px] font-bold text-black uppercase tracking-wider flex items-center gap-1.5"
+                >
+                  <FileText className="w-3.5 h-3.5 text-indigo-500" /> Document
+                  Metadata
+                </h3>
+                {isMetadataSectionOpen ? (
+                  <ChevronUp className="w-4 h-4 text-slate-400" />
+                ) : (
+                  <ChevronDown className="w-4 h-4 text-slate-400" />
+                )}
+              </div>
+
+              {isMetadataSectionOpen && (
+                <>
+                  <p className="text-[11px] text-slate-500 mb-3.5 leading-relaxed">
+                    This metadata will be bundled inside the document and
+                    manages slide archiving constraints.
+                  </p>
+
+                  <div className="space-y-3">
+                    <div>
+                      <label
+                        id="label-meta-title"
+                        className="block text-[11px] font-bold text-slate-600 uppercase mb-1"
+                      >
+                        PRESENTATION TITLE
+                      </label>
+                      <input
+                        id="input-meta-title"
+                        type="text"
+                        value={activeMeta.title}
+                        onChange={(e) =>
+                          onUpdateMetadata({ title: e.target.value })
+                        }
+                        className="w-full text-xs p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:bg-white focus:border-indigo-500 transition-all"
+                        placeholder="e.g. Sales Onboarding Deck"
+                      />
+                    </div>
+
+                    <div>
+                      <label
+                        id="label-meta-dept"
+                        className="block text-[11px] font-bold text-slate-600 uppercase mb-1"
+                      >
+                        DEPARTMENT
+                      </label>
+                      <input
+                        id="input-meta-dept"
+                        type="text"
+                        value={activeMeta.department}
+                        onChange={(e) =>
+                          onUpdateMetadata({ department: e.target.value })
+                        }
+                        className="w-full text-xs p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:bg-white focus:border-indigo-500 transition-all"
+                        placeholder="e.g. Product Accessibility"
+                      />
+                    </div>
+
+                    <div>
+                      <label
+                        id="label-meta-ref"
+                        className="block text-[11px] font-bold text-slate-600 uppercase mb-1"
+                      >
+                        CREATOR NAME
+                      </label>
+                      <input
+                        id="input-meta-ref"
+                        type="text"
+                        value={activeMeta.referenceNumber}
+                        onChange={(e) =>
+                          onUpdateMetadata({ referenceNumber: e.target.value })
+                        }
+                        className="w-full text-xs p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:bg-white focus:border-indigo-500 transition-all"
+                        placeholder="e.g. Alex Rivera"
+                      />
+                    </div>
+
+                    <div>
+                      <label
+                        id="label-meta-creator"
+                        className="block text-[11px] font-bold text-slate-600 uppercase mb-1"
+                      >
+                        PUBLISHED DATE
+                      </label>
+                      <input
+                        id="input-meta-creator"
+                        type="text"
+                        value={activeMeta.creator}
+                        onChange={(e) =>
+                          onUpdateMetadata({ creator: e.target.value })
+                        }
+                        className="w-full text-xs p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:bg-white focus:border-indigo-500 transition-all"
+                        placeholder={formatPublishedDate(currentTime)}
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
 
-            <div className="space-y-3">
-              <div>
-                <label
-                  id="label-meta-title"
-                  className="block text-[11px] font-bold text-slate-600 uppercase mb-1"
+            <div className="border-t border-slate-100 pt-3">
+              <div
+                className="flex items-center justify-between cursor-pointer mb-1.5"
+                onClick={() =>
+                  setIsExpirationSectionOpen(!isExpirationSectionOpen)
+                }
+              >
+                <h3
+                  id="label-meta-expiry"
+                  className="text-[10px] font-bold text-black uppercase tracking-wider flex items-center gap-1.5"
                 >
-                  PRESENTATION TITLE
-                </label>
-                <input
-                  id="input-meta-title"
-                  type="text"
-                  value={activeMeta.title}
-                  onChange={(e) => onUpdateMetadata({ title: e.target.value })}
-                  className="w-full text-xs p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:bg-white focus:border-indigo-500 transition-all"
-                  placeholder="e.g. Sales Onboarding Deck"
-                />
-              </div>
-
-              <div>
-                <label
-                  id="label-meta-dept"
-                  className="block text-[11px] font-bold text-slate-600 uppercase mb-1"
-                >
-                  DEPARTMENT
-                </label>
-                <input
-                  id="input-meta-dept"
-                  type="text"
-                  value={activeMeta.department}
-                  onChange={(e) =>
-                    onUpdateMetadata({ department: e.target.value })
-                  }
-                  className="w-full text-xs p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:bg-white focus:border-indigo-500 transition-all"
-                  placeholder="e.g. Product Accessibility"
-                />
-              </div>
-
-              <div>
-                <label
-                  id="label-meta-ref"
-                  className="block text-[11px] font-bold text-slate-600 uppercase mb-1"
-                >
-                  CREATOR NAME
-                </label>
-                <input
-                  id="input-meta-ref"
-                  type="text"
-                  value={activeMeta.referenceNumber}
-                  onChange={(e) =>
-                    onUpdateMetadata({ referenceNumber: e.target.value })
-                  }
-                  className="w-full text-xs p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:bg-white focus:border-indigo-500 transition-all"
-                  placeholder="e.g. Alex Rivera"
-                />
-              </div>
-
-              <div>
-                <label
-                  id="label-meta-creator"
-                  className="block text-[11px] font-bold text-slate-600 uppercase mb-1"
-                >
-                  PUBLISHED DATE
-                </label>
-                <input
-                  id="input-meta-creator"
-                  type="text"
-                  value={activeMeta.creator}
-                  onChange={(e) =>
-                    onUpdateMetadata({ creator: e.target.value })
-                  }
-                  className="w-full text-xs p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:bg-white focus:border-indigo-500 transition-all"
-                  placeholder={formatPublishedDate(currentTime)}
-                />
-              </div>
-
-              <div className="border-t border-slate-100 pt-3">
-                <div className="flex items-center justify-between mb-1.5">
-                  <label
-                    id="label-meta-expiry"
-                    className="block text-[11px] font-bold text-slate-600 uppercase"
-                  >
-                    DOCUMENT EXPIRATION
-                  </label>
+                  <Clock className="w-3.5 h-3.5 text-indigo-500" /> Document
+                  Expiration
+                </h3>
+                <div className="flex items-center gap-2">
                   {activeMeta.expiresAt && (
                     <button
                       id="meta-remove-expiry-btn"
-                      onClick={handleRemoveExpiry}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleRemoveExpiry();
+                      }}
                       className="text-[10px] text-rose-600 hover:text-rose-800 font-bold transition-all cursor-pointer"
                     >
                       Clear Expiry
                     </button>
                   )}
-                </div>
-                <p className="text-[10px] text-slate-500 mb-2.5 leading-normal">
-                  Set a date and time for this file to be thrown away. The date
-                  gets saves alongside the file, and it is used by the system to
-                  automatically delete it. Use this when you are creating slides
-                  with information that expires, like Ranger social events.
-                </p>
-
-                {/* Expiry Timestamp Input */}
-                <div className="flex items-center gap-1.5 mb-2.5">
-                  <Calendar className="w-3.5 h-3.5 text-slate-400" />
-                  <input
-                    id="input-meta-expires-at"
-                    type="datetime-local"
-                    value={
-                      activeMeta.expiresAt
-                        ? new Date(
-                            new Date(activeMeta.expiresAt).getTime() -
-                              new Date().getTimezoneOffset() * 60000,
-                          )
-                            .toISOString()
-                            .slice(0, 16)
-                        : ""
-                    }
-                    onChange={(e) => {
-                      if (e.target.value) {
-                        onUpdateMetadata({
-                          expiresAt: new Date(e.target.value).toISOString(),
-                        });
-                      } else {
-                        onUpdateMetadata({ expiresAt: null });
-                      }
-                    }}
-                    className="w-full text-xs p-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:bg-white focus:border-indigo-500 transition-all"
-                  />
-                </div>
-
-                {/* Quick Presets for Demo */}
-                <div className="space-y-1.5">
-                  <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">
-                    QUICK EXPIRY PRESETS (FOR PROTOTYPE REVIEW):
-                  </span>
-                  <div
-                    id="expiry-presets-list"
-                    className="grid grid-cols-4 gap-1"
-                  >
-                    <button
-                      id="expiry-preset-1h"
-                      onClick={() => handleQuickExpiryPreset(60 * 60)}
-                      className="py-1.5 px-1 bg-indigo-50 hover:bg-indigo-100 border border-indigo-100 hover:border-indigo-200 text-indigo-700 text-[9px] font-bold rounded-lg transition-all cursor-pointer text-center"
-                    >
-                      +1h
-                    </button>
-                    <button
-                      id="expiry-preset-12h"
-                      onClick={() => handleQuickExpiryPreset(12 * 60 * 60)}
-                      className="py-1.5 px-1 bg-indigo-50 hover:bg-indigo-100 border border-indigo-100 hover:border-indigo-200 text-indigo-700 text-[9px] font-bold rounded-lg transition-all cursor-pointer text-center"
-                    >
-                      +12h
-                    </button>
-                    <button
-                      id="expiry-preset-24h"
-                      onClick={() => handleQuickExpiryPreset(24 * 60 * 60)}
-                      className="py-1.5 px-1 bg-indigo-50 hover:bg-indigo-100 border border-indigo-100 hover:border-indigo-200 text-indigo-700 text-[9px] font-bold rounded-lg transition-all cursor-pointer text-center"
-                    >
-                      +24h
-                    </button>
-                    <button
-                      id="expiry-preset-reset"
-                      onClick={handleRemoveExpiry}
-                      className="py-1.5 px-1 bg-rose-50 hover:bg-rose-100 border border-rose-100 hover:border-rose-200 text-rose-700 text-[9px] font-bold rounded-lg transition-all cursor-pointer text-center"
-                    >
-                      Reset
-                    </button>
-                  </div>
-                </div>
-
-                <div
-                  id="metadata-expiry-countdown-display"
-                  className="mt-3.5 bg-slate-50 border border-slate-150 rounded-xl p-2.5 flex items-center justify-between text-[11px]"
-                >
-                  <span className="text-slate-500 font-semibold">
-                    Archive Status:
-                  </span>
-                  <div className="flex items-center gap-1.5 font-bold">
-                    <Clock
-                      className={`w-3.5 h-3.5 ${isArchived ? "text-amber-500" : "text-emerald-500 animate-pulse"}`}
-                    />
-                    <span
-                      className={
-                        isArchived ? "text-amber-700" : "text-emerald-700"
-                      }
-                    >
-                      {formatTimeRemaining(activeMeta.expiresAt)}
-                    </span>
-                  </div>
+                  {isExpirationSectionOpen ? (
+                    <ChevronUp className="w-4 h-4 text-slate-400" />
+                  ) : (
+                    <ChevronDown className="w-4 h-4 text-slate-400" />
+                  )}
                 </div>
               </div>
+
+              {isExpirationSectionOpen && (
+                <>
+                  <p className="text-[10px] text-slate-500 mb-1.5 leading-normal">
+                    Set a date and time for this file to be thrown away. The
+                    date gets saves alongside the file, and it is used by the
+                    system to automatically delete it. Use this when you are
+                    creating slides with information that expires, like Ranger
+                    social events.
+                  </p>
+
+                  {/* Expiry Timestamp Input */}
+                  <div className="flex items-center gap-1.5 mb-1.5">
+                    <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                    <input
+                      id="input-meta-expires-at"
+                      type="datetime-local"
+                      value={
+                        activeMeta.expiresAt
+                          ? new Date(
+                              new Date(activeMeta.expiresAt).getTime() -
+                                new Date().getTimezoneOffset() * 60000,
+                            )
+                              .toISOString()
+                              .slice(0, 16)
+                          : ""
+                      }
+                      onChange={(e) => {
+                        if (e.target.value) {
+                          onUpdateMetadata({
+                            expiresAt: new Date(e.target.value).toISOString(),
+                          });
+                        } else {
+                          onUpdateMetadata({ expiresAt: null });
+                        }
+                      }}
+                      className="w-full text-xs p-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:bg-white focus:border-indigo-500 transition-all"
+                    />
+                  </div>
+
+                  {/* Quick Presets for Demo */}
+                  <div className="space-y-1.5">
+                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">
+                      QUICK EXPIRY PRESETS (FOR PROTOTYPE REVIEW):
+                    </span>
+                    <div
+                      id="expiry-presets-list"
+                      className="grid grid-cols-4 gap-1"
+                    >
+                      <button
+                        id="expiry-preset-1h"
+                        onClick={() => handleQuickExpiryPreset(60 * 60)}
+                        className="py-1.5 px-1 bg-indigo-50 hover:bg-indigo-100 border border-indigo-100 hover:border-indigo-200 text-indigo-700 text-[9px] font-bold rounded-lg transition-all cursor-pointer text-center"
+                      >
+                        +1h
+                      </button>
+                      <button
+                        id="expiry-preset-12h"
+                        onClick={() => handleQuickExpiryPreset(12 * 60 * 60)}
+                        className="py-1.5 px-1 bg-indigo-50 hover:bg-indigo-100 border border-indigo-100 hover:border-indigo-200 text-indigo-700 text-[9px] font-bold rounded-lg transition-all cursor-pointer text-center"
+                      >
+                        +12h
+                      </button>
+                      <button
+                        id="expiry-preset-24h"
+                        onClick={() => handleQuickExpiryPreset(24 * 60 * 60)}
+                        className="py-1.5 px-1 bg-indigo-50 hover:bg-indigo-100 border border-indigo-100 hover:border-indigo-200 text-indigo-700 text-[9px] font-bold rounded-lg transition-all cursor-pointer text-center"
+                      >
+                        +24h
+                      </button>
+                      <button
+                        id="expiry-preset-reset"
+                        onClick={handleRemoveExpiry}
+                        className="py-1.5 px-1 bg-rose-50 hover:bg-rose-100 border border-rose-100 hover:border-rose-200 text-rose-700 text-[9px] font-bold rounded-lg transition-all cursor-pointer text-center"
+                      >
+                        Reset
+                      </button>
+                    </div>
+                  </div>
+
+                  <div
+                    id="metadata-expiry-countdown-display"
+                    className="mt-3.5 bg-slate-50 border border-slate-150 rounded-xl p-2.5 flex items-center justify-between text-[11px]"
+                  >
+                    <span className="text-slate-500 font-semibold">
+                      Archive Status:
+                    </span>
+                    <div className="flex items-center gap-1.5 font-bold">
+                      <Clock
+                        className={`w-3.5 h-3.5 ${isArchived ? "text-amber-500" : "text-emerald-500 animate-pulse"}`}
+                      />
+                      <span
+                        className={
+                          isArchived ? "text-amber-700" : "text-emerald-700"
+                        }
+                      >
+                        {formatTimeRemaining(activeMeta.expiresAt)}
+                      </span>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         )}
@@ -871,7 +990,7 @@ export default function Sidebar({
         {activeTab === "decks" && (
           <div id="decks-tab-container" className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold text-slate-500 uppercase">
+              <span className="text-[11px] font-bold text-black uppercase">
                 Available Decks
               </span>
               <button

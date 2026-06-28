@@ -179,7 +179,7 @@ export default function ElementEditor({
 
         {/* Content Customization Fields */}
         <div className="space-y-4">
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+          <span className="text-[10px] font-bold text-black uppercase tracking-wider block">
             Content Editor
           </span>
 
@@ -483,7 +483,7 @@ export default function ElementEditor({
           ) : (
             <>
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                <span className="text-[10px] font-bold text-black uppercase tracking-wider">
                   Font Options
                 </span>
                 <span className="inline-flex items-center gap-1 text-[9px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-150 shadow-sm">
@@ -637,8 +637,8 @@ export default function ElementEditor({
 
         {/* Layout Order / Element Actions */}
         <div className="space-y-2 pt-4 border-t border-slate-100">
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
-            Arrange Layer
+          <span className="text-[10px] font-bold text-black uppercase tracking-wider block">
+            Arrange Element
           </span>
           <div id="arrange-btns-group" className="grid grid-cols-2 gap-2">
             <button
