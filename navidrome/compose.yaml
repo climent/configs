@@ -1,6 +1,7 @@
 services:
   navidrome:
     image: deluan/navidrome:latest
+    pull_policy: always
     user: 501:501 # should be owner of volumes
     ports:
       - "4533:4533"

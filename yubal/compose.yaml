@@ -1,6 +1,7 @@
 services:
   yubal:
     image: ghcr.io/guillevc/yubal:latest
+    pull_policy: always
     container_name: yubal
     ports:
       - 8000:8000
