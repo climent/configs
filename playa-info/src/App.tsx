@@ -124,12 +124,44 @@ const INITIAL_DECK: Presentation = {
 
 export default function App() {
   const [presentations, setPresentations] = useState<Presentation[]>([]);
+  const [pastPresentations, setPastPresentations] = useState<Presentation[] | null>(null);
+  const [pastSelectedElementId, setPastSelectedElementId] = useState<string | null>(null);
   const [activePresentationId, setActivePresentationId] = useState<string>('');
   const [activeSlideIndex, setActiveSlideIndex] = useState<number>(0);
   const [selectedElementId, setSelectedElementId] = useState<string | null>(null);
   const [isExporting, setIsExporting] = useState<boolean>(false);
   const [exportProgress, setExportProgress] = useState<{ current: number; total: number } | null>(null);
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
+
+  const activePresentation = presentations.find(p => p.id === activePresentationId) || presentations[0];
+
+  // Expiration check helper
+  const isArchived = activePresentation?.metadata?.expiresAt
+    ? new Date(activePresentation.metadata.expiresAt).getTime() <= currentTime.getTime()
+    : false;
+
+  const updatePresentationsWithHistory = (updater: Presentation[] | ((prev: Presentation[]) => Presentation[])) => {
+    setPresentations(prev => {
+      const next = typeof updater === 'function' ? updater(prev) : updater;
+      setPastPresentations(prev);
+      setPastSelectedElementId(selectedElementId);
+      return next;
+    });
+  };
+
+  const handleUndo = () => {
+    const activePres = presentations.find(p => p.id === activePresentationId) || presentations[0];
+    const archived = activePres?.metadata?.expiresAt
+      ? new Date(activePres.metadata.expiresAt).getTime() <= currentTime.getTime()
+      : false;
+    if (archived) return;
+    if (pastPresentations) {
+      setPresentations(pastPresentations);
+      setSelectedElementId(pastSelectedElementId);
+      setPastPresentations(null);
+      setPastSelectedElementId(null);
+    }
+  };
 
   // Initialize from LocalStorage
   useEffect(() => {
@@ -206,12 +238,45 @@ export default function App() {
     return () => clearInterval(timer);
   }, []);
 
-  const activePresentation = presentations.find(p => p.id === activePresentationId) || presentations[0];
+  // Keyboard Shortcut Listeners (Backspace/Delete to delete element, Cmd+Z/Ctrl+Z to Undo)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Check if user is typing in an input, textarea, or contentEditable element
+      const activeEl = document.activeElement;
+      const isInput = activeEl && (
+        activeEl.tagName === 'INPUT' ||
+        activeEl.tagName === 'TEXTAREA' ||
+        (activeEl as HTMLElement).isContentEditable
+      );
 
-  // Expiration check helper
-  const isArchived = activePresentation?.metadata?.expiresAt
-    ? new Date(activePresentation.metadata.expiresAt).getTime() <= currentTime.getTime()
-    : false;
+      // If user is typing in an input, ignore element level keybinds
+      if (isInput) {
+        return;
+      }
+
+      // Check for Backspace or Delete to remove selected element
+      if (selectedElementId && (e.key === 'Backspace' || e.key === 'Delete')) {
+        if (!isArchived) {
+          e.preventDefault();
+          handleDeleteElement(selectedElementId);
+        }
+      }
+
+      // Check for Cmd+Z or Ctrl+Z to Undo
+      const isMac = navigator.userAgent.toUpperCase().indexOf('MAC') >= 0;
+      const isUndo = (isMac ? e.metaKey : e.ctrlKey) && e.key.toLowerCase() === 'z' && !e.shiftKey;
+
+      if (isUndo) {
+        e.preventDefault();
+        handleUndo();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectedElementId, isArchived, presentations, activePresentationId, activeSlideIndex, pastPresentations, pastSelectedElementId]);
 
   const handleSelectPresentation = (id: string) => {
     setActivePresentationId(id);
@@ -258,7 +323,7 @@ export default function App() {
       ]
     };
 
-    setPresentations(prev => [newDeck, ...prev]);
+    updatePresentationsWithHistory(prev => [newDeck, ...prev]);
     setActivePresentationId(newId);
     setActiveSlideIndex(0);
     setSelectedElementId(null);
@@ -267,7 +332,7 @@ export default function App() {
   const handleDeletePresentation = (id: string) => {
     if (presentations.length <= 1) return;
     const remains = presentations.filter(p => p.id !== id);
-    setPresentations(remains);
+    updatePresentationsWithHistory(remains);
     if (activePresentationId === id) {
       setActivePresentationId(remains[0].id);
       setActiveSlideIndex(0);
@@ -276,7 +341,7 @@ export default function App() {
   };
 
   const handleUpdateMetadata = (updates: Partial<PresentationMetadata>) => {
-    setPresentations(prev => prev.map(p => {
+    updatePresentationsWithHistory(prev => prev.map(p => {
       if (p.id === activePresentationId) {
         return {
           ...p,
@@ -292,7 +357,7 @@ export default function App() {
 
   const handleApplyTheme = (themeIndex: number) => {
     if (isArchived) return;
-    setPresentations(prev => prev.map(p => {
+    updatePresentationsWithHistory(prev => prev.map(p => {
       if (p.id === activePresentationId) {
         const slides = [...p.slides];
         slides[activeSlideIndex] = {
@@ -308,7 +373,7 @@ export default function App() {
   // Add Dynamic Slide
   const handleAddSlide = () => {
     if (isArchived) return;
-    setPresentations(prev => prev.map(p => {
+    updatePresentationsWithHistory(prev => prev.map(p => {
       if (p.id === activePresentationId) {
         const newSlide: Slide = {
           id: `slide-${Date.now()}`,
@@ -335,7 +400,7 @@ export default function App() {
   };
 
   const handleDuplicateSlide = (index: number) => {
-    setPresentations(prev => prev.map(p => {
+    updatePresentationsWithHistory(prev => prev.map(p => {
       if (p.id === activePresentationId) {
         const origin = p.slides[index];
         const copy: Slide = {
@@ -359,7 +424,7 @@ export default function App() {
 
   const handleDeleteSlide = (index: number) => {
     if (activePresentation.slides.length <= 1) return;
-    setPresentations(prev => prev.map(p => {
+    updatePresentationsWithHistory(prev => prev.map(p => {
       if (p.id === activePresentationId) {
         const slides = p.slides.filter((_, i) => i !== index);
         const newActiveIndex = Math.max(0, index - 1);
@@ -380,7 +445,7 @@ export default function App() {
     slides[index] = slides[targetIdx];
     slides[targetIdx] = temp;
 
-    setPresentations(prev => prev.map(p => {
+    updatePresentationsWithHistory(prev => prev.map(p => {
       if (p.id === activePresentationId) {
         return { ...p, slides };
       }
@@ -483,7 +548,7 @@ export default function App() {
         break;
     }
 
-    setPresentations(prev => prev.map(p => {
+    updatePresentationsWithHistory(prev => prev.map(p => {
       if (p.id === activePresentationId) {
         const slides = [...p.slides];
         const slide = slides[activeSlideIndex];
@@ -623,7 +688,7 @@ export default function App() {
         break;
     }
 
-    setPresentations(prev => prev.map(p => {
+    updatePresentationsWithHistory(prev => prev.map(p => {
       if (p.id === activePresentationId) {
         const slides = [...p.slides];
         slides[activeSlideIndex] = {
@@ -646,7 +711,7 @@ export default function App() {
       updatedFields.fontSize = Math.max(MIN_FONT_SIZE, updatedFields.fontSize);
     }
 
-    setPresentations(prev => prev.map(p => {
+    updatePresentationsWithHistory(prev => prev.map(p => {
       if (p.id === activePresentationId) {
         const slides = [...p.slides];
         const slide = slides[activeSlideIndex];
@@ -668,7 +733,7 @@ export default function App() {
 
   const handleDeleteElement = (elementId: string) => {
     if (isArchived) return;
-    setPresentations(prev => prev.map(p => {
+    updatePresentationsWithHistory(prev => prev.map(p => {
       if (p.id === activePresentationId) {
         const slides = [...p.slides];
         const slide = slides[activeSlideIndex];
@@ -697,7 +762,7 @@ export default function App() {
     elements[index] = elements[targetIdx];
     elements[targetIdx] = temp;
 
-    setPresentations(prev => prev.map(p => {
+    updatePresentationsWithHistory(prev => prev.map(p => {
       if (p.id === activePresentationId) {
         const slides = [...p.slides];
         slides[activeSlideIndex] = {
