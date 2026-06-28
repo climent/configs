@@ -281,9 +281,9 @@ export default function SlideCanvas({
                   <span className="text-xs font-bold uppercase tracking-wide opacity-50">
                     Drag Template or Elements here
                   </span>
-                  <span className="text-[10px] opacity-40 text-center max-w-[150px] mt-1">
-                    Use the left builder sidebar to
-                    layout your slide content.
+                  <span className="text-[10px] opacity-40 text-center max-w-[260px] mt-1">
+                    Use the left builder sidebar to layout your
+                    accessibility-locked slide content.
                   </span>
                 </div>
               ) : (
