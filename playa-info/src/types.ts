@@ -32,6 +32,7 @@ export interface SlideElement {
   fontWeight?: "normal" | "medium" | "semibold" | "bold";
   align: "left" | "center" | "right";
   color?: string; // Custom override text color
+  headingColor?: string; // Custom override heading color
   imageUrl?: string; // Base64 Data URL or external image URL
   imageAlt?: string; // Alt text for accessibility
   imageWidth?: number; // Sized in percentage (e.g. 10 to 100)

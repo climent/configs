@@ -431,13 +431,15 @@ export default function SlideCanvas({
                                 : el.align === "right"
                                   ? "flex-end"
                                   : "flex-start",
+                            fontFamily: el.fontFamily,
                           }}
                         >
                           <div
                             className="font-bold tracking-tight leading-none mb-1"
                             style={{
                               fontSize: `${Math.max(MIN_FONT_SIZE, el.fontSize * 1.8)}px`,
-                              color: el.color || theme.accent,
+                              color:
+                                el.headingColor || el.color || theme.accent,
                             }}
                           >
                             {el.statNumber || "100%"}
@@ -458,12 +460,16 @@ export default function SlideCanvas({
                         <div
                           id={`render-grid-${el.id}`}
                           className="grid grid-cols-2 gap-6 w-full"
+                          style={{
+                            textAlign: el.align,
+                            fontFamily: el.fontFamily,
+                          }}
                         >
                           {(el.gridItems || []).map((col) => (
                             <div
                               id={`render-grid-col-${col.id}`}
                               key={col.id}
-                              className="p-4 rounded-xl border flex flex-col gap-1 text-left"
+                              className="p-4 rounded-xl border flex flex-col gap-1"
                               style={{
                                 borderColor: `${theme.accent}25`,
                                 backgroundColor: `${theme.background === "#ffffff" ? "#f9fafb" : "#1e293b"}aa`,
@@ -473,7 +479,8 @@ export default function SlideCanvas({
                                 className="font-bold"
                                 style={{
                                   fontSize: `${Math.max(MIN_FONT_SIZE, el.fontSize * 1.15)}px`,
-                                  color: theme.accent,
+                                  color:
+                                    el.headingColor || el.color || theme.accent,
                                 }}
                               >
                                 {col.title || "Grid Heading"}
@@ -482,7 +489,7 @@ export default function SlideCanvas({
                                 className="opacity-90 font-medium"
                                 style={{
                                   fontSize: `${Math.max(MIN_FONT_SIZE, el.fontSize)}px`,
-                                  color: theme.text,
+                                  color: el.color || theme.text,
                                 }}
                               >
                                 {col.desc ||

@@ -1061,6 +1061,7 @@ export default function App() {
       {/* Element Properties Inspector (Right) */}
       <ElementEditor
         element={selectedElement}
+        activeTheme={activeSlide?.theme}
         onUpdateElement={handleUpdateElement}
         onDeleteElement={handleDeleteElement}
         onMoveElement={handleMoveElement}
