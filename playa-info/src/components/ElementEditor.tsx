@@ -146,7 +146,7 @@ export default function ElementEditor({
   };
 
   const defaultTextColor = activeTheme
-    ? element.type === "title"
+    ? element.type === "subtitle"
       ? activeTheme.accent
       : activeTheme.text
     : "#000000";

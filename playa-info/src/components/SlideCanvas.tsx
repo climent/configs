@@ -433,7 +433,6 @@ export default function SlideCanvas({
                                 : el.align === "right"
                                   ? "flex-end"
                                   : "flex-start",
-                            fontFamily: el.fontFamily,
                           }}
                         >
                           <div
@@ -464,7 +463,6 @@ export default function SlideCanvas({
                           className="grid grid-cols-2 gap-6 w-full"
                           style={{
                             textAlign: el.align,
-                            fontFamily: el.fontFamily,
                           }}
                         >
                           {(el.gridItems || []).map((col) => (
