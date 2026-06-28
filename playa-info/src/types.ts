@@ -3,7 +3,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export type ElementType = 'title' | 'subtitle' | 'paragraph' | 'bulletList' | 'quote' | 'stat' | 'grid' | 'image';
+export type ElementType =
+  | "title"
+  | "subtitle"
+  | "paragraph"
+  | "bulletList"
+  | "quote"
+  | "stat"
+  | "grid"
+  | "image";
 
 export interface GridItem {
   id: string;
@@ -21,8 +29,8 @@ export interface SlideElement {
   statLabel?: string; // Used for stat description
   gridItems?: GridItem[]; // Used for grid/columns
   fontSize: number; // Enforced strict minimum of 20
-  fontWeight?: 'normal' | 'medium' | 'semibold' | 'bold';
-  align: 'left' | 'center' | 'right';
+  fontWeight?: "normal" | "medium" | "semibold" | "bold";
+  align: "left" | "center" | "right";
   color?: string; // Custom override text color
   imageUrl?: string; // Base64 Data URL or external image URL
   imageAlt?: string; // Alt text for accessibility
@@ -33,8 +41,8 @@ export interface SlideTheme {
   background: string;
   text: string;
   accent: string;
-  fontFamily: 'Inter' | 'Space Grotesk' | 'JetBrains Mono' | 'Playfair Display';
-  cardStyle: 'flat' | 'bordered' | 'shadow';
+  fontFamily: "Inter" | "Space Grotesk" | "JetBrains Mono" | "Playfair Display";
+  cardStyle: "flat" | "bordered" | "shadow";
 }
 
 export interface Slide {
@@ -42,6 +50,7 @@ export interface Slide {
   title: string;
   elements: SlideElement[];
   theme: SlideTheme;
+  contentAlign?: "top" | "middle" | "bottom";
 }
 
 export interface PresentationMetadata {
@@ -62,32 +71,32 @@ export interface Presentation {
 
 export const DEFAULT_THEMES: SlideTheme[] = [
   {
-    background: '#ffffff',
-    text: '#111827',
-    accent: '#3b82f6',
-    fontFamily: 'Inter',
-    cardStyle: 'bordered',
+    background: "#ffffff",
+    text: "#111827",
+    accent: "#3b82f6",
+    fontFamily: "Inter",
+    cardStyle: "bordered",
   },
   {
-    background: '#0f172a',
-    text: '#f8fafc',
-    accent: '#38bdf8',
-    fontFamily: 'Space Grotesk',
-    cardStyle: 'flat',
+    background: "#0f172a",
+    text: "#f8fafc",
+    accent: "#38bdf8",
+    fontFamily: "Space Grotesk",
+    cardStyle: "flat",
   },
   {
-    background: '#fefcbf',
-    text: '#1a202c',
-    accent: '#d69e2e',
-    fontFamily: 'Playfair Display',
-    cardStyle: 'shadow',
+    background: "#fefcbf",
+    text: "#1a202c",
+    accent: "#d69e2e",
+    fontFamily: "Playfair Display",
+    cardStyle: "shadow",
   },
   {
-    background: '#f3f4f6',
-    text: '#1f2937',
-    accent: '#10b981',
-    fontFamily: 'JetBrains Mono',
-    cardStyle: 'bordered',
+    background: "#f3f4f6",
+    text: "#1f2937",
+    accent: "#10b981",
+    fontFamily: "JetBrains Mono",
+    cardStyle: "bordered",
   },
 ];
 

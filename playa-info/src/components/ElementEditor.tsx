@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
+import React from "react";
 import {
   Trash2,
   AlignLeft,
@@ -16,46 +16,45 @@ import {
   X,
   Palette,
   Upload,
-  Image as ImageIcon
-} from 'lucide-react';
-import { SlideElement, MIN_FONT_SIZE, GridItem, ElementType } from '../types';
+  Image as ImageIcon,
+} from "lucide-react";
+import { SlideElement, MIN_FONT_SIZE, GridItem, ElementType } from "../types";
 
 const getDefaultFontSize = (type: ElementType): number => {
   switch (type) {
-    case 'title':
+    case "title":
       return 32;
-    case 'subtitle':
-    case 'quote':
+    case "subtitle":
+    case "quote":
       return 22;
-    case 'paragraph':
-    case 'bulletList':
-    case 'stat':
-    case 'grid':
+    case "paragraph":
+    case "bulletList":
+    case "stat":
+    case "grid":
     default:
       return 20;
   }
 };
 
-
 interface ElementEditorProps {
   element: SlideElement | null;
   onUpdateElement: (updated: Partial<SlideElement>) => void;
   onDeleteElement: (id: string) => void;
-  onMoveElement: (id: string, direction: 'up' | 'down') => void;
+  onMoveElement: (id: string, direction: "up" | "down") => void;
   isFirst: boolean;
   isLast: boolean;
   isArchived: boolean;
 }
 
 const COLOR_PRESETS = [
-  { name: 'Dark Slate', value: '#111827' },
-  { name: 'Pure White', value: '#ffffff' },
-  { name: 'Royal Blue', value: '#2563eb' },
-  { name: 'Emerald', value: '#10b981' },
-  { name: 'Vibrant Amber', value: '#f59e0b' },
-  { name: 'Sunset Orange', value: '#f97316' },
-  { name: 'Rose Red', value: '#f43f5e' },
-  { name: 'Deep Indigo', value: '#4f46e5' },
+  { name: "Dark Slate", value: "#111827" },
+  { name: "Pure White", value: "#ffffff" },
+  { name: "Royal Blue", value: "#2563eb" },
+  { name: "Emerald", value: "#10b981" },
+  { name: "Vibrant Amber", value: "#f59e0b" },
+  { name: "Sunset Orange", value: "#f97316" },
+  { name: "Rose Red", value: "#f43f5e" },
+  { name: "Deep Indigo", value: "#4f46e5" },
 ];
 
 export default function ElementEditor({
@@ -65,17 +64,23 @@ export default function ElementEditor({
   onMoveElement,
   isFirst,
   isLast,
-  isArchived
+  isArchived,
 }: ElementEditorProps) {
   if (!element) {
     return (
-      <div id="no-element-selected-panel" className="w-80 border-l border-slate-200 bg-white p-6 flex flex-col items-center justify-center text-center select-none h-full shrink-0">
+      <div
+        id="no-element-selected-panel"
+        className="w-80 border-l border-slate-200 bg-white p-6 flex flex-col items-center justify-center text-center select-none h-full shrink-0"
+      >
         <div className="p-3 bg-slate-50 text-slate-400 rounded-xl mb-3 shadow-inner">
           <Info className="w-6 h-6 text-indigo-500" />
         </div>
-        <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Canvas Inspector</h4>
+        <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+          Canvas Inspector
+        </h4>
         <p className="text-[11px] text-slate-500 max-w-[180px] leading-relaxed">
-          Click any text, stat, list item, or block on the active slide canvas to customize its fields and styling here.
+          Click any text, stat, list item, or block on the active slide canvas
+          to customize its fields and styling here.
         </p>
       </div>
     );
@@ -94,7 +99,7 @@ export default function ElementEditor({
   };
 
   const handleAddListItem = () => {
-    const list = [...(element.listItems || []), 'New bullet point item'];
+    const list = [...(element.listItems || []), "New bullet point item"];
     onUpdateElement({ listItems: list });
   };
 
@@ -104,7 +109,7 @@ export default function ElementEditor({
   };
 
   const handleUpdateGridItem = (gridId: string, fields: Partial<GridItem>) => {
-    const items = (element.gridItems || []).map(item => {
+    const items = (element.gridItems || []).map((item) => {
       if (item.id === gridId) {
         return { ...item, ...fields };
       }
@@ -119,7 +124,7 @@ export default function ElementEditor({
 
     const reader = new FileReader();
     reader.onload = () => {
-      if (typeof reader.result === 'string') {
+      if (typeof reader.result === "string") {
         onUpdateElement({ imageUrl: reader.result });
       }
     };
@@ -127,12 +132,22 @@ export default function ElementEditor({
   };
 
   return (
-    <div id={`element-editor-panel-${element.id}`} className="w-80 border-l border-slate-200 bg-white flex flex-col h-full shrink-0 select-none shadow-sm z-10">
+    <div
+      id={`element-editor-panel-${element.id}`}
+      className="w-80 border-l border-slate-200 bg-white flex flex-col h-full shrink-0 select-none shadow-sm z-10"
+    >
       {/* Inspector Title */}
-      <div id="inspector-header" className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+      <div
+        id="inspector-header"
+        className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50"
+      >
         <div>
-          <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">Element Inspector</h4>
-          <span className="text-[10px] text-indigo-600 font-extrabold uppercase tracking-wide">{element.type} block</span>
+          <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+            Element Inspector
+          </h4>
+          <span className="text-[10px] text-indigo-600 font-extrabold uppercase tracking-wide">
+            {element.type} block
+          </span>
         </div>
         <button
           id={`delete-element-btn-${element.id}`}
@@ -145,27 +160,46 @@ export default function ElementEditor({
         </button>
       </div>
 
-      <div id="inspector-scroll-area" className="flex-1 overflow-y-auto p-4 space-y-5">
+      <div
+        id="inspector-scroll-area"
+        className="flex-1 overflow-y-auto p-4 space-y-5"
+      >
         {isArchived && (
-          <div id="inspector-lock-alert" className="bg-amber-50 border border-amber-200 text-[11px] text-amber-800 p-3 rounded-xl leading-normal flex items-start gap-1.5">
+          <div
+            id="inspector-lock-alert"
+            className="bg-amber-50 border border-amber-200 text-[11px] text-amber-800 p-3 rounded-xl leading-normal flex items-start gap-1.5"
+          >
             <X className="w-3.5 h-3.5 mt-0.5 text-amber-600 shrink-0" />
-            <span>Editing is locked because this presentation has archived. Adjust expiry in the <b>Expiry / Meta</b> tab to unlock.</span>
+            <span>
+              Editing is locked because this presentation has archived. Adjust
+              expiry in the <b>Expiry / Meta</b> tab to unlock.
+            </span>
           </div>
         )}
 
         {/* Content Customization Fields */}
         <div className="space-y-4">
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Content Editor</span>
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+            Content Editor
+          </span>
 
           {/* Dynamic Inputs based on type */}
-          {(element.type === 'title' || element.type === 'subtitle' || element.type === 'paragraph' || element.type === 'quote') && (
+          {(element.type === "title" ||
+            element.type === "subtitle" ||
+            element.type === "paragraph" ||
+            element.type === "quote") && (
             <div>
-              <label id="label-text-field" className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Text Content</label>
-              {element.type === 'paragraph' || element.type === 'quote' ? (
+              <label
+                id="label-text-field"
+                className="block text-[10px] font-bold text-slate-500 uppercase mb-1"
+              >
+                Text Content
+              </label>
+              {element.type === "paragraph" || element.type === "quote" ? (
                 <textarea
                   id={`input-text-${element.id}`}
                   disabled={isArchived}
-                  value={element.content || ''}
+                  value={element.content || ""}
                   onChange={(e) => onUpdateElement({ content: e.target.value })}
                   rows={4}
                   className="w-full text-xs p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:bg-white resize-none transition-all"
@@ -176,7 +210,7 @@ export default function ElementEditor({
                   id={`input-text-${element.id}`}
                   disabled={isArchived}
                   type="text"
-                  value={element.content || ''}
+                  value={element.content || ""}
                   onChange={(e) => onUpdateElement({ content: e.target.value })}
                   className="w-full text-xs p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:bg-white transition-all"
                   placeholder="Enter text..."
@@ -185,17 +219,24 @@ export default function ElementEditor({
             </div>
           )}
 
-          {element.type === 'image' && (
+          {element.type === "image" && (
             <div className="space-y-4">
               {/* Image Source Input */}
               <div>
-                <label id="label-image-src" className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Image URL</label>
+                <label
+                  id="label-image-src"
+                  className="block text-[10px] font-bold text-slate-500 uppercase mb-1"
+                >
+                  Image URL
+                </label>
                 <input
                   id={`input-image-url-${element.id}`}
                   disabled={isArchived}
                   type="text"
-                  value={element.imageUrl || ''}
-                  onChange={(e) => onUpdateElement({ imageUrl: e.target.value })}
+                  value={element.imageUrl || ""}
+                  onChange={(e) =>
+                    onUpdateElement({ imageUrl: e.target.value })
+                  }
                   className="w-full text-xs p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:bg-white transition-all"
                   placeholder="Paste external image URL (https://...)"
                 />
@@ -203,11 +244,18 @@ export default function ElementEditor({
 
               {/* Upload Local Image */}
               <div>
-                <label id="label-image-upload" className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Upload Local Image</label>
+                <label
+                  id="label-image-upload"
+                  className="block text-[10px] font-bold text-slate-500 uppercase mb-1"
+                >
+                  Upload Local Image
+                </label>
                 <div className="flex items-center gap-2">
                   <label
                     className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 bg-slate-50 hover:bg-indigo-50 border border-dashed border-slate-300 hover:border-indigo-300 rounded-xl text-[10px] font-bold text-slate-600 hover:text-indigo-700 transition-all cursor-pointer ${
-                      isArchived ? 'opacity-40 cursor-not-allowed pointer-events-none' : ''
+                      isArchived
+                        ? "opacity-40 cursor-not-allowed pointer-events-none"
+                        : ""
                     }`}
                   >
                     <Upload className="w-3.5 h-3.5" />
@@ -226,47 +274,68 @@ export default function ElementEditor({
 
               {/* Accessibility Description */}
               <div>
-                <label id="label-image-alt" className="block text-[10px] font-bold text-slate-500 uppercase mb-1">
+                <label
+                  id="label-image-alt"
+                  className="block text-[10px] font-bold text-slate-500 uppercase mb-1"
+                >
                   Alt Text (Accessibility)
                 </label>
                 <textarea
                   id={`input-image-alt-${element.id}`}
                   disabled={isArchived}
-                  value={element.imageAlt || ''}
-                  onChange={(e) => onUpdateElement({ imageAlt: e.target.value })}
+                  value={element.imageAlt || ""}
+                  onChange={(e) =>
+                    onUpdateElement({ imageAlt: e.target.value })
+                  }
                   rows={2}
                   className="w-full text-xs p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:bg-white resize-none transition-all font-medium leading-normal"
                   placeholder="Describe what's in the image..."
                 />
                 <span className="text-[9px] text-slate-400 mt-1 block leading-normal">
-                  <b>Accessibility rule:</b> Provide a clear, succinct explanation of this image for visually impaired readers using assistive technology.
+                  <b>Accessibility rule:</b> Provide a clear, succinct
+                  explanation of this image for visually impaired readers using
+                  assistive technology.
                 </span>
               </div>
             </div>
           )}
 
-          {element.type === 'stat' && (
+          {element.type === "stat" && (
             <div className="space-y-3">
               <div>
-                <label id="label-stat-number" className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Hero Numeric Value</label>
+                <label
+                  id="label-stat-number"
+                  className="block text-[10px] font-bold text-slate-500 uppercase mb-1"
+                >
+                  Hero Numeric Value
+                </label>
                 <input
                   id={`input-stat-num-${element.id}`}
                   disabled={isArchived}
                   type="text"
-                  value={element.statNumber || ''}
-                  onChange={(e) => onUpdateElement({ statNumber: e.target.value })}
+                  value={element.statNumber || ""}
+                  onChange={(e) =>
+                    onUpdateElement({ statNumber: e.target.value })
+                  }
                   className="w-full text-xs p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-800 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:bg-white transition-all"
                   placeholder="e.g. 98.4% or 12x"
                 />
               </div>
               <div>
-                <label id="label-stat-label" className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Supporting Description Label</label>
+                <label
+                  id="label-stat-label"
+                  className="block text-[10px] font-bold text-slate-500 uppercase mb-1"
+                >
+                  Supporting Description Label
+                </label>
                 <input
                   id={`input-stat-lbl-${element.id}`}
                   disabled={isArchived}
                   type="text"
-                  value={element.statLabel || ''}
-                  onChange={(e) => onUpdateElement({ statLabel: e.target.value })}
+                  value={element.statLabel || ""}
+                  onChange={(e) =>
+                    onUpdateElement({ statLabel: e.target.value })
+                  }
                   className="w-full text-xs p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:bg-white transition-all"
                   placeholder="e.g. Annual Growth Index"
                 />
@@ -274,24 +343,42 @@ export default function ElementEditor({
             </div>
           )}
 
-          {element.type === 'bulletList' && (
+          {element.type === "bulletList" && (
             <div className="space-y-2">
-              <label id="label-bullets-title" className="block text-[10px] font-bold text-slate-500 uppercase">List Bullets</label>
-              <div id={`bullets-list-${element.id}`} className="space-y-2 max-h-48 overflow-y-auto pr-1">
+              <label
+                id="label-bullets-title"
+                className="block text-[10px] font-bold text-slate-500 uppercase"
+              >
+                List Bullets
+              </label>
+              <div
+                id={`bullets-list-${element.id}`}
+                className="space-y-2 max-h-48 overflow-y-auto pr-1"
+              >
                 {(element.listItems || []).map((bullet, idx) => (
-                  <div id={`bullet-item-row-${idx}`} key={idx} className="flex items-center gap-1.5">
-                    <span className="text-[11px] font-bold text-slate-400 select-none">{idx + 1}.</span>
+                  <div
+                    id={`bullet-item-row-${idx}`}
+                    key={idx}
+                    className="flex items-center gap-1.5"
+                  >
+                    <span className="text-[11px] font-bold text-slate-400 select-none">
+                      {idx + 1}.
+                    </span>
                     <input
                       id={`input-bullet-item-${idx}`}
                       disabled={isArchived}
                       type="text"
                       value={bullet}
-                      onChange={(e) => handleUpdateListItem(idx, e.target.value)}
+                      onChange={(e) =>
+                        handleUpdateListItem(idx, e.target.value)
+                      }
                       className="flex-1 text-xs p-1.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:bg-white transition-all"
                     />
                     <button
                       id={`delete-bullet-btn-${idx}`}
-                      disabled={isArchived || (element.listItems?.length || 0) <= 1}
+                      disabled={
+                        isArchived || (element.listItems?.length || 0) <= 1
+                      }
                       onClick={() => handleRemoveListItem(idx)}
                       className="text-slate-400 hover:text-red-500 p-1 rounded-xl transition-all cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
                     >
@@ -311,18 +398,26 @@ export default function ElementEditor({
             </div>
           )}
 
-          {element.type === 'grid' && (
+          {element.type === "grid" && (
             <div className="space-y-3">
               {(element.gridItems || []).map((item, index) => (
-                <div id={`grid-item-editor-${item.id}`} key={item.id} className="p-2.5 bg-slate-50/50 border border-slate-200 rounded-xl space-y-2">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase block">Column {index + 1}</span>
+                <div
+                  id={`grid-item-editor-${item.id}`}
+                  key={item.id}
+                  className="p-2.5 bg-slate-50/50 border border-slate-200 rounded-xl space-y-2"
+                >
+                  <span className="text-[10px] font-bold text-slate-400 uppercase block">
+                    Column {index + 1}
+                  </span>
                   <div>
                     <input
                       id={`input-grid-title-${item.id}`}
                       disabled={isArchived}
                       type="text"
                       value={item.title}
-                      onChange={(e) => handleUpdateGridItem(item.id, { title: e.target.value })}
+                      onChange={(e) =>
+                        handleUpdateGridItem(item.id, { title: e.target.value })
+                      }
                       className="w-full text-xs p-1.5 bg-white border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-1 focus:ring-indigo-500 font-bold"
                       placeholder="Column Heading"
                     />
@@ -332,7 +427,9 @@ export default function ElementEditor({
                       id={`input-grid-desc-${item.id}`}
                       disabled={isArchived}
                       value={item.desc}
-                      onChange={(e) => handleUpdateGridItem(item.id, { desc: e.target.value })}
+                      onChange={(e) =>
+                        handleUpdateGridItem(item.id, { desc: e.target.value })
+                      }
                       rows={2}
                       className="w-full text-xs p-1.5 bg-white border border-slate-200 rounded-xl text-slate-700 focus:outline-none focus:ring-1 focus:ring-indigo-500 resize-none"
                       placeholder="Column details..."
@@ -346,12 +443,19 @@ export default function ElementEditor({
 
         {/* Accessibility & Font Controls / Image Scaling */}
         <div className="space-y-3 pt-4 border-t border-slate-100">
-          {element.type === 'image' ? (
+          {element.type === "image" ? (
             <div>
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-2.5">Image Dimensions</span>
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-2.5">
+                Image Dimensions
+              </span>
               <div className="flex justify-between text-[11px] font-medium text-slate-600 mb-1">
                 <label id="label-image-width">Image Scale (Width)</label>
-                <span id="image-width-value-badge" className="font-bold text-indigo-600">{element.imageWidth || 60}%</span>
+                <span
+                  id="image-width-value-badge"
+                  className="font-bold text-indigo-600"
+                >
+                  {element.imageWidth || 60}%
+                </span>
               </div>
               <div className="flex items-center gap-3">
                 <input
@@ -362,19 +466,26 @@ export default function ElementEditor({
                   max="100"
                   step="5"
                   value={element.imageWidth || 60}
-                  onChange={(e) => onUpdateElement({ imageWidth: parseInt(e.target.value) })}
+                  onChange={(e) =>
+                    onUpdateElement({ imageWidth: parseInt(e.target.value) })
+                  }
                   className="flex-1 accent-indigo-600 h-1.5 bg-slate-200 rounded-xl cursor-pointer"
                 />
-                <span className="w-10 text-right text-xs font-bold text-slate-700">{element.imageWidth || 60}%</span>
+                <span className="w-10 text-right text-xs font-bold text-slate-700">
+                  {element.imageWidth || 60}%
+                </span>
               </div>
               <p className="text-[9px] text-slate-400 mt-1.5 leading-normal">
-                Adjust width scale to fit elements side-by-side or fill presentation space.
+                Adjust width scale to fit elements side-by-side or fill
+                presentation space.
               </p>
             </div>
           ) : (
             <>
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Font Options</span>
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                  Font Options
+                </span>
                 <span className="inline-flex items-center gap-1 text-[9px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-150 shadow-sm">
                   ≥ 20pt Locked
                 </span>
@@ -396,7 +507,9 @@ export default function ElementEditor({
                         min="20"
                         max="72"
                         value={element.fontSize}
-                        onChange={(e) => handleFontSizeChange(parseInt(e.target.value))}
+                        onChange={(e) =>
+                          handleFontSizeChange(parseInt(e.target.value))
+                        }
                         onDoubleClick={() => handleFontSizeChange(defaultVal)}
                         title="Double click to reset to default size"
                         className="flex-1 accent-indigo-600 h-1.5 bg-slate-200 rounded-xl cursor-pointer"
@@ -408,18 +521,23 @@ export default function ElementEditor({
                         min="20"
                         max="120"
                         value={element.fontSize}
-                        onChange={(e) => handleFontSizeChange(parseInt(e.target.value) || MIN_FONT_SIZE)}
+                        onChange={(e) =>
+                          handleFontSizeChange(
+                            parseInt(e.target.value) || MIN_FONT_SIZE,
+                          )
+                        }
                         className={`w-14 text-center text-xs p-1.5 border rounded-xl font-bold transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${
                           element.fontSize === defaultVal
-                            ? 'bg-indigo-50 border-indigo-300 text-indigo-600 ring-1 ring-indigo-300'
-                            : 'bg-slate-50 border-slate-200 text-slate-800'
+                            ? "bg-indigo-50 border-indigo-300 text-indigo-600 ring-1 ring-indigo-300"
+                            : "bg-slate-50 border-slate-200 text-slate-800"
                         }`}
                       />
                     </div>
                   );
                 })()}
                 <p className="text-[9px] text-slate-400 mt-1 leading-normal">
-                  <b>Accessibility Mandate:</b> Display slides must enforce size 20pt+ to be readable on presentation screens.
+                  <b>Accessibility Mandate:</b> Display slides must enforce size
+                  20pt+ to be readable on presentation screens.
                 </p>
               </div>
             </>
@@ -427,18 +545,21 @@ export default function ElementEditor({
 
           {/* Alignment Selector */}
           <div>
-            <label id="label-text-align" className="block text-[10px] font-bold text-slate-500 uppercase mb-1.5">
-              {element.type === 'image' ? 'Image Alignment' : 'Text Alignment'}
+            <label
+              id="label-text-align"
+              className="block text-[10px] font-bold text-slate-500 uppercase mb-1.5"
+            >
+              {element.type === "image" ? "Image Alignment" : "Text Alignment"}
             </label>
             <div id="align-btns-group" className="grid grid-cols-3 gap-1">
               <button
                 id="align-left-btn"
                 disabled={isArchived}
-                onClick={() => onUpdateElement({ align: 'left' })}
+                onClick={() => onUpdateElement({ align: "left" })}
                 className={`flex items-center justify-center py-1.5 rounded-xl border text-xs cursor-pointer transition-all ${
-                  element.align === 'left'
-                    ? 'border-indigo-600 bg-indigo-50 text-indigo-700 font-bold shadow-sm'
-                    : 'border-slate-200 hover:bg-slate-50 text-slate-600'
+                  element.align === "left"
+                    ? "border-indigo-600 bg-indigo-50 text-indigo-700 font-bold shadow-sm"
+                    : "border-slate-200 hover:bg-slate-50 text-slate-600"
                 }`}
               >
                 <AlignLeft className="w-4 h-4" />
@@ -446,11 +567,11 @@ export default function ElementEditor({
               <button
                 id="align-center-btn"
                 disabled={isArchived}
-                onClick={() => onUpdateElement({ align: 'center' })}
+                onClick={() => onUpdateElement({ align: "center" })}
                 className={`flex items-center justify-center py-1.5 rounded-xl border text-xs cursor-pointer transition-all ${
-                  element.align === 'center'
-                    ? 'border-indigo-600 bg-indigo-50 text-indigo-700 font-bold shadow-sm'
-                    : 'border-slate-200 hover:bg-slate-50 text-slate-600'
+                  element.align === "center"
+                    ? "border-indigo-600 bg-indigo-50 text-indigo-700 font-bold shadow-sm"
+                    : "border-slate-200 hover:bg-slate-50 text-slate-600"
                 }`}
               >
                 <AlignCenter className="w-4 h-4" />
@@ -458,11 +579,11 @@ export default function ElementEditor({
               <button
                 id="align-right-btn"
                 disabled={isArchived}
-                onClick={() => onUpdateElement({ align: 'right' })}
+                onClick={() => onUpdateElement({ align: "right" })}
                 className={`flex items-center justify-center py-1.5 rounded-xl border text-xs cursor-pointer transition-all ${
-                  element.align === 'right'
-                    ? 'border-indigo-600 bg-indigo-50 text-indigo-700 font-bold shadow-sm'
-                    : 'border-slate-200 hover:bg-slate-50 text-slate-600'
+                  element.align === "right"
+                    ? "border-indigo-600 bg-indigo-50 text-indigo-700 font-bold shadow-sm"
+                    : "border-slate-200 hover:bg-slate-50 text-slate-600"
                 }`}
               >
                 <AlignRight className="w-4 h-4" />
@@ -471,9 +592,14 @@ export default function ElementEditor({
           </div>
 
           {/* Custom Text Color Selector */}
-          {element.type !== 'image' && (
+          {element.type !== "image" && (
             <div>
-              <label id="label-text-color" className="block text-[10px] font-bold text-slate-500 uppercase mb-1.5">Text Color Override</label>
+              <label
+                id="label-text-color"
+                className="block text-[10px] font-bold text-slate-500 uppercase mb-1.5"
+              >
+                Text Color Override
+              </label>
               <div id="color-presets-grid" className="grid grid-cols-4 gap-1.5">
                 {COLOR_PRESETS.map((color) => (
                   <button
@@ -484,8 +610,8 @@ export default function ElementEditor({
                     style={{ backgroundColor: color.value }}
                     className={`w-full h-6 rounded-md border transition-all cursor-pointer shrink-0 ${
                       element.color === color.value
-                        ? 'ring-2 ring-indigo-500 ring-offset-1 scale-105 border-transparent shadow-sm'
-                        : 'border-slate-300 hover:scale-105'
+                        ? "ring-2 ring-indigo-500 ring-offset-1 scale-105 border-transparent shadow-sm"
+                        : "border-slate-300 hover:scale-105"
                     }`}
                     title={color.name}
                   />
@@ -496,11 +622,13 @@ export default function ElementEditor({
                     id={`custom-color-input-${element.id}`}
                     disabled={isArchived}
                     type="color"
-                    value={element.color || '#111827'}
+                    value={element.color || "#111827"}
                     onChange={(e) => onUpdateElement({ color: e.target.value })}
                     className="w-8 h-5 border border-slate-200 rounded p-0 bg-transparent cursor-pointer"
                   />
-                  <span className="text-[10px] font-mono text-slate-500">{element.color || 'Default'}</span>
+                  <span className="text-[10px] font-mono text-slate-500">
+                    {element.color || "Default"}
+                  </span>
                 </div>
               </div>
             </div>
@@ -509,12 +637,14 @@ export default function ElementEditor({
 
         {/* Layout Order / Element Actions */}
         <div className="space-y-2 pt-4 border-t border-slate-100">
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Arrange Layer</span>
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+            Arrange Layer
+          </span>
           <div id="arrange-btns-group" className="grid grid-cols-2 gap-2">
             <button
               id="move-element-up-btn"
               disabled={isFirst || isArchived}
-              onClick={() => onMoveElement(element.id, 'up')}
+              onClick={() => onMoveElement(element.id, "up")}
               className="flex items-center justify-center gap-1 py-2 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl text-[10px] font-bold text-slate-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer shadow-sm"
             >
               <ArrowUp className="w-3.5 h-3.5 text-indigo-500" /> Move Up
@@ -522,7 +652,7 @@ export default function ElementEditor({
             <button
               id="move-element-down-btn"
               disabled={isLast || isArchived}
-              onClick={() => onMoveElement(element.id, 'down')}
+              onClick={() => onMoveElement(element.id, "down")}
               className="flex items-center justify-center gap-1 py-2 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl text-[10px] font-bold text-slate-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer shadow-sm"
             >
               <ArrowDown className="w-3.5 h-3.5 text-indigo-500" /> Move Down

@@ -3,25 +3,25 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { jsPDF } from 'jspdf';
-import html2canvas from 'html2canvas-pro';
+import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas-pro";
 
 export async function exportPresentationToPDF(
   presentationTitle: string,
   slideIds: string[],
   onProgress?: (current: number, total: number) => void,
-  onBeforeCapture?: (index: number) => Promise<void>
+  onBeforeCapture?: (index: number) => Promise<void>,
 ): Promise<void> {
   const totalSlides = slideIds.length;
   if (totalSlides === 0) {
-    throw new Error('No slides to export');
+    throw new Error("No slides to export");
   }
 
   // Create standard widescreen (16:9) landscape presentation PDF
   // Widescreen px dimensions can be standard 1280x720.
   const pdf = new jsPDF({
-    orientation: 'landscape',
-    unit: 'px',
+    orientation: "landscape",
+    unit: "px",
     format: [1280, 720],
     compress: true,
   });
@@ -52,15 +52,15 @@ export async function exportPresentationToPDF(
       backgroundColor: null,
     });
 
-    const imgData = canvas.toDataURL('image/jpeg', 0.9);
+    const imgData = canvas.toDataURL("image/jpeg", 0.9);
 
     if (i > 0) {
-      pdf.addPage([1280, 720], 'landscape');
+      pdf.addPage([1280, 720], "landscape");
     }
 
-    pdf.addImage(imgData, 'JPEG', 0, 0, 1280, 720);
+    pdf.addImage(imgData, "JPEG", 0, 0, 1280, 720);
   }
 
-  const fileName = `${presentationTitle.trim().replace(/[^a-z0-9_-]/gi, '_') || 'presentation'}.pdf`;
+  const fileName = `${presentationTitle.trim().replace(/[^a-z0-9_-]/gi, "_") || "presentation"}.pdf`;
   pdf.save(fileName);
 }
