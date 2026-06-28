@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from "react";
+import React, { useState } from "react";
 import {
   Trash2,
   AlignLeft,
@@ -18,6 +18,8 @@ import {
   Upload,
   RotateCcw,
   Image as ImageIcon,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 import {
   SlideElement,
@@ -75,6 +77,9 @@ export default function ElementEditor({
   isLast,
   isArchived,
 }: ElementEditorProps) {
+  const [isTextColorOpen, setIsTextColorOpen] = useState(false);
+  const [isHeadingColorOpen, setIsHeadingColorOpen] = useState(false);
+
   if (!element) {
     return (
       <div
@@ -610,89 +615,41 @@ export default function ElementEditor({
 
           {/* Custom Text Color Selector */}
           {element.type !== "image" && (
-            <div className="space-y-4">
-              <div>
-                <label
-                  id="label-text-color"
-                  className="block text-[10px] font-bold text-slate-500 uppercase mb-1.5"
-                >
-                  Text Color Override
-                </label>
+            <div className="space-y-5">
+              {/* Text Color Override */}
+              <div className="border-t border-slate-100 pt-3">
                 <div
-                  id="color-presets-grid"
-                  className="grid grid-cols-4 gap-1.5"
+                  className="flex items-center justify-between cursor-pointer mb-1.5"
+                  onClick={() => setIsTextColorOpen(!isTextColorOpen)}
                 >
-                  {COLOR_PRESETS.map((color) => (
-                    <button
-                      id={`color-preset-btn-${color.name}`}
-                      key={color.name}
-                      disabled={isArchived}
-                      onClick={() => onUpdateElement({ color: color.value })}
-                      style={{ backgroundColor: color.value }}
-                      className={`w-full h-6 rounded-md border transition-all cursor-pointer shrink-0 ${
-                        element.color === color.value
-                          ? "ring-2 ring-indigo-500 ring-offset-1 border-transparent shadow-sm"
-                          : "border-slate-300 hover:border-slate-400"
-                      }`}
-                      title={color.name}
-                    />
-                  ))}
-                  <div className="col-span-4 flex items-center justify-between mt-1 h-7">
-                    <div className="flex items-center gap-2">
-                      <Palette className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                      <input
-                        id={`custom-color-input-${element.id}`}
-                        disabled={isArchived}
-                        type="color"
-                        value={element.color || defaultTextColor}
-                        onChange={(e) =>
-                          onUpdateElement({ color: e.target.value })
-                        }
-                        className="w-8 h-5 border border-slate-200 rounded p-0 bg-transparent cursor-pointer"
-                      />
-                      <span className="text-[10px] font-mono text-slate-500">
-                        {element.color || "Default"}
-                      </span>
-                    </div>
-                    <button
-                      onClick={() => onUpdateElement({ color: undefined })}
-                      disabled={isArchived}
-                      className={`p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-600 transition-colors ${
-                        element.color
-                          ? "opacity-100"
-                          : "opacity-0 pointer-events-none"
-                      }`}
-                      title="Reset to default color"
-                    >
-                      <RotateCcw className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              {(element.type === "grid" || element.type === "stat") && (
-                <div>
-                  <label
-                    id="label-heading-color"
-                    className="block text-[10px] font-bold text-slate-500 uppercase mb-1.5"
+                  <h3
+                    id="heading-text-color"
+                    className="text-[10px] font-bold text-black uppercase tracking-wider flex items-center gap-1.5"
                   >
-                    Heading Color Override
-                  </label>
+                    <Palette className="w-3.5 h-3.5 text-indigo-500" /> Text
+                    Color Override
+                  </h3>
+                  {isTextColorOpen ? (
+                    <ChevronUp className="w-4 h-4 text-slate-400" />
+                  ) : (
+                    <ChevronDown className="w-4 h-4 text-slate-400" />
+                  )}
+                </div>
+
+                {isTextColorOpen && (
                   <div
-                    id="heading-color-presets-grid"
-                    className="grid grid-cols-4 gap-1.5"
+                    id="color-presets-grid"
+                    className="grid grid-cols-4 gap-1.5 mt-2"
                   >
                     {COLOR_PRESETS.map((color) => (
                       <button
-                        id={`heading-color-preset-btn-${color.name}`}
-                        key={`heading-${color.name}`}
+                        id={`color-preset-btn-${color.name}`}
+                        key={color.name}
                         disabled={isArchived}
-                        onClick={() =>
-                          onUpdateElement({ headingColor: color.value })
-                        }
+                        onClick={() => onUpdateElement({ color: color.value })}
                         style={{ backgroundColor: color.value }}
                         className={`w-full h-6 rounded-md border transition-all cursor-pointer shrink-0 ${
-                          element.headingColor === color.value
+                          element.color === color.value
                             ? "ring-2 ring-indigo-500 ring-offset-1 border-transparent shadow-sm"
                             : "border-slate-300 hover:border-slate-400"
                         }`}
@@ -703,35 +660,113 @@ export default function ElementEditor({
                       <div className="flex items-center gap-2">
                         <Palette className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                         <input
-                          id={`custom-heading-color-input-${element.id}`}
+                          id={`custom-color-input-${element.id}`}
                           disabled={isArchived}
                           type="color"
-                          value={element.headingColor || defaultHeadingColor}
+                          value={element.color || defaultTextColor}
                           onChange={(e) =>
-                            onUpdateElement({ headingColor: e.target.value })
+                            onUpdateElement({ color: e.target.value })
                           }
                           className="w-8 h-5 border border-slate-200 rounded p-0 bg-transparent cursor-pointer"
                         />
                         <span className="text-[10px] font-mono text-slate-500">
-                          {element.headingColor || "Default"}
+                          {element.color || "Default"}
                         </span>
                       </div>
                       <button
-                        onClick={() =>
-                          onUpdateElement({ headingColor: undefined })
-                        }
+                        onClick={() => onUpdateElement({ color: undefined })}
                         disabled={isArchived}
                         className={`p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-600 transition-colors ${
-                          element.headingColor
+                          element.color
                             ? "opacity-100"
                             : "opacity-0 pointer-events-none"
                         }`}
-                        title="Reset to default heading color"
+                        title="Reset to default color"
                       >
                         <RotateCcw className="w-3.5 h-3.5" />
                       </button>
                     </div>
                   </div>
+                )}
+              </div>
+
+              {/* Heading Color Override */}
+              {(element.type === "grid" || element.type === "stat") && (
+                <div className="border-t border-slate-100 pt-3">
+                  <div
+                    className="flex items-center justify-between cursor-pointer mb-1.5"
+                    onClick={() => setIsHeadingColorOpen(!isHeadingColorOpen)}
+                  >
+                    <h3
+                      id="heading-heading-color"
+                      className="text-[10px] font-bold text-black uppercase tracking-wider flex items-center gap-1.5"
+                    >
+                      <Palette className="w-3.5 h-3.5 text-indigo-500" />{" "}
+                      Heading Color Override
+                    </h3>
+                    {isHeadingColorOpen ? (
+                      <ChevronUp className="w-4 h-4 text-slate-400" />
+                    ) : (
+                      <ChevronDown className="w-4 h-4 text-slate-400" />
+                    )}
+                  </div>
+
+                  {isHeadingColorOpen && (
+                    <div
+                      id="heading-color-presets-grid"
+                      className="grid grid-cols-4 gap-1.5 mt-2"
+                    >
+                      {COLOR_PRESETS.map((color) => (
+                        <button
+                          id={`heading-color-preset-btn-${color.name}`}
+                          key={`heading-${color.name}`}
+                          disabled={isArchived}
+                          onClick={() =>
+                            onUpdateElement({ headingColor: color.value })
+                          }
+                          style={{ backgroundColor: color.value }}
+                          className={`w-full h-6 rounded-md border transition-all cursor-pointer shrink-0 ${
+                            element.headingColor === color.value
+                              ? "ring-2 ring-indigo-500 ring-offset-1 border-transparent shadow-sm"
+                              : "border-slate-300 hover:border-slate-400"
+                          }`}
+                          title={color.name}
+                        />
+                      ))}
+                      <div className="col-span-4 flex items-center justify-between mt-1 h-7">
+                        <div className="flex items-center gap-2">
+                          <Palette className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                          <input
+                            id={`custom-heading-color-input-${element.id}`}
+                            disabled={isArchived}
+                            type="color"
+                            value={element.headingColor || defaultHeadingColor}
+                            onChange={(e) =>
+                              onUpdateElement({ headingColor: e.target.value })
+                            }
+                            className="w-8 h-5 border border-slate-200 rounded p-0 bg-transparent cursor-pointer"
+                          />
+                          <span className="text-[10px] font-mono text-slate-500">
+                            {element.headingColor || "Default"}
+                          </span>
+                        </div>
+                        <button
+                          onClick={() =>
+                            onUpdateElement({ headingColor: undefined })
+                          }
+                          disabled={isArchived}
+                          className={`p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-600 transition-colors ${
+                            element.headingColor
+                              ? "opacity-100"
+                              : "opacity-0 pointer-events-none"
+                          }`}
+                          title="Reset to default heading color"
+                        >
+                          <RotateCcw className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
