@@ -31,10 +31,10 @@ const LOCAL_STORAGE_KEY = "accessible-slide-pdf-builder-decks";
 const INITIAL_DECK: Presentation = {
   id: "deck-demo-a11y",
   metadata: {
-    title: "A11y Slide & Document Standard",
+    title: "Black Rock Rangers info slides",
     creator: "", // empty to use auto-generated published date placeholder
-    department: "Digital Inclusion Initiative",
-    referenceNumber: "Alex Rivera", // Creator Name
+    department: "Black Rock Rangers",
+    referenceNumber: "Ranger Colapinto", // Creator Name
     createdAt: new Date().toISOString(),
     expiresAt: null, // default to no expiration for the demo deck initially
     isArchived: false,
@@ -48,7 +48,7 @@ const INITIAL_DECK: Presentation = {
         {
           id: "welcome-title",
           type: "title",
-          content: "Accessible Display Presentation",
+          content: "Display Presentation",
           fontSize: 34,
           align: "center",
           fontWeight: "bold",
@@ -66,13 +66,13 @@ const INITIAL_DECK: Presentation = {
     },
     {
       id: "slide-stats",
-      title: "Metrics Showcase",
+      title: "Display Showcase",
       theme: DEFAULT_THEMES[1], // Space Grotesk, Slate Theme, Flat
       elements: [
         {
           id: "stats-title",
           type: "title",
-          content: "Visual Access Metrics",
+          content: "Visual Slide Presentation",
           fontSize: 26,
           align: "left",
           fontWeight: "bold",
