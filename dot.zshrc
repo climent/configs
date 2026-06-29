@@ -7,6 +7,11 @@ export PATH="/opt/homebrew/opt/arm-none-eabi-gcc@8/bin:$PATH"
 
 # Added by Antigravity
 export PATH="/Users/climent/.antigravity/antigravity/bin:$PATH"
+# Added by Antigravity IDE
+export PATH="/Users/climent/.antigravity-ide/antigravity-ide/bin:$PATH"
+
+export PATH=$PATH:/usr/local/go/bin
+export FPATH=$FPATH:~/.docker/site-functions
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
@@ -23,7 +28,9 @@ alias  ytd='yt-dlp -t mp3 --no-keep-video --audio-quality 256K --embed-thumbnail
 alias ytld='yt-dlp -t mp3 --no-keep-video --audio-quality 256K --embed-thumbnail --embed-metadata --parse-metadata "playlist_index:%(track_number)s" -o "%(playlist_autonumber)02d. %(title)s.%(ext)s"'
 alias   bu='brew upgrade'
 alias   zz='vi ~/.zshrc && source ~/.zshrc'
+alias copy_mp3="rsync -av --progress --include='*.mp3' --include='*/' --exclude='*'"
 
+alias rgrep='grep -r'
 # alias starship='eval "$(starship init zsh)"'
 #-----------------------------------------------------------------------------#
 
@@ -50,6 +57,8 @@ ZSH_AUTOSUGGEST_IGNORE_WIDGETS+=(yank yank-pop backward-kill-word backward-kill-
 ############## ^R historical ##############
 eval "$(atuin init zsh --disable-up-arrow)"
 
+# ZSH plugins and configurations
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 ############## Prompt ##############
 # brew gitstatus
 #source /usr/local/opt/gitstatus/gitstatus.prompt.zsh
@@ -112,3 +121,9 @@ function mkcd ()
 }
 #source /usr/local/share/powerlevel10k/powerlevel10k.zsh-theme
 
+function prompt_my_zmx_session() {
+  if [[ -n $ZMX_SESSION ]]; then
+    p10k segment -b '%k' -f '%f' -t "[$ZMX_SESSION]"
+  fi
+}
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS+=my_zmx_session
