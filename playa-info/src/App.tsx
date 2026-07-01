@@ -147,6 +147,18 @@ export default function App() {
     total: number;
   } | null>(null);
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
+    return localStorage.getItem("slide_pdf_theme") === "dark";
+  });
+
+  const toggleDarkMode = () => {
+    setIsDarkMode((prev) => {
+      const next = !prev;
+      localStorage.setItem("slide_pdf_theme", next ? "dark" : "light");
+      return next;
+    });
+  };
+
   const [exportWidth, setExportWidth] = useState<number>(() => {
     if (EXPORT_CONFIG.forceWidth !== null) {
       return EXPORT_CONFIG.forceWidth;
@@ -1080,7 +1092,7 @@ export default function App() {
   return (
     <div
       id="app-root-layout"
-      className="flex h-screen w-screen bg-white font-sans text-slate-800 overflow-hidden"
+      className={`flex h-screen w-screen bg-white font-sans text-slate-800 overflow-hidden ${isDarkMode ? "dark bg-slate-950 text-slate-100" : ""}`}
     >
       {/* Sidebar (Left) */}
       <Sidebar
@@ -1104,6 +1116,8 @@ export default function App() {
           setExportWidth(width);
           localStorage.setItem("slide_pdf_export_width", width.toString());
         }}
+        isDarkMode={isDarkMode}
+        onToggleDarkMode={toggleDarkMode}
       />
 
       {/* Main Canvas Workspace Area */}
@@ -1145,6 +1159,7 @@ export default function App() {
           metaRef={activePresentation.metadata.referenceNumber}
           isExporting={isExporting}
           isArchived={isArchived}
+          isDarkMode={isDarkMode}
         />
       </div>
 

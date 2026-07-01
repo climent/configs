@@ -43,6 +43,8 @@ interface SlideCanvasProps {
   metaRef: string;
   isExporting?: boolean;
   isArchived: boolean;
+  isDarkMode?: boolean;
+  onToggleDarkMode?: () => void;
 }
 
 export default function SlideCanvas({
@@ -63,6 +65,8 @@ export default function SlideCanvas({
   metaRef,
   isExporting,
   isArchived,
+  isDarkMode = false,
+  onToggleDarkMode,
 }: SlideCanvasProps) {
   const activeSlide = slides[activeSlideIndex] || slides[0];
   const theme = activeSlide?.theme;

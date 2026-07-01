@@ -26,6 +26,8 @@ import {
   ChevronDown,
   ChevronUp,
   FileText,
+  Sun,
+  Moon,
 } from "lucide-react";
 import {
   Presentation,
@@ -53,6 +55,8 @@ interface SidebarProps {
   onImportPresentations?: (decks: Presentation[]) => void;
   exportWidth: number;
   onUpdateExportWidth: (width: number) => void;
+  isDarkMode?: boolean;
+  onToggleDarkMode?: () => void;
 }
 
 export default function Sidebar({
@@ -72,6 +76,8 @@ export default function Sidebar({
   onImportPresentations,
   exportWidth,
   onUpdateExportWidth,
+  isDarkMode = false,
+  onToggleDarkMode,
 }: SidebarProps) {
   const activePresentation = presentations.find((p) => p.id === activeId);
   const [activeTab, setActiveTab] = useState<"build" | "metadata" | "decks">(
@@ -231,18 +237,27 @@ export default function Sidebar({
         className="p-4 border-b border-slate-100 flex items-center justify-between"
       >
         <div className="flex items-center gap-2">
-          <div className="p-2 bg-indigo-50 text-indigo-600 rounded-xl shadow-inner animate-pulse">
+          <div className="p-2 bg-indigo-50 text-indigo-600 rounded-xl shadow-inner">
             <Sparkles className="w-5 h-5" />
           </div>
-          <div>
-            <h1 className="font-sans font-bold text-slate-900 tracking-tight text-sm">
-              Slide PDF Builder
-            </h1>
-            <p className="font-sans text-[10px] text-slate-500 font-semibold tracking-wider uppercase">
-              ACCESSIBLE 20PT+ STANDARDS
-            </p>
-          </div>
+          <h1 className="font-sans font-bold text-slate-900 tracking-tight text-sm">
+            Slide PDF Builder
+          </h1>
         </div>
+        {onToggleDarkMode && (
+          <button
+            id="sidebar-theme-toggle-btn"
+            onClick={onToggleDarkMode}
+            className="p-1.5 rounded-lg border border-slate-200 hover:border-indigo-300 bg-white hover:bg-slate-50 text-slate-500 hover:text-indigo-600 transition-all cursor-pointer shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500"
+            title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+          >
+            {isDarkMode ? (
+              <Sun className="w-3.5 h-3.5 text-amber-500" />
+            ) : (
+              <Moon className="w-3.5 h-3.5 text-indigo-600" />
+            )}
+          </button>
+        )}
       </div>
 
       {/* Tabs */}
