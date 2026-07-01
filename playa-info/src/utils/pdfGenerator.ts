@@ -10,18 +10,20 @@ export async function exportPresentationToPDFBlob(
   slideIds: string[],
   onProgress?: (current: number, total: number) => void,
   onBeforeCapture?: (index: number) => Promise<void>,
+  exportWidth: number = 1440,
 ): Promise<Blob> {
   const totalSlides = slideIds.length;
   if (totalSlides === 0) {
     throw new Error("No slides to export");
   }
 
-  // Create standard widescreen (16:9) landscape presentation PDF
-  // Widescreen px dimensions can be standard 1280x720.
+  // Proportional height for widescreen (16:9) presentation PDF
+  const exportHeight = Math.round((exportWidth * 9) / 16);
+
   const pdf = new jsPDF({
     orientation: "landscape",
     unit: "px",
-    format: [1280, 720],
+    format: [exportWidth, exportHeight],
     compress: true,
   });
 
@@ -42,22 +44,55 @@ export async function exportPresentationToPDFBlob(
       onProgress(i + 1, totalSlides);
     }
 
+    // Save original styles to restore afterwards
+    const originalWidth = element.style.width;
+    const originalHeight = element.style.height;
+    const originalPosition = element.style.position;
+    const originalTop = element.style.top;
+    const originalLeft = element.style.left;
+    const originalZIndex = element.style.zIndex;
+    const originalTransform = element.style.transform;
+    const originalMaxWidth = element.style.maxWidth;
+    const originalMaxHeight = element.style.maxHeight;
+
+    // Apply exact target export dimensions off-screen for perfect rendering
+    element.style.width = `${exportWidth}px`;
+    element.style.height = `${exportHeight}px`;
+    element.style.position = "fixed";
+    element.style.top = "0px";
+    element.style.left = "0px";
+    element.style.zIndex = "-9999";
+    element.style.transform = "none";
+    element.style.maxWidth = "none";
+    element.style.maxHeight = "none";
+
     // Capture slide as high-DPI image
     const canvas = await html2canvas(element, {
-      scale: 2, // crisp fonts and vector layouts
+      scale: 1.5, // 1.5x of the native export size gives pristine print quality
       useCORS: true,
       allowTaint: true,
       logging: false,
       backgroundColor: null,
     });
 
-    const imgData = canvas.toDataURL("image/jpeg", 0.9);
+    // Restore original styles immediately
+    element.style.width = originalWidth;
+    element.style.height = originalHeight;
+    element.style.position = originalPosition;
+    element.style.top = originalTop;
+    element.style.left = originalLeft;
+    element.style.zIndex = originalZIndex;
+    element.style.transform = originalTransform;
+    element.style.maxWidth = originalMaxWidth;
+    element.style.maxHeight = originalMaxHeight;
+
+    const imgData = canvas.toDataURL("image/jpeg", 0.95);
 
     if (i > 0) {
-      pdf.addPage([1280, 720], "landscape");
+      pdf.addPage([exportWidth, exportHeight], "landscape");
     }
 
-    pdf.addImage(imgData, "JPEG", 0, 0, 1280, 720);
+    pdf.addImage(imgData, "JPEG", 0, 0, exportWidth, exportHeight);
   }
 
   return pdf.output("blob");
@@ -68,11 +103,13 @@ export async function exportPresentationToPDF(
   slideIds: string[],
   onProgress?: (current: number, total: number) => void,
   onBeforeCapture?: (index: number) => Promise<void>,
+  exportWidth: number = 1440,
 ): Promise<void> {
   const blob = await exportPresentationToPDFBlob(
     slideIds,
     onProgress,
     onBeforeCapture,
+    exportWidth,
   );
   const fileName = `${presentationTitle.trim().replace(/[^a-z0-9_-]/gi, "_") || "presentation"}.pdf`;
   const downloadAnchor = document.createElement("a");

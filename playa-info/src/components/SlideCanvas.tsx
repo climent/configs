@@ -561,8 +561,7 @@ export default function SlideCanvas({
             style={{ borderColor: `${theme.accent}30` }}
           >
             <span className="truncate max-w-[250px]">
-              {metaCreator ||
-                (isExporting ? "" : formatPublishedDate(new Date()))}
+              {metaCreator || formatPublishedDate(new Date())}
             </span>
             <span>
               SLIDE {activeSlideIndex + 1} OF {slides.length}

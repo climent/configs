@@ -125,7 +125,30 @@ docker compose down
 
 ---
 
+## Configurable PDF Export Engine
+
+The slide deck builder features a fully-customizable, high-DPI PDF export engine that captures slide elements at native screen coordinates and outputs pixel-perfect 16:9 widescreen PDFs.
+
+### ⚙️ Central Configuration (`/src/config.ts`)
+For quick adjustments and seamless field testing, all export configurations are central to **`/src/config.ts`**:
+
+- **`defaultWidth`** (Default: `1440`): The base export resolution width in pixels.
+- **`forceWidth`** (Default: `null`): Can be set to a specific pixel number (e.g., `1440` or `1920`) to lock the export size across all screens. When locked:
+  - The PDF is strictly exported at the forced resolution.
+  - User-adjustable width presets, input numbers, and sliders are disabled and marked with a lock status in the sidebar.
+- **`presets`** (Default: `[1024, 1280, 1440, 1920]`): The size preset options presented in the sidebar. The default value is labeled with a clear superscript asterisk (`1440*`).
+- **`allowUserCustomInput`** (Default: `true`): Dictates whether users are allowed to input arbitrary resolution numbers manually.
+- **`defaultFilenamePrefix`**: Standardized fallback file name prefix for exports.
+
+### 🎨 Collapsible UI & Experience Enhancements
+- **State Persistence**: User-selected width settings are preserved across screen sessions inside `localStorage` to ensure absolute consistency.
+- **Collapsible Section**: The PDF width controller in the sidebar footer can be collapsed/expanded via a clean chevron-arrow toggle, keeping the sidebar minimalist and clutter-free.
+- **Forced/Locked State styling**: When size is locked, a lock icon appears alongside a dedicated system notice informing users that the layout size has been locked.
+
+---
+
 ## Project Structure Overview
+- `src/config.ts` — Central configuration variables for PDF exports.
 - `src/main.tsx` — Application main mounting entry point.
 - `src/App.tsx` — Core state coordinator (manages decks, current active slide, layout panels, and controls).
 - `src/components/`

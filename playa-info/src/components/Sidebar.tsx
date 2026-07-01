@@ -34,6 +34,7 @@ import {
   PresentationMetadata,
 } from "../types";
 import { formatPublishedDate } from "../utils/dateFormatter";
+import { EXPORT_CONFIG } from "../config";
 
 interface SidebarProps {
   presentations: Presentation[];
@@ -50,6 +51,8 @@ interface SidebarProps {
   isExporting: boolean;
   onAddElement?: (type: ElementType) => void;
   onImportPresentations?: (decks: Presentation[]) => void;
+  exportWidth: number;
+  onUpdateExportWidth: (width: number) => void;
 }
 
 export default function Sidebar({
@@ -67,6 +70,8 @@ export default function Sidebar({
   isExporting,
   onAddElement,
   onImportPresentations,
+  exportWidth,
+  onUpdateExportWidth,
 }: SidebarProps) {
   const activePresentation = presentations.find((p) => p.id === activeId);
   const [activeTab, setActiveTab] = useState<"build" | "metadata" | "decks">(
@@ -79,6 +84,7 @@ export default function Sidebar({
   const [isAlignmentSectionOpen, setIsAlignmentSectionOpen] = useState(false);
   const [isMetadataSectionOpen, setIsMetadataSectionOpen] = useState(true);
   const [isExpirationSectionOpen, setIsExpirationSectionOpen] = useState(false);
+  const [isExportWidthSectionOpen, setIsExportWidthSectionOpen] = useState(false);
 
   // Keep track of current time to show countdown / dynamic archives
   useEffect(() => {
@@ -1109,32 +1115,126 @@ export default function Sidebar({
       {(activeTab === "build" || activeTab === "metadata") && (
         <div
           id="sidebar-export-footer"
-          className="border-t border-slate-150 p-4 bg-slate-50/50 flex gap-2 shrink-0"
+          className="border-t border-slate-150 p-4 bg-slate-50/50 flex flex-col gap-3 shrink-0"
         >
-          <button
-            id="sidebar-export-pdf-btn"
-            onClick={onExportPDF}
-            disabled={isExporting}
-            className="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-sans text-[11px] font-bold rounded-xl shadow-md hover:shadow-lg transition-all duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed truncate"
-            title="Export Slides to PDF"
-          >
-            <Download className="w-3.5 h-3.5 shrink-0" />
-            <span className="truncate">
-              {isExporting ? "PDF..." : "Export to PDF"}
-            </span>
-          </button>
-          <button
-            id="sidebar-export-zip-btn"
-            onClick={onExportZip}
-            disabled={isExporting}
-            className="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-sans text-[11px] font-bold rounded-xl shadow-md hover:shadow-lg transition-all duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed truncate"
-            title="Export Slides as ZIP (PDF & JSON)"
-          >
-            <Download className="w-3.5 h-3.5 shrink-0" />
-            <span className="truncate">
-              {isExporting ? "ZIP..." : "Export to ZIP"}
-            </span>
-          </button>
+          {/* Export Size Configurer */}
+          <div className="bg-white border border-slate-200/60 rounded-xl p-2.5">
+            <div
+              className="flex items-center justify-between cursor-pointer select-none"
+              onClick={() => setIsExportWidthSectionOpen(!isExportWidthSectionOpen)}
+            >
+              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1 cursor-pointer">
+                {EXPORT_CONFIG.forceWidth !== null && <Lock className="w-2.5 h-2.5 text-indigo-500 shrink-0" />}
+                PDF Export Width {EXPORT_CONFIG.forceWidth !== null ? "(Locked)" : ""}
+              </label>
+              <div className="flex items-center gap-1.5">
+                <span className="text-[10px] font-bold text-indigo-600 font-mono">
+                  {exportWidth}px × {Math.round((exportWidth * 9) / 16)}px
+                </span>
+                {isExportWidthSectionOpen ? (
+                  <ChevronUp className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                ) : (
+                  <ChevronDown className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                )}
+              </div>
+            </div>
+
+            {isExportWidthSectionOpen && (
+              <div className="mt-2 space-y-1.5 border-t border-slate-100 pt-2">
+                <div className="flex gap-1.5">
+                  <input
+                    id="export-width-num-input"
+                    type="number"
+                    min="600"
+                    max="3840"
+                    step="40"
+                    value={exportWidth}
+                    disabled={EXPORT_CONFIG.forceWidth !== null || !EXPORT_CONFIG.allowUserCustomInput}
+                    onChange={(e) => {
+                      const val = parseInt(e.target.value, 10);
+                      if (!isNaN(val) && val >= 600) {
+                        onUpdateExportWidth(val);
+                      }
+                    }}
+                    className={`w-16 text-xs text-center font-bold font-mono py-1 border rounded-lg text-slate-800 focus:outline-none focus:ring-1 focus:ring-indigo-500 ${
+                      EXPORT_CONFIG.forceWidth !== null || !EXPORT_CONFIG.allowUserCustomInput
+                        ? "bg-slate-100 border-slate-200 cursor-not-allowed opacity-75"
+                        : "bg-slate-50 border-slate-200 focus:bg-white"
+                    }`}
+                  />
+
+                  {/* Presets Row */}
+                  <div className="flex-1 flex gap-1">
+                    {EXPORT_CONFIG.presets.map((preset) => {
+                      const isSelected = exportWidth === preset;
+                      const isForced = EXPORT_CONFIG.forceWidth !== null;
+                      return (
+                        <button
+                          key={preset}
+                          id={`export-preset-width-${preset}`}
+                          disabled={isForced}
+                          onClick={() => onUpdateExportWidth(preset)}
+                          className={`flex-1 py-1 text-[9px] font-bold rounded-lg border transition-all text-center truncate ${
+                            isForced
+                              ? isSelected
+                                ? "bg-indigo-50 border-indigo-200 text-indigo-700 font-extrabold cursor-not-allowed opacity-100"
+                                : "bg-slate-50 border-slate-150 text-slate-400 cursor-not-allowed opacity-50"
+                              : isSelected
+                                ? "bg-indigo-50 border-indigo-200 text-indigo-700 shadow-sm font-extrabold cursor-pointer"
+                                : "bg-white border-slate-150 text-slate-500 hover:text-slate-850 hover:border-slate-300 cursor-pointer"
+                          }`}
+                        >
+                          {preset === EXPORT_CONFIG.defaultWidth ? (
+                            <>
+                              {preset}<sup>*</sup>
+                            </>
+                          ) : (
+                            preset
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+                {EXPORT_CONFIG.forceWidth !== null ? (
+                  <p className="text-[9px] text-indigo-500/80 font-medium leading-normal mt-1 flex items-center gap-1">
+                    🔒 Size is locked to {EXPORT_CONFIG.forceWidth}px by system configuration.
+                  </p>
+                ) : (
+                  <p className="text-[9px] text-slate-400/80 font-medium leading-normal mt-1">
+                    * default export width
+                  </p>
+                )}
+              </div>
+            )}
+          </div>
+
+          <div className="flex gap-2 w-full">
+            <button
+              id="sidebar-export-pdf-btn"
+              onClick={onExportPDF}
+              disabled={isExporting}
+              className="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-sans text-[11px] font-bold rounded-xl shadow-md hover:shadow-lg transition-all duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed truncate"
+              title="Export Slides to PDF"
+            >
+              <Download className="w-3.5 h-3.5 shrink-0" />
+              <span className="truncate">
+                {isExporting ? "PDF..." : "Export to PDF"}
+              </span>
+            </button>
+            <button
+              id="sidebar-export-zip-btn"
+              onClick={onExportZip}
+              disabled={isExporting}
+              className="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-sans text-[11px] font-bold rounded-xl shadow-md hover:shadow-lg transition-all duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed truncate"
+              title="Export Slides as ZIP (PDF & JSON)"
+            >
+              <Download className="w-3.5 h-3.5 shrink-0" />
+              <span className="truncate">
+                {isExporting ? "ZIP..." : "Export to ZIP"}
+              </span>
+            </button>
+          </div>
         </div>
       )}
     </div>

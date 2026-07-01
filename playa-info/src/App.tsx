@@ -24,6 +24,7 @@ import {
 import { formatPublishedDate } from "./utils/dateFormatter";
 import { Clock, Info, ShieldCheck, HelpCircle } from "lucide-react";
 import JSZip from "jszip";
+import { EXPORT_CONFIG } from "./config";
 
 const LOCAL_STORAGE_KEY = "accessible-slide-pdf-builder-decks";
 
@@ -146,6 +147,19 @@ export default function App() {
     total: number;
   } | null>(null);
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
+  const [exportWidth, setExportWidth] = useState<number>(() => {
+    if (EXPORT_CONFIG.forceWidth !== null) {
+      return EXPORT_CONFIG.forceWidth;
+    }
+    const saved = localStorage.getItem("slide_pdf_export_width");
+    if (saved) {
+      const parsed = parseInt(saved, 10);
+      if (!isNaN(parsed) && parsed > 0) {
+        return parsed;
+      }
+    }
+    return EXPORT_CONFIG.defaultWidth;
+  });
 
   const activePresentation =
     presentations.find((p) => p.id === activePresentationId) ||
@@ -899,6 +913,7 @@ export default function App() {
           // Wait for React state update and layout rendering
           await new Promise((r) => setTimeout(r, 200));
         },
+        exportWidth,
       );
     } catch (e) {
       console.error("PDF compiling failed", e);
@@ -949,6 +964,7 @@ export default function App() {
           // Wait for React state update and layout rendering
           await new Promise((r) => setTimeout(r, 200));
         },
+        exportWidth,
       );
 
       const zip = new JSZip();
@@ -1082,6 +1098,12 @@ export default function App() {
         isExporting={isExporting}
         onAddElement={handleAddElementToActiveSlide}
         onImportPresentations={handleImportPresentations}
+        exportWidth={exportWidth}
+        onUpdateExportWidth={(width) => {
+          if (EXPORT_CONFIG.forceWidth !== null) return;
+          setExportWidth(width);
+          localStorage.setItem("slide_pdf_export_width", width.toString());
+        }}
       />
 
       {/* Main Canvas Workspace Area */}
