@@ -244,13 +244,13 @@
   border-color: #1e293b !important;
 }
 
-.dark [id^="element-editor-panel-"] button {
+.dark [id^="element-editor-panel-"] button:not([id*="color-preset"]) {
   background-color: #111a2e !important;
   border-color: #1e293b !important;
   color: #cbd5e1 !important;
 }
 
-.dark [id^="element-editor-panel-"] button:hover {
+.dark [id^="element-editor-panel-"] button:not([id*="color-preset"]):hover {
   background-color: #16223b !important;
   color: #ffffff !important;
 }
