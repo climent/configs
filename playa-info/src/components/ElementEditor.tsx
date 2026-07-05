@@ -573,15 +573,15 @@ export default function ElementEditor({
             >
               {element.type === "image" ? "Image Alignment" : "Text Alignment"}
             </label>
-            <div id="align-btns-group" className="grid grid-cols-3 gap-1">
+            <div id="align-btns-group" className="flex bg-slate-100 p-1 rounded-xl border border-slate-200/50">
               <button
                 id="align-left-btn"
                 disabled={isArchived}
                 onClick={() => onUpdateElement({ align: "left" })}
-                className={`flex items-center justify-center py-1.5 rounded-xl border text-xs cursor-pointer transition-all ${
+                className={`flex-1 flex items-center justify-center py-1 rounded-lg transition-all border ${
                   element.align === "left"
-                    ? "border-indigo-600 bg-indigo-50 text-indigo-700 font-bold shadow-sm"
-                    : "border-slate-200 hover:bg-slate-50 text-slate-600"
+                    ? "bg-indigo-50 border-indigo-200 text-indigo-700 shadow-sm"
+                    : "border-transparent text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
                 }`}
               >
                 <AlignLeft className="w-4 h-4" />
@@ -590,10 +590,10 @@ export default function ElementEditor({
                 id="align-center-btn"
                 disabled={isArchived}
                 onClick={() => onUpdateElement({ align: "center" })}
-                className={`flex items-center justify-center py-1.5 rounded-xl border text-xs cursor-pointer transition-all ${
+                className={`flex-1 flex items-center justify-center py-1 rounded-lg transition-all border ${
                   element.align === "center"
-                    ? "border-indigo-600 bg-indigo-50 text-indigo-700 font-bold shadow-sm"
-                    : "border-slate-200 hover:bg-slate-50 text-slate-600"
+                    ? "bg-indigo-50 border-indigo-200 text-indigo-700 shadow-sm"
+                    : "border-transparent text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
                 }`}
               >
                 <AlignCenter className="w-4 h-4" />
@@ -602,10 +602,10 @@ export default function ElementEditor({
                 id="align-right-btn"
                 disabled={isArchived}
                 onClick={() => onUpdateElement({ align: "right" })}
-                className={`flex items-center justify-center py-1.5 rounded-xl border text-xs cursor-pointer transition-all ${
+                className={`flex-1 flex items-center justify-center py-1 rounded-lg transition-all border ${
                   element.align === "right"
-                    ? "border-indigo-600 bg-indigo-50 text-indigo-700 font-bold shadow-sm"
-                    : "border-slate-200 hover:bg-slate-50 text-slate-600"
+                    ? "bg-indigo-50 border-indigo-200 text-indigo-700 shadow-sm"
+                    : "border-transparent text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
                 }`}
               >
                 <AlignRight className="w-4 h-4" />

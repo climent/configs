@@ -63,12 +63,12 @@
 /* Sidebar Dark Mode Panels */
 .dark #sidebar-container {
   background-color: #0d111c !important;
-  border-color: #1e293b !important;
+  border-color: #334155 !important;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
 }
 
 .dark #app-header {
-  border-color: #1e293b !important;
+  border-color: #334155 !important;
 }
 
 .dark #app-header h1 {
@@ -76,7 +76,7 @@
 }
 
 .dark #sidebar-tabs {
-  border-color: #1e293b !important;
+  border-color: #334155 !important;
   background-color: rgba(13, 17, 28, 0.6) !important;
 }
 
@@ -99,12 +99,12 @@
 .dark #sidebar-container .bg-slate-100\/50,
 .dark #sidebar-container .bg-slate-100 {
   background-color: #162032 !important;
-  border-color: #1e293b !important;
+  border-color: #334155 !important;
 }
 
 .dark #sidebar-container .bg-white {
   background-color: #111a2e !important;
-  border-color: #1e293b !important;
+  border-color: #334155 !important;
 }
 
 .dark #sidebar-container h3,
@@ -134,7 +134,7 @@
 .dark #sidebar-container select,
 .dark #sidebar-container textarea {
   background-color: #111a2e !important;
-  border-color: #1e293b !important;
+  border-color: #334155 !important;
   color: #ffffff !important;
 }
 
@@ -157,7 +157,7 @@
 
 .dark #canvas-header .bg-white {
   background-color: #111a2e !important;
-  border-color: #1e293b !important;
+  border-color: #334155 !important;
 }
 
 .dark #canvas-header .text-slate-800,
@@ -167,7 +167,7 @@
 
 .dark #canvas-header button {
   background-color: #111a2e !important;
-  border-color: #1e293b !important;
+  border-color: #334155 !important;
   color: #cbd5e1 !important;
 }
 
@@ -189,12 +189,12 @@
 .dark [id^="element-editor-panel-"],
 .dark #no-element-selected-panel {
   background-color: #0d111c !important;
-  border-color: #1e293b !important;
+  border-color: #334155 !important;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
 }
 
 .dark #inspector-header {
-  border-color: #1e293b !important;
+  border-color: #334155 !important;
   background-color: rgba(22, 31, 48, 0.4) !important;
 }
 
@@ -232,30 +232,113 @@
 .dark [id^="element-editor-panel-"] select,
 .dark [id^="element-editor-panel-"] textarea {
   background-color: #111a2e !important;
-  border-color: #1e293b !important;
+  border-color: #334155 !important;
   color: #ffffff !important;
 }
 
 .dark [id^="element-editor-panel-"] .bg-slate-50,
 .dark [id^="element-editor-panel-"] .bg-slate-100 {
   background-color: #162032 !important;
-  border-color: #1e293b !important;
+  border-color: #334155 !important;
 }
 
 .dark [id^="element-editor-panel-"] .bg-white {
   background-color: #111a2e !important;
-  border-color: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+.dark [id^="grid-item-editor-"] {
+  background-color: #090e1a !important;
+  border-color: #334155 !important;
+}
+
+/* Segmented Alignment Control Groups (Slide Alignment & Text Alignment) */
+.dark #slide-align-group,
+.dark #align-btns-group {
+  background-color: #162032 !important;
+  border-color: #334155 !important;
+}
+
+/* Inactive button state in Segmented Control Groups */
+.dark #slide-align-group button,
+.dark #align-btns-group button {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  color: #94a3b8 !important;
+  box-shadow: none !important;
+}
+
+/* Inactive button hover state in Segmented Control Groups */
+.dark #slide-align-group button:not(.bg-indigo-50):hover,
+.dark #align-btns-group button:not(.bg-indigo-50):hover {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+}
+
+/* Active button state in Segmented Control Groups */
+.dark #slide-align-group button.bg-indigo-50,
+.dark #align-btns-group button.bg-indigo-50 {
+  background-color: #1e1b4b !important;
+  border-color: #6366f1 !important;
+  color: #a5b4fc !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Active button hover state in Segmented Control Groups */
+.dark #slide-align-group button.bg-indigo-50:hover,
+.dark #align-btns-group button.bg-indigo-50:hover {
+  background-color: #312e81 !important;
+  color: #ffffff !important;
+  border-color: #818cf8 !important;
 }
 
 .dark [id^="element-editor-panel-"] button:not([id*="color-preset"]) {
   background-color: #111a2e !important;
-  border-color: #1e293b !important;
+  border-color: #334155 !important;
   color: #cbd5e1 !important;
+}
+
+/* Global Dark Mode Indigo Accent styling for custom buttons & inputs (e.g., Export Presets, Alignment toggles) */
+.dark .bg-indigo-50,
+.dark button.bg-indigo-50,
+.dark input.bg-indigo-50 {
+  background-color: #1e1b4b !important;
+  color: #e0e7ff !important;
+}
+
+.dark .border-indigo-200,
+.dark .border-indigo-600,
+.dark button.border-indigo-200,
+.dark button.border-indigo-600 {
+  border-color: #6366f1 !important;
+}
+
+.dark .text-indigo-700,
+.dark button.text-indigo-700,
+.dark .text-indigo-600,
+.dark button.text-indigo-600 {
+  color: #818cf8 !important;
 }
 
 .dark [id^="element-editor-panel-"] button:not([id*="color-preset"]):hover {
   background-color: #16223b !important;
   color: #ffffff !important;
+}
+
+.dark .bg-indigo-50:hover,
+.dark button.bg-indigo-50:hover,
+.dark button.border-indigo-600:hover {
+  background-color: #312e81 !important;
+  color: #ffffff !important;
+}
+
+/* Map light-mode slate borders to higher-contrast borders globally in dark mode */
+.dark .border-slate-100,
+.dark .border-slate-150,
+.dark .border-slate-200,
+.dark .border-slate-300 {
+  border-color: #334155 !important;
 }
 
 .dark [id^="element-editor-panel-"] button:disabled {
@@ -270,7 +353,7 @@
 /* Modals */
 .dark #export-progress-modal .bg-white {
   background-color: #0d111c !important;
-  border: 1px solid #1e293b;
+  border: 1px solid #334155;
 }
 
 .dark #export-progress-modal h3 {

@@ -647,14 +647,14 @@ export default function Sidebar({
               </div>
 
               {isAlignmentSectionOpen && (
-                <div className="flex bg-slate-100 p-1 rounded-xl">
+                <div id="slide-align-group" className="flex bg-slate-100 p-1 rounded-xl border border-slate-200/50">
                   <button
                     disabled={isArchived}
                     onClick={() => onUpdateSlideAlignment?.("top")}
-                    className={`flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all ${
+                    className={`flex-1 py-1 text-[11px] font-bold rounded-lg transition-all border ${
                       activeSlideAlignment === "top"
-                        ? "bg-white shadow-sm text-indigo-700"
-                        : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
+                        ? "bg-indigo-50 border-indigo-200 text-indigo-700 shadow-sm"
+                        : "border-transparent text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
                     }`}
                   >
                     Top
@@ -662,10 +662,10 @@ export default function Sidebar({
                   <button
                     disabled={isArchived}
                     onClick={() => onUpdateSlideAlignment?.("middle")}
-                    className={`flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all ${
+                    className={`flex-1 py-1 text-[11px] font-bold rounded-lg transition-all border ${
                       !activeSlideAlignment || activeSlideAlignment === "middle"
-                        ? "bg-white shadow-sm text-indigo-700"
-                        : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
+                        ? "bg-indigo-50 border-indigo-200 text-indigo-700 shadow-sm"
+                        : "border-transparent text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
                     }`}
                   >
                     Middle
@@ -673,10 +673,10 @@ export default function Sidebar({
                   <button
                     disabled={isArchived}
                     onClick={() => onUpdateSlideAlignment?.("bottom")}
-                    className={`flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all ${
+                    className={`flex-1 py-1 text-[11px] font-bold rounded-lg transition-all border ${
                       activeSlideAlignment === "bottom"
-                        ? "bg-white shadow-sm text-indigo-700"
-                        : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
+                        ? "bg-indigo-50 border-indigo-200 text-indigo-700 shadow-sm"
+                        : "border-transparent text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
                     }`}
                   >
                     Bottom
