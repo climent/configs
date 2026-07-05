@@ -220,9 +220,12 @@
   color: #cbd5e1 !important;
 }
 
-.dark [id^="element-editor-panel-"] .text-slate-500,
-.dark [id^="element-editor-panel-"] .text-slate-400 {
+.dark [id^="element-editor-panel-"] .text-slate-500 {
   color: #94a3b8 !important;
+}
+
+.dark [id^="element-editor-panel-"] .text-slate-400 {
+  color: #ffffff !important;
 }
 
 .dark [id^="element-editor-panel-"] input,
