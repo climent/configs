@@ -1,5 +1,5 @@
 # Stage 1: Build the React application
-FROM node:20-slim AS build
+FROM node:26-slim AS build
 WORKDIR /app
 
 # Install build dependencies for native modules if needed
