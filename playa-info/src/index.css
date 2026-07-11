@@ -134,7 +134,7 @@
 .dark #sidebar-container select,
 .dark #sidebar-container textarea {
   background-color: #111a2e !important;
-  border-color: #334155 !important;
+  border-color: #475569 !important;
   color: #ffffff !important;
 }
 
@@ -144,6 +144,19 @@
 
 .dark #sidebar-container .border-indigo-200 {
   border-color: #4f46e5 !important;
+}
+
+/* Higher contrast for New Deck button in dark mode */
+.dark #sidebar-new-deck-btn {
+  background-color: #1e1b4b !important;
+  border-color: #6366f1 !important;
+  color: #e0e7ff !important;
+}
+
+.dark #sidebar-new-deck-btn:hover {
+  background-color: #312e81 !important;
+  border-color: #818cf8 !important;
+  color: #ffffff !important;
 }
 
 /* Canvas Workspace Overrides */
@@ -157,7 +170,12 @@
 
 .dark #canvas-header .bg-white {
   background-color: #111a2e !important;
-  border-color: #334155 !important;
+  border-color: #475569 !important; /* high contrast border */
+}
+
+/* Crisp high-contrast slide indicator text in dark mode */
+.dark #canvas-header #deck-slide-counter {
+  color: #f8fafc !important;
 }
 
 .dark #canvas-header .text-slate-800,
@@ -228,35 +246,123 @@
   color: #ffffff !important;
 }
 
+/* Add higher-contrast styles for slate borders globally in light mode */
+.border-slate-100,
+.border-slate-150,
+.border-slate-200,
+.border-slate-300 {
+  border-color: #cbd5e1 !important; /* crisp high contrast light grey */
+}
+
+/* Light mode content editor and sidebar overrides for crisp contrast and hover highlights */
+#sidebar-container input,
+#sidebar-container select,
+#sidebar-container textarea,
+[id^="element-editor-panel-"] input,
+[id^="element-editor-panel-"] select,
+[id^="element-editor-panel-"] textarea {
+  border-color: #cbd5e1 !important;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, background-color 0.15s ease-in-out !important;
+}
+
+#sidebar-container button:not([id*="color-preset"]),
+[id^="element-editor-panel-"] button:not([id*="color-preset"]) {
+  border-color: #cbd5e1 !important;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, background-color 0.15s ease-in-out, color 0.15s ease-in-out !important;
+}
+
+/* Light Mode Hover Highlight */
+#sidebar-container input:not([type="range"]):hover,
+#sidebar-container select:hover,
+#sidebar-container textarea:hover,
+[id^="element-editor-panel-"] input:not([type="range"]):hover,
+[id^="element-editor-panel-"] select:hover,
+[id^="element-editor-panel-"] textarea:hover {
+  border-color: #6366f1 !important; /* Prominent Indigo border on hover */
+  background-color: #f8fafc !important; /* Smooth light background lift */
+}
+
+#sidebar-container button:not([id*="color-preset"]):not(:disabled):hover,
+[id^="element-editor-panel-"] button:not([id*="color-preset"]):not(:disabled):hover {
+  border-color: #6366f1 !important;
+  background-color: #f5f3ff !important;
+  color: #4f46e5 !important;
+}
+
+/* Light Mode Focus Highlight */
+#sidebar-container input:not([type="range"]):focus,
+#sidebar-container select:focus,
+#sidebar-container textarea:focus,
+[id^="element-editor-panel-"] input:not([type="range"]):focus,
+[id^="element-editor-panel-"] select:focus,
+[id^="element-editor-panel-"] textarea:focus {
+  border-color: #4f46e5 !important;
+  background-color: #ffffff !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25) !important;
+  outline: none !important;
+}
+
+#sidebar-container button:not([id*="color-preset"]):not(:disabled):focus,
+[id^="element-editor-panel-"] button:not([id*="color-preset"]):not(:disabled):focus {
+  border-color: #4f46e5 !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25) !important;
+  outline: none !important;
+}
+
 .dark [id^="element-editor-panel-"] input,
 .dark [id^="element-editor-panel-"] select,
 .dark [id^="element-editor-panel-"] textarea {
   background-color: #111a2e !important;
-  border-color: #334155 !important;
+  border-color: #475569 !important;
   color: #ffffff !important;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, background-color 0.15s ease-in-out !important;
+}
+
+/* Dark Mode Hover Highlight */
+.dark #sidebar-container input:not([type="range"]):hover,
+.dark #sidebar-container select:hover,
+.dark #sidebar-container textarea:hover,
+.dark [id^="element-editor-panel-"] input:not([type="range"]):hover,
+.dark [id^="element-editor-panel-"] select:hover,
+.dark [id^="element-editor-panel-"] textarea:hover {
+  border-color: #6366f1 !important; /* Indigo 500 border on hover */
+  background-color: #162032 !important; /* Slightly lighter dark slate hover */
+}
+
+/* Dark Mode Focus Highlight */
+.dark #sidebar-container input:not([type="range"]):focus,
+.dark #sidebar-container select:focus,
+.dark #sidebar-container textarea:focus,
+.dark [id^="element-editor-panel-"] input:not([type="range"]):focus,
+.dark [id^="element-editor-panel-"] select:focus,
+.dark [id^="element-editor-panel-"] textarea:focus {
+  border-color: #818cf8 !important; /* Bright high-contrast indigo highlight */
+  box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.3) !important;
+  background-color: #0f172a !important; /* Focused dark background */
+  outline: none !important;
 }
 
 .dark [id^="element-editor-panel-"] .bg-slate-50,
 .dark [id^="element-editor-panel-"] .bg-slate-100 {
   background-color: #162032 !important;
-  border-color: #334155 !important;
+  border-color: #475569 !important;
 }
 
 .dark [id^="element-editor-panel-"] .bg-white {
   background-color: #111a2e !important;
-  border-color: #334155 !important;
+  border-color: #475569 !important;
 }
 
 .dark [id^="grid-item-editor-"] {
   background-color: #090e1a !important;
-  border-color: #334155 !important;
+  border-color: #475569 !important;
 }
 
 /* Segmented Alignment Control Groups (Slide Alignment & Text Alignment) */
 .dark #slide-align-group,
 .dark #align-btns-group {
   background-color: #162032 !important;
-  border-color: #334155 !important;
+  border-color: #475569 !important;
 }
 
 /* Inactive button state in Segmented Control Groups */
@@ -295,8 +401,9 @@
 
 .dark [id^="element-editor-panel-"] button:not([id*="color-preset"]) {
   background-color: #111a2e !important;
-  border-color: #334155 !important;
+  border-color: #475569 !important;
   color: #cbd5e1 !important;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, background-color 0.15s ease-in-out, color 0.15s ease-in-out !important;
 }
 
 /* Global Dark Mode Indigo Accent styling for custom buttons & inputs (e.g., Export Presets, Alignment toggles) */
@@ -321,9 +428,18 @@
   color: #818cf8 !important;
 }
 
-.dark [id^="element-editor-panel-"] button:not([id*="color-preset"]):hover {
-  background-color: #16223b !important;
+.dark #sidebar-container button:not([id*="color-preset"]):not(:disabled):hover,
+.dark [id^="element-editor-panel-"] button:not([id*="color-preset"]):not(:disabled):hover {
+  border-color: #6366f1 !important;
+  background-color: #1e1b4b !important; /* Rich deep indigo-900 background */
   color: #ffffff !important;
+}
+
+.dark #sidebar-container button:not([id*="color-preset"]):not(:disabled):focus,
+.dark [id^="element-editor-panel-"] button:not([id*="color-preset"]):not(:disabled):focus {
+  border-color: #818cf8 !important;
+  box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.3) !important;
+  outline: none !important;
 }
 
 .dark .bg-indigo-50:hover,
@@ -338,7 +454,7 @@
 .dark .border-slate-150,
 .dark .border-slate-200,
 .dark .border-slate-300 {
-  border-color: #334155 !important;
+  border-color: #475569 !important;
 }
 
 .dark [id^="element-editor-panel-"] button:disabled {
@@ -376,4 +492,105 @@
 .dark [id^="slide-render-"] * {
   /* Ignore global text/background overrides */
 }
+
+/* --- Layout Templates & Add Slide Elements Interactive Hover Highlights --- */
+
+/* 1. Light Mode Styles */
+#templates-list > div,
+#elements-list > div {
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-color: #cbd5e1 !important; /* Crisp high-contrast light default border */
+  transition: all 0.15s ease-in-out !important;
+}
+
+#templates-list > div:not(.opacity-50):hover,
+#elements-list > div:not(.opacity-50):hover {
+  border-color: #6366f1 !important; /* Beautiful Indigo 500 */
+  background-color: #f5f3ff !important; /* Soft premium lavender backdrop */
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.12), 0 0 0 3px rgba(99, 102, 241, 0.2) !important; /* Polished active focus glow */
+  transform: translateY(-1px) !important;
+}
+
+#templates-list > div:not(.opacity-50):hover span,
+#elements-list > div:not(.opacity-50):hover span {
+  color: #4f46e5 !important; /* Vibrant high-contrast purple-indigo text on hover */
+}
+
+/* 2. Dark Mode Styles */
+.dark #templates-list > div,
+.dark #elements-list > div {
+  background-color: #111a2e !important;
+  border-color: #475569 !important; /* Higher contrast default slate border for dark mode */
+}
+
+/* Ensure layout template boxes have high contrast base color */
+.dark #templates-list > div {
+  background-color: #162032 !important;
+}
+
+.dark #templates-list > div:not(.opacity-50):hover,
+.dark #elements-list > div:not(.opacity-50):hover {
+  border-color: #818cf8 !important; /* Bright high-visibility Indigo 400 */
+  background-color: #1e1b4b !important; /* Deep rich Indigo 900 background */
+  box-shadow: 0 4px 14px rgba(129, 140, 248, 0.25), 0 0 0 3px rgba(129, 140, 248, 0.3) !important; /* Bright ambient dark glow */
+  transform: translateY(-1px) !important;
+}
+
+.dark #templates-list > div:not(.opacity-50):hover span,
+.dark #elements-list > div:not(.opacity-50):hover span {
+  color: #ffffff !important; /* Pure white text on hover */
+}
+
+/* Refine mini mockups inside templates during hover in dark mode */
+.dark #templates-list > div:not(.opacity-50):hover .bg-white,
+.dark #templates-list > div:not(.opacity-50):hover .bg-slate-50 {
+  background-color: #0f172a !important;
+  border-color: #334155 !important;
+}
+
+/* --- Slide Counter Navigation Arrows Hover Highlights --- */
+
+/* 1. Light Mode Styles */
+#deck-move-left-btn,
+#deck-move-right-btn {
+  transition: all 0.15s ease-in-out !important;
+}
+
+#deck-move-left-btn:not(:disabled):hover,
+#deck-move-right-btn:not(:disabled):hover {
+  background-color: #f5f3ff !important; /* soft lavender backdrop */
+  color: #4f46e5 !important; /* bright active indigo text */
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.25) !important; /* subtle focus ring on hover */
+}
+
+#deck-move-left-btn:not(:disabled):active,
+#deck-move-right-btn:not(:disabled):active {
+  background-color: #ede9fe !important;
+  transform: scale(0.9) !important;
+}
+
+/* 2. Dark Mode Styles */
+.dark #deck-move-left-btn,
+.dark #deck-move-right-btn {
+  background-color: transparent !important; /* keep flat inside counter container */
+  border-color: transparent !important;
+  color: #cbd5e1 !important;
+  transition: all 0.15s ease-in-out !important;
+}
+
+.dark #deck-move-left-btn:not(:disabled):hover,
+.dark #deck-move-right-btn:not(:disabled):hover {
+  background-color: #1e1b4b !important; /* deep rich indigo background */
+  color: #818cf8 !important; /* vibrant high-contrast indigo icon */
+  box-shadow: 0 0 0 2px rgba(129, 140, 248, 0.35) !important; /* strong glow indicator */
+}
+
+.dark #deck-move-left-btn:not(:disabled):active,
+.dark #deck-move-right-btn:not(:disabled):active {
+  background-color: #312e81 !important;
+  transform: scale(0.9) !important;
+}
+
+
 

@@ -166,7 +166,7 @@ export default function SlideCanvas({
 
         <div className="flex items-center gap-2">
           {/* Deck ordering controls */}
-          <div className="flex items-center bg-white border border-slate-200 rounded-xl p-0.5 shadow-sm">
+          <div id="deck-slide-counter-container" className="flex items-center bg-white border border-slate-200 rounded-xl p-0.5 shadow-sm">
             <button
               id="deck-move-left-btn"
               disabled={activeSlideIndex === 0}
@@ -176,7 +176,7 @@ export default function SlideCanvas({
             >
               <MoveLeft className="w-3.5 h-3.5" />
             </button>
-            <span className="text-[11px] font-bold px-2 text-slate-600">
+            <span id="deck-slide-counter" className="text-[11px] font-bold px-2 text-slate-600">
               Slide {activeSlideIndex + 1} of {slides.length}
             </span>
             <button

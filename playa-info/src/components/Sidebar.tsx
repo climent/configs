@@ -1147,9 +1147,9 @@ export default function Sidebar({
                   {exportWidth}px × {Math.round((exportWidth * 9) / 16)}px
                 </span>
                 {isExportWidthSectionOpen ? (
-                  <ChevronUp className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                ) : (
                   <ChevronDown className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                ) : (
+                  <ChevronUp className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                 )}
               </div>
             </div>
