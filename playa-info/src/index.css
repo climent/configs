@@ -640,12 +640,14 @@ input[id*="custom-heading-color-input-"]:hover {
 /* 1. Light Mode Styles */
 #deck-move-left-btn,
 #deck-move-right-btn {
+  border: 1px solid transparent !important;
   transition: all 0.15s ease-in-out !important;
 }
 
 #deck-move-left-btn:not(:disabled):hover,
 #deck-move-right-btn:not(:disabled):hover {
   background-color: #f5f3ff !important; /* soft lavender backdrop */
+  border-color: #6366f1 !important; /* Beautiful Indigo 500 border highlight */
   color: #4f46e5 !important; /* bright active indigo text */
   box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.25) !important; /* subtle focus ring on hover */
 }
@@ -660,7 +662,7 @@ input[id*="custom-heading-color-input-"]:hover {
 .dark #deck-move-left-btn,
 .dark #deck-move-right-btn {
   background-color: transparent !important; /* keep flat inside counter container */
-  border-color: transparent !important;
+  border: 1px solid transparent !important;
   color: #cbd5e1 !important;
   transition: all 0.15s ease-in-out !important;
 }
@@ -668,6 +670,7 @@ input[id*="custom-heading-color-input-"]:hover {
 .dark #deck-move-left-btn:not(:disabled):hover,
 .dark #deck-move-right-btn:not(:disabled):hover {
   background-color: #1e1b4b !important; /* deep rich indigo background */
+  border-color: #818cf8 !important; /* bright high-visibility Indigo 400 */
   color: #818cf8 !important; /* vibrant high-contrast indigo icon */
   box-shadow: 0 0 0 2px rgba(129, 140, 248, 0.35) !important; /* strong glow indicator */
 }
@@ -676,6 +679,57 @@ input[id*="custom-heading-color-input-"]:hover {
 .dark #deck-move-right-btn:not(:disabled):active {
   background-color: #312e81 !important;
   transform: scale(0.9) !important;
+}
+
+
+/* --- Canvas Action Buttons (Duplicate & Delete) Hover Highlights --- */
+
+/* 1. Light Mode Styles */
+#deck-duplicate-btn,
+#deck-delete-btn {
+  transition: all 0.15s ease-in-out !important;
+  cursor: pointer !important;
+}
+
+#deck-duplicate-btn:hover {
+  background-color: #f5f3ff !important; /* soft lavender backdrop */
+  border-color: #6366f1 !important; /* Indigo 500 border highlight */
+  color: #4f46e5 !important; /* Indigo 600 text color */
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.12), 0 0 0 2px rgba(99, 102, 241, 0.2) !important;
+}
+
+#deck-delete-btn:not(:disabled):hover {
+  background-color: #fef2f2 !important; /* soft red backdrop */
+  border-color: #ef4444 !important; /* Red 500 border highlight */
+  color: #dc2626 !important; /* Red 600 text color */
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.12), 0 0 0 2px rgba(239, 68, 68, 0.2) !important;
+}
+
+/* 2. Dark Mode Styles */
+.dark #deck-duplicate-btn {
+  background-color: #111a2e !important;
+  border-color: #334155 !important;
+  color: #cbd5e1 !important;
+}
+
+.dark #deck-duplicate-btn:hover {
+  background-color: #1e1b4b !important; /* deep rich indigo background */
+  border-color: #818cf8 !important; /* bright high-visibility Indigo 400 */
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(129, 140, 248, 0.25), 0 0 0 2px rgba(129, 140, 248, 0.3) !important;
+}
+
+.dark #deck-delete-btn {
+  background-color: #111a2e !important;
+  border-color: #334155 !important;
+  color: #fca5a5 !important; /* Light red */
+}
+
+.dark #deck-delete-btn:not(:disabled):hover {
+  background-color: #7f1d1d !important; /* Rich dark red background */
+  border-color: #ef4444 !important; /* Red 500 */
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.25), 0 0 0 2px rgba(239, 68, 68, 0.3) !important;
 }
 
 
