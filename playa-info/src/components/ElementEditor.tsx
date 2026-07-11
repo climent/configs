@@ -508,7 +508,7 @@ export default function ElementEditor({
                 <span className="text-[10px] font-bold text-black uppercase tracking-wider">
                   Font Options
                 </span>
-                <span className="inline-flex items-center gap-1 text-[9px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-150 shadow-sm">
+                <span id="font-size-locked-badge" className="inline-flex items-center gap-1 text-[9px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-150 shadow-sm">
                   ≥ 20pt Locked
                 </span>
               </div>

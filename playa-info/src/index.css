@@ -548,6 +548,33 @@ input[id*="custom-heading-color-input-"]:hover {
   background-color: #b45309 !important;
 }
 
+/* Custom Badge and Tag Contrast Enhancements for Active, Archived and Locked Statuses */
+span[id^="deck-status-active-"],
+span#font-size-locked-badge {
+  background-color: #ecfdf5 !important; /* Soft emerald backdrop */
+  border: 1px solid #a7f3d0 !important; /* Defined light emerald border */
+  color: #065f46 !important; /* High-contrast deep forest green text */
+}
+
+span[id^="deck-status-archived-"] {
+  background-color: #fffbeb !important; /* Soft amber backdrop */
+  border: 1px solid #fde68a !important; /* Defined light amber border */
+  color: #92400e !important; /* High-contrast deep amber text */
+}
+
+.dark span[id^="deck-status-active-"],
+.dark span#font-size-locked-badge {
+  background-color: #022c22 !important; /* Deepest forest green backdrop */
+  border: 1px solid #059669 !important; /* High-visibility medium emerald border */
+  color: #34d399 !important; /* Extremely high-contrast bright mint/emerald text */
+}
+
+.dark span[id^="deck-status-archived-"] {
+  background-color: #451a03 !important; /* Deepest amber/brown backdrop */
+  border: 1px solid #d97706 !important; /* High-visibility amber border */
+  color: #fbbf24 !important; /* Extremely high-contrast bright amber/yellow text */
+}
+
 /* Modals */
 .dark #export-progress-modal .bg-white {
   background-color: #0d111c !important;
