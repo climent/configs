@@ -803,15 +803,6 @@ span[id^="deck-status-archived-"] {
 
 /* --- Filmstrip Container & Slide Cards Hover Halo Styles --- */
 
-.dark #deck-filmstrip {
-  background-color: #0d111c !important;
-  border-color: #334155 !important;
-}
-
-.dark #deck-filmstrip span {
-  color: #cbd5e1 !important;
-}
-
 /* Slide Cards Hover Halo in Light and Dark mode */
 [id^="filmstrip-slide-card-"],
 #filmstrip-add-slide-btn {
