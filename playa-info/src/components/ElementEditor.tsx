@@ -175,7 +175,7 @@ export default function ElementEditor({
           id={`delete-element-btn-${element.id}`}
           disabled={isArchived}
           onClick={() => onDeleteElement(element.id)}
-          className="text-slate-400 hover:text-red-500 p-1.5 rounded-xl hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer"
+          className="p-1.5 border rounded-xl disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer"
           title="Delete Element"
         >
           <Trash2 className="w-4 h-4" />

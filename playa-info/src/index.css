@@ -267,7 +267,7 @@
 
 #sidebar-container button:not([id*="color-preset"]),
 #backup-import-label,
-[id^="element-editor-panel-"] button:not([id*="color-preset"]) {
+[id^="element-editor-panel-"] button:not([id*="color-preset"]):not([id*="delete-element-btn"]) {
   border-color: #cbd5e1 !important;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, background-color 0.15s ease-in-out, color 0.15s ease-in-out !important;
 }
@@ -285,7 +285,7 @@
 
 #sidebar-container button:not([id*="color-preset"]):not(:disabled):hover,
 #backup-import-label:hover,
-[id^="element-editor-panel-"] button:not([id*="color-preset"]):not(:disabled):hover {
+[id^="element-editor-panel-"] button:not([id*="color-preset"]):not([id*="delete-element-btn"]):not(:disabled):hover {
   border-color: #6366f1 !important;
   background-color: #f5f3ff !important;
   color: #4f46e5 !important;
@@ -305,7 +305,7 @@
 }
 
 #sidebar-container button:not([id*="color-preset"]):not(:disabled):focus,
-[id^="element-editor-panel-"] button:not([id*="color-preset"]):not(:disabled):focus {
+[id^="element-editor-panel-"] button:not([id*="color-preset"]):not([id*="delete-element-btn"]):not(:disabled):focus {
   border-color: #4f46e5 !important;
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25) !important;
   outline: none !important;
@@ -483,7 +483,7 @@ input[id*="custom-heading-color-input-"]:hover {
   border-color: #818cf8 !important;
 }
 
-.dark [id^="element-editor-panel-"] button:not([id*="color-preset"]) {
+.dark [id^="element-editor-panel-"] button:not([id*="color-preset"]):not([id*="delete-element-btn"]) {
   background-color: #111a2e !important;
   border-color: #475569 !important;
   color: #cbd5e1 !important;
@@ -514,14 +514,14 @@ input[id*="custom-heading-color-input-"]:hover {
 
 .dark #sidebar-container button:not([id*="color-preset"]):not(:disabled):hover,
 .dark #backup-import-label:hover,
-.dark [id^="element-editor-panel-"] button:not([id*="color-preset"]):not(:disabled):hover {
+.dark [id^="element-editor-panel-"] button:not([id*="color-preset"]):not([id*="delete-element-btn"]):not(:disabled):hover {
   border-color: #6366f1 !important;
   background-color: #1e1b4b !important; /* Rich deep indigo-900 background */
   color: #ffffff !important;
 }
 
 .dark #sidebar-container button:not([id*="color-preset"]):not(:disabled):focus,
-.dark [id^="element-editor-panel-"] button:not([id*="color-preset"]):not(:disabled):focus {
+.dark [id^="element-editor-panel-"] button:not([id*="color-preset"]):not([id*="delete-element-btn"]):not(:disabled):focus {
   border-color: #818cf8 !important;
   box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.3) !important;
   outline: none !important;
@@ -800,3 +800,69 @@ span[id^="deck-status-archived-"] {
   color: #ffffff !important;
   box-shadow: 0 4px 14px rgba(52, 211, 153, 0.3), 0 0 0 2px rgba(52, 211, 153, 0.35) !important;
 }
+
+/* --- Filmstrip Container & Slide Cards Hover Halo Styles --- */
+
+.dark #deck-filmstrip {
+  background-color: #0d111c !important;
+  border-color: #334155 !important;
+}
+
+.dark #deck-filmstrip span {
+  color: #cbd5e1 !important;
+}
+
+/* Slide Cards Hover Halo in Light and Dark mode */
+[id^="filmstrip-slide-card-"],
+#filmstrip-add-slide-btn {
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, background-color 0.15s ease-in-out !important;
+}
+
+[id^="filmstrip-slide-card-"]:hover {
+  border-color: #6366f1 !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3) !important;
+}
+
+#filmstrip-add-slide-btn:not(:disabled):hover {
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.4) !important;
+}
+
+.dark [id^="filmstrip-slide-card-"]:hover {
+  border-color: #818cf8 !important;
+  box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.45) !important;
+}
+
+.dark #filmstrip-add-slide-btn:not(:disabled):hover {
+  box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.55) !important;
+}
+
+/* --- Element Inspector Delete Button Styles --- */
+
+button[id^="delete-element-btn-"] {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important; /* border-slate-300 */
+  color: #dc2626 !important; /* Red 600 */
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important; /* shadow-sm */
+  transition: all 0.15s ease-in-out !important;
+}
+
+button[id^="delete-element-btn-"]:not(:disabled):hover {
+  background-color: #fef2f2 !important; /* soft red backdrop */
+  border-color: #ef4444 !important; /* Red 500 border highlight */
+  color: #dc2626 !important; /* Red 600 text color */
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.12), 0 0 0 2px rgba(239, 68, 68, 0.2) !important;
+}
+
+.dark button[id^="delete-element-btn-"] {
+  background-color: #111a2e !important;
+  border-color: #334155 !important;
+  color: #fca5a5 !important; /* Light red */
+}
+
+.dark button[id^="delete-element-btn-"]:not(:disabled):hover {
+  background-color: #7f1d1d !important; /* Rich dark red background */
+  border-color: #ef4444 !important; /* Red 500 */
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.25), 0 0 0 2px rgba(239, 68, 68, 0.3) !important;
+}
+
