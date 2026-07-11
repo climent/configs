@@ -22,7 +22,7 @@ alias ll='ls -lF'
 alias la="ls -lAF"
 alias lr='ls -lrt'
 
-alias t='tmux detach ; tmux attach || tmux'
+alias t='tmux new-session -A -s main'
 
 alias  ytd='yt-dlp -t mp3 --no-keep-video --audio-quality 256K --embed-thumbnail --embed-metadata'
 alias ytld='yt-dlp -t mp3 --no-keep-video --audio-quality 256K --embed-thumbnail --embed-metadata --parse-metadata "playlist_index:%(track_number)s" -o "%(playlist_autonumber)02d. %(title)s.%(ext)s"'
@@ -31,6 +31,7 @@ alias   zz='vi ~/.zshrc && source ~/.zshrc'
 alias copy_mp3="rsync -av --progress --include='*.mp3' --include='*/' --exclude='*'"
 
 alias rgrep='grep -r'
+alias rfind='find . | grep'
 # alias starship='eval "$(starship init zsh)"'
 #-----------------------------------------------------------------------------#
 
@@ -119,7 +120,6 @@ function mkcd ()
 {
     mkdir -p -- "$1" && cd -P -- "$1"
 }
-#source /usr/local/share/powerlevel10k/powerlevel10k.zsh-theme
 
 function prompt_my_zmx_session() {
   if [[ -n $ZMX_SESSION ]]; then
