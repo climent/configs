@@ -266,6 +266,7 @@
 }
 
 #sidebar-container button:not([id*="color-preset"]),
+#backup-import-label,
 [id^="element-editor-panel-"] button:not([id*="color-preset"]) {
   border-color: #cbd5e1 !important;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, background-color 0.15s ease-in-out, color 0.15s ease-in-out !important;
@@ -283,6 +284,7 @@
 }
 
 #sidebar-container button:not([id*="color-preset"]):not(:disabled):hover,
+#backup-import-label:hover,
 [id^="element-editor-panel-"] button:not([id*="color-preset"]):not(:disabled):hover {
   border-color: #6366f1 !important;
   background-color: #f5f3ff !important;
@@ -511,6 +513,7 @@ input[id*="custom-heading-color-input-"]:hover {
 }
 
 .dark #sidebar-container button:not([id*="color-preset"]):not(:disabled):hover,
+.dark #backup-import-label:hover,
 .dark [id^="element-editor-panel-"] button:not([id*="color-preset"]):not(:disabled):hover {
   border-color: #6366f1 !important;
   background-color: #1e1b4b !important; /* Rich deep indigo-900 background */
@@ -760,7 +763,40 @@ span[id^="deck-status-archived-"] {
 }
 
 
+/* --- Export PDF & ZIP Buttons Hover Styling & Alignment --- */
 
+#sidebar-container #sidebar-export-pdf-btn,
+#sidebar-container #sidebar-export-zip-btn {
+  border: 1px solid transparent !important;
+  transition: all 0.15s ease-in-out !important;
+}
 
+/* 1. Light Mode Styles */
+#sidebar-container #sidebar-export-pdf-btn:not(:disabled):hover {
+  background-image: linear-gradient(to right, #4338ca, #5b21b6) !important; /* shift gradient darker on hover */
+  border-color: #4f46e5 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2), 0 0 0 2px rgba(79, 70, 229, 0.25) !important;
+}
 
+#sidebar-container #sidebar-export-zip-btn:not(:disabled):hover {
+  background-image: linear-gradient(to right, #047857, #0f766e) !important; /* shift gradient darker on hover */
+  border-color: #059669 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2), 0 0 0 2px rgba(5, 150, 105, 0.25) !important;
+}
 
+/* 2. Dark Mode Styles */
+.dark #sidebar-container #sidebar-export-pdf-btn:not(:disabled):hover {
+  background-image: linear-gradient(to right, #3730a3, #4c1d95) !important;
+  border-color: #818cf8 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(129, 140, 248, 0.3), 0 0 0 2px rgba(129, 140, 248, 0.35) !important;
+}
+
+.dark #sidebar-container #sidebar-export-zip-btn:not(:disabled):hover {
+  background-image: linear-gradient(to right, #064e3b, #115e59) !important;
+  border-color: #34d399 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(52, 211, 153, 0.3), 0 0 0 2px rgba(52, 211, 153, 0.35) !important;
+}
