@@ -359,6 +359,30 @@
 }
 
 /* Segmented Alignment Control Groups (Slide Alignment & Text Alignment) */
+/* Ensure hand cursor (standard pointer) on hover for all alignment and export preset selector buttons */
+#slide-align-group button:not(:disabled),
+#align-btns-group button:not(:disabled),
+#sidebar-export-footer button:not(:disabled) {
+  cursor: pointer !important;
+}
+
+/* Light Mode - Highlight selected box with Indigo 500 border matching hover color */
+#slide-align-group button.bg-indigo-50,
+#align-btns-group button.bg-indigo-50,
+#sidebar-export-footer button.bg-indigo-50 {
+  border-color: #6366f1 !important; /* Beautiful Indigo 500 border matching hover highlight */
+  color: #4f46e5 !important; /* Rich active text/icon color */
+  box-shadow: 0 1px 3px rgba(99, 102, 241, 0.15) !important;
+}
+
+#slide-align-group button.bg-indigo-50:hover,
+#align-btns-group button.bg-indigo-50:hover,
+#sidebar-export-footer button.bg-indigo-50:hover {
+  background-color: #f5f3ff !important;
+  border-color: #4f46e5 !important;
+  color: #4338ca !important;
+}
+
 .dark #slide-align-group,
 .dark #align-btns-group {
   background-color: #162032 !important;
@@ -372,14 +396,15 @@
   border-color: transparent !important;
   color: #94a3b8 !important;
   box-shadow: none !important;
+  transition: all 0.15s ease-in-out !important;
 }
 
-/* Inactive button hover state in Segmented Control Groups */
+/* Inactive button hover state in Segmented Control Groups: Highlight with a beautiful indigo border and background */
 .dark #slide-align-group button:not(.bg-indigo-50):hover,
 .dark #align-btns-group button:not(.bg-indigo-50):hover {
-  background-color: rgba(255, 255, 255, 0.08) !important;
+  background-color: #1e1b4b !important; /* Rich deep indigo-900 background */
+  border-color: #6366f1 !important; /* Beautiful Indigo 500 border highlight on hover */
   color: #ffffff !important;
-  border-color: transparent !important;
 }
 
 /* Active button state in Segmented Control Groups */
@@ -396,6 +421,63 @@
 .dark #align-btns-group button.bg-indigo-50:hover {
   background-color: #312e81 !important;
   color: #ffffff !important;
+  border-color: #818cf8 !important;
+}
+
+/* --- Color Override Selector Buttons Styling & Consistency --- */
+/* Ensure transition smoothness and custom cursor */
+button[id*="color-preset-btn-"] {
+  transition: transform 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+  cursor: pointer !important;
+}
+
+/* Light Mode: Selected Color Preset Button Hover State */
+button[id*="color-preset-btn-"].ring-2:hover {
+  transform: scale(1.08) !important;
+  --tw-ring-color: #4f46e5 !important;
+  box-shadow: 0 0 0 3px #4f46e5, 0 4px 10px rgba(79, 70, 229, 0.3) !important;
+}
+
+/* Light Mode: Unselected Color Preset Button Hover State */
+button[id*="color-preset-btn-"]:not(.ring-2):hover {
+  transform: scale(1.08) !important;
+  border-color: #6366f1 !important;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.15) !important;
+}
+
+/* Dark Mode overrides for Color Preset Buttons */
+.dark button[id*="color-preset-btn-"]:not(.ring-2) {
+  border-color: #475569 !important;
+}
+
+/* Dark Mode: Selected Color Preset Button Hover State */
+.dark button[id*="color-preset-btn-"].ring-2:hover {
+  transform: scale(1.08) !important;
+  --tw-ring-color: #818cf8 !important;
+  box-shadow: 0 0 0 3px #818cf8, 0 4px 14px rgba(129, 140, 248, 0.45) !important;
+}
+
+/* Dark Mode: Unselected Color Preset Button Hover State */
+.dark button[id*="color-preset-btn-"]:not(.ring-2):hover {
+  transform: scale(1.08) !important;
+  border-color: #818cf8 !important;
+  box-shadow: 0 2px 10px rgba(129, 140, 248, 0.25) !important;
+}
+
+/* Custom Color Inputs Hover State */
+input[id*="custom-color-input-"],
+input[id*="custom-heading-color-input-"] {
+  transition: transform 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+}
+
+input[id*="custom-color-input-"]:hover,
+input[id*="custom-heading-color-input-"]:hover {
+  transform: scale(1.05) !important;
+  border-color: #6366f1 !important;
+}
+
+.dark input[id*="custom-color-input-"]:hover,
+.dark input[id*="custom-heading-color-input-"]:hover {
   border-color: #818cf8 !important;
 }
 
@@ -493,11 +575,12 @@
   /* Ignore global text/background overrides */
 }
 
-/* --- Layout Templates & Add Slide Elements Interactive Hover Highlights --- */
+/* --- Layout Templates, Add Slide Elements & Apply Slide Theme Interactive Hover Highlights --- */
 
 /* 1. Light Mode Styles */
 #templates-list > div,
-#elements-list > div {
+#elements-list > div,
+#themes-grid > button {
   border-width: 1px !important;
   border-style: solid !important;
   border-color: #cbd5e1 !important; /* Crisp high-contrast light default border */
@@ -505,21 +588,23 @@
 }
 
 #templates-list > div:not(.opacity-50):hover,
-#elements-list > div:not(.opacity-50):hover {
+#elements-list > div:not(.opacity-50):hover,
+#themes-grid > button:not(:disabled):hover {
   border-color: #6366f1 !important; /* Beautiful Indigo 500 */
   background-color: #f5f3ff !important; /* Soft premium lavender backdrop */
   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.12), 0 0 0 3px rgba(99, 102, 241, 0.2) !important; /* Polished active focus glow */
-  transform: translateY(-1px) !important;
 }
 
 #templates-list > div:not(.opacity-50):hover span,
-#elements-list > div:not(.opacity-50):hover span {
+#elements-list > div:not(.opacity-50):hover span,
+#themes-grid > button:not(:disabled):hover span {
   color: #4f46e5 !important; /* Vibrant high-contrast purple-indigo text on hover */
 }
 
 /* 2. Dark Mode Styles */
 .dark #templates-list > div,
-.dark #elements-list > div {
+.dark #elements-list > div,
+.dark #themes-grid > button {
   background-color: #111a2e !important;
   border-color: #475569 !important; /* Higher contrast default slate border for dark mode */
 }
@@ -530,15 +615,16 @@
 }
 
 .dark #templates-list > div:not(.opacity-50):hover,
-.dark #elements-list > div:not(.opacity-50):hover {
+.dark #elements-list > div:not(.opacity-50):hover,
+.dark #themes-grid > button:not(:disabled):hover {
   border-color: #818cf8 !important; /* Bright high-visibility Indigo 400 */
   background-color: #1e1b4b !important; /* Deep rich Indigo 900 background */
   box-shadow: 0 4px 14px rgba(129, 140, 248, 0.25), 0 0 0 3px rgba(129, 140, 248, 0.3) !important; /* Bright ambient dark glow */
-  transform: translateY(-1px) !important;
 }
 
 .dark #templates-list > div:not(.opacity-50):hover span,
-.dark #elements-list > div:not(.opacity-50):hover span {
+.dark #elements-list > div:not(.opacity-50):hover span,
+.dark #themes-grid > button:not(:disabled):hover span {
   color: #ffffff !important; /* Pure white text on hover */
 }
 
@@ -591,6 +677,9 @@
   background-color: #312e81 !important;
   transform: scale(0.9) !important;
 }
+
+
+
 
 
 
