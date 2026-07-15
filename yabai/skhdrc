@@ -162,7 +162,12 @@ ctrl + alt + shift - 0x21 : yabai -m window --resize top:0:20 && yabai -m window
 # toggle window split type
 # alt - e : yabai -m window --toggle split
 
-ctrl + alt - 0x24 : yabai -m window --grid 30:30:1:1:28:28
+ctrl + alt - 0x24 : [ "$(yabai -m query --windows --window | jq -r '."is-floating"')" = "true" ] && yabai -m window --grid 1:1:0:0:1:1 || yabai -m window --toggle float --grid 1:1:0:0:1:1
+ctrl + alt - 0x27 : [ "$(yabai -m query --windows --window | jq -r '."is-floating"')" = "true" ] && yabai -m window --grid 1:1:0:0:1:1 || yabai -m window --toggle float --grid 1:1:0:0:1:1
+
+ctrl + alt - 0x29 : [ "$(yabai -m query --windows --window | jq -r '."is-floating"')" = "true" ] && yabai -m window --grid 30:30:1:1:28:28 || yabai -m window --toggle float --grid 30:30:1:1:28:28
+ctrl + alt - p    : [ "$(yabai -m query --windows --window | jq -r '."is-floating"')" = "true" ] && yabai -m window --grid 12:12:2:0:8:12 || yabai -m window --toggle float --grid 12:12:2:0:8:12
+
 ctrl + alt + shift - 0x2a : yabai -m window --grid 12:12:1:1:10:10
 
 # float / unfloat window and center on screen
