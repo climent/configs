@@ -85,26 +85,26 @@ ctrl + alt - k : yabai -m window --focus south
 
 # mirror window
 ctrl + alt - y : yabai -m space --mirror y-axis
-ctrl + alt - x : yabai -m space --mirror x-axis
+ctrl + alt - h : yabai -m space --mirror x-axis
 
 # swap managed window
 ctrl + alt - pageup : yabai -m window --swap north
 ctrl + alt - pagedown : yabai -m window --swap south
 
 # move managed window
-ctrl + alt - left : yabai -m window --warp west
+ctrl + alt - left  : yabai -m window --warp west
 ctrl + alt - right : yabai -m window --warp east
-ctrl + alt - up : yabai -m window --warp north
-ctrl + alt - down : yabai -m window --warp south
+ctrl + alt - up    : yabai -m window --warp north
+ctrl + alt - down  : yabai -m window --warp south
 
 # balance size of windows
-# shift + alt - 0 : yabai -m space --balance
+ctrl + alt - 0 : yabai -m space --balance
 
 # make floating window fill screen
 #ctrl + alt - u : yabai -m window --grid 2:2:0:0:1:1
-ctrl + alt - u : [ "$(yabai -m query --windows --window | jq -r '."is-floating"')" = "true" ] && yabai -m window --grid 2:2:0:0:1:1 || yabai -m window --toggle float --grid 2:2:0:0:1:1
-ctrl + alt - o : [ "$(yabai -m query --windows --window | jq -r '."is-floating"')" = "true" ] && yabai -m window --grid 2:2:1:0:1:1 || yabai -m window --toggle float --grid 2:2:1:0:1:1
-ctrl + alt - m : [ "$(yabai -m query --windows --window | jq -r '."is-floating"')" = "true" ] && yabai -m window --grid 2:2:0:1:1:1 || yabai -m window --toggle float --grid 2:2:0:1:1:1
+ctrl + alt - u    : [ "$(yabai -m query --windows --window | jq -r '."is-floating"')" = "true" ] && yabai -m window --grid 2:2:0:0:1:1 || yabai -m window --toggle float --grid 2:2:0:0:1:1
+ctrl + alt - o    : [ "$(yabai -m query --windows --window | jq -r '."is-floating"')" = "true" ] && yabai -m window --grid 2:2:1:0:1:1 || yabai -m window --toggle float --grid 2:2:1:0:1:1
+ctrl + alt - m    : [ "$(yabai -m query --windows --window | jq -r '."is-floating"')" = "true" ] && yabai -m window --grid 2:2:0:1:1:1 || yabai -m window --toggle float --grid 2:2:0:1:1:1
 ctrl + alt - 0x2F : [ "$(yabai -m query --windows --window | jq -r '."is-floating"')" = "true" ] && yabai -m window --grid 2:2:1:1:1:1 || yabai -m window --toggle float --grid 2:2:1:1:1:1
 
 # make floating window fill left-half of screen
@@ -122,7 +122,7 @@ ctrl + alt - 0x2F : [ "$(yabai -m query --windows --window | jq -r '."is-floatin
 
 # send window to desktop and follow focus
 shift + cmd - right : yabai -m window --space next; yabai -m space --focus next
-shift + cmd - left : yabai -m window --space prev; yabai -m space --focus prev
+shift + cmd - left  : yabai -m window --space prev; yabai -m space --focus prev
 # shift + cmd - 2 : yabai -m window --space  2; yabai -m space --focus 2
 
 # focus monitor
@@ -140,12 +140,16 @@ shift + cmd - left : yabai -m window --space prev; yabai -m space --focus prev
 # increase window size
 # shift + alt - a : yabai -m window --resize left:-20:0
 # shift + alt - w : yabai -m window --resize top:0:-20
-ctrl + alt - 0x18 : yabai -m window --resize right:20:0 || yabai -m window --resize left:-20:0
-ctrl + alt - 0x1b : yabai -m window --resize right:-20:0 || yabai -m window --resize left:20:0
-ctrl + alt - 0x1e : yabai -m window --resize right:20:0 && yabai -m window --resize left:-20:0
+
+#ctrl + alt - 0x18 : yabai -m window --resize right:20:0  || yabai -m window --resize left:-20:0
+#ctrl + alt - 0x1b : yabai -m window --resize right:-20:0 || yabai -m window --resize left:20:0
+
+ctrl + alt - 0x1e : yabai -m window --resize right:20:0  && yabai -m window --resize left:-20:0
 ctrl + alt - 0x21 : yabai -m window --resize right:-20:0 && yabai -m window --resize left:20:0
+
 ctrl + alt + shift - 0x1e : yabai -m window --resize top:0:-20 && yabai -m window --resize bottom:0:20
-ctrl + alt + shift - 0x21 : yabai -m window --resize top:0:20 && yabai -m window --resize bottom:0:-20
+ctrl + alt + shift - 0x21 : yabai -m window --resize top:0:20  && yabai -m window --resize bottom:0:-20
+
 #ctrl + alt - 0x21 : yabai -m window --resize right:-40:0 && yabai -m window --resize left:20:0
 
 # decrease window size
@@ -156,8 +160,8 @@ ctrl + alt + shift - 0x21 : yabai -m window --resize top:0:20 && yabai -m window
 # ctrl + alt - h : yabai -m window --insert west
 
 # toggle window zoom
-# alt - d : yabai -m window --toggle zoom-parent
-#ctrl - alt - return : yabai -m window --toggle zoom-fullscreen
+ctrl + alt - f : yabai -m window --toggle zoom-parent
+ctrl + alt - n : yabai -m window --toggle zoom-fullscreen
 
 # toggle window split type
 # alt - e : yabai -m window --toggle split
